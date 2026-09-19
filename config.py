@@ -1,0 +1,1 @@
+DATA_ROOT = '/home/tuannh/Documents/datasets/anomaly_datasets'
