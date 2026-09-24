@@ -15,6 +15,30 @@ from sklearn.decomposition import PCA
 import matplotlib.ticker as mtick
 
 
+def plot_anomaly_score_stats(rows, save_path):
+    """Plot each image's mean +/- population std across inference runs."""
+    fig, ax = plt.subplots(figsize=(16, 6))
+    try:
+        ax.errorbar(
+            [row['image_index'] for row in rows],
+            [row['mean'] for row in rows],
+            yerr=[row['std'] for row in rows],
+            fmt='o', markersize=3, capsize=2, elinewidth=0.7,
+            color='tab:blue', ecolor='tab:gray', alpha=0.7,
+            label='Mean ± 1 std',
+        )
+        ax.set_xlabel('Image index (see CSV for image path and class)')
+        ax.set_ylabel('Anomaly score')
+        ax.set_title('Anomaly score variability across repeated inference runs')
+        ax.set_xticks([row['image_index'] for row in rows])
+        ax.grid(axis='y', alpha=0.3)
+        ax.legend()
+        fig.tight_layout()
+        fig.savefig(save_path, dpi=200, bbox_inches='tight')
+    finally:
+        plt.close(fig)
+
+
 def plot_sample_cv2(names, imgs, scores_: dict, gts, save_folder=None):
     os.makedirs(save_folder, exist_ok=True)
 

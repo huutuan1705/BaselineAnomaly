@@ -79,7 +79,7 @@ def train(args):
     logger.info('Data Root: training, {:}; testing, {:}'.format(train_data_root, test_data_root))
 
     train_dataloader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, shuffle=True)
-    test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=batch_size, shuffle=False)
+    test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=args.test_batch_size, shuffle=False)
 
     # Typically, we use MVTec or VisA as the validation set. The best model from this validation
     # process is then used for zero-shot anomaly detection on novel categories.
@@ -155,6 +155,7 @@ if __name__ == '__main__':
     parser.add_argument("--epoch", type=int, default=5, help="Number of epochs (default: 5)")
     parser.add_argument("--learning_rate", type=float, default=0.01, help="Learning rate (default: 0.01)")
     parser.add_argument("--batch_size", type=int, default=32, help="Batch size (default: 1)")
+    parser.add_argument("--test_batch_size", type=int, default=1, help="Batch size (default: 1)")
 
     parser.add_argument("--image_size", type=int, default=518, help="Size of the input images (default: 518)")
     parser.add_argument("--print_freq", type=int, default=1, help="Frequency of print statements (default: 1)")

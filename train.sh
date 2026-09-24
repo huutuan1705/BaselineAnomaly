@@ -8,7 +8,7 @@ gpu_id=0
 # CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py --save_fig True --training_data mvtec --testing_data visa
 
 # pre-trained on Visa and Clinicdb
-CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py --save_fig True --training_data visa --testing_data mvtec
+CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py --save_fig True --training_data visa --testing_data dtd
 
 # This model is pre-trained on all available data to create a powerful Zero-Shot Anomaly Detection (ZSAD) model for demonstration purposes.
 # CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py --save_fig True \
