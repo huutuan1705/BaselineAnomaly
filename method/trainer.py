@@ -157,7 +157,7 @@ class AdaCLIP_Trainer(nn.Module):
     @torch.no_grad()
     def evaluation(self, dataloader, obj_list, save_fig, save_fig_dir=None):
         self.clip_model.eval()
-        self.clip_model.dropout.train()  # enable dropout for evaluation
+        # self.clip_model.dropout.train()  # enable dropout for evaluation
 
         results = {}
         results['cls_names'] = []
@@ -193,30 +193,10 @@ class AdaCLIP_Trainer(nn.Module):
                     results['imgs_masks'].append(_gt_mask.squeeze(0).numpy())  # px
 
                 # pixel level
-                scores = []
-                for _ in range(10):
-                    anomaly_map, anomaly_score = self.clip_model(image, cls_name, aggregation=True)
-                    scores.append(anomaly_score)
-
-                scores = torch.stack(scores, dim=0).float()
-                anomaly_score_mean = scores.mean(dim=0).cpu().numpy()
-                anomaly_score_std = scores.std(dim=0, unbiased=False).cpu().numpy()
-
-                for image_path, class_name, mean, std in zip(
-                        items['img_path'], cls_name,
-                        anomaly_score_mean, anomaly_score_std):
-                    score_rows.append({
-                        'image_index': len(score_rows) + 1,
-                        'image_path': str(image_path),
-                        'class_name': class_name,
-                        'num_runs': len(scores),
-                        'mean': float(mean),
-                        'std': float(std),
-                    })
+                anomaly_map, anomaly_score = self.clip_model(image, cls_name, aggregation=True)
 
                 anomaly_map = anomaly_map.cpu().numpy()
-                # anomaly_score = anomaly_score.cpu().numpy()
-                anomaly_score = anomaly_score_mean
+                anomaly_score = anomaly_score.cpu().numpy()
 
                 for _anomaly_map, _anomaly_score in zip(anomaly_map, anomaly_score):
                     _anomaly_map = gaussian_filter(_anomaly_map, sigma=4)
@@ -226,25 +206,6 @@ class AdaCLIP_Trainer(nn.Module):
                 is_anomaly = np.array(items['anomaly'])
                 for _is_anomaly in is_anomaly:
                     results['imgs_gts'].append(_is_anomaly)
-
-        if score_rows:
-            workspace = Path(__file__).resolve().parents[1] / 'workspaces'
-            log_dir = workspace / 'logs'
-            filename = f'anomaly_score_stats_{run_id}'
-            image_dir = workspace / 'images' / filename
-            log_dir.mkdir(parents=True, exist_ok=True)
-            image_dir.mkdir(parents=True, exist_ok=True)
-            log_path = log_dir / f'{filename}.csv'
-            with log_path.open('w', newline='', encoding='utf-8') as log_file:
-                writer = csv.DictWriter(log_file, fieldnames=list(score_rows[0]))
-                writer.writeheader()
-                writer.writerows(score_rows)
-            # Show images 1, 11, 21, ... while retaining every image in the CSV.
-            plot_rows = score_rows[::10]
-            plot_path = image_dir / 'anomaly_score_stats.png'
-            visualization.plot_anomaly_score_stats(plot_rows, plot_path)
-            print(f'Anomaly score statistics: {log_path}')
-            print(f'Anomaly score plot: {plot_path}')
 
         # visualization
         if save_fig:

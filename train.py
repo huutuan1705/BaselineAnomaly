@@ -153,9 +153,9 @@ if __name__ == '__main__':
     # Hyper-parameters
     parser.add_argument("--exp_indx", type=int, default=0, help="Index of the experiment (default: 0)")
     parser.add_argument("--epoch", type=int, default=5, help="Number of epochs (default: 5)")
-    parser.add_argument("--learning_rate", type=float, default=0.01, help="Learning rate (default: 0.01)")
-    parser.add_argument("--batch_size", type=int, default=32, help="Batch size (default: 1)")
-    parser.add_argument("--test_batch_size", type=int, default=1, help="Batch size (default: 1)")
+    parser.add_argument("--learning_rate", type=float, default=0.001, help="Learning rate (default: 0.01)")
+    parser.add_argument("--batch_size", type=int, default=48, help="Batch size (default: 1)")
+    parser.add_argument("--test_batch_size", type=int, default=48, help="Batch size (default: 1)")
 
     parser.add_argument("--image_size", type=int, default=518, help="Size of the input images (default: 518)")
     parser.add_argument("--print_freq", type=int, default=1, help="Frequency of print statements (default: 1)")

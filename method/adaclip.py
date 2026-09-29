@@ -158,7 +158,7 @@ class AdaCLIP(nn.Module):
 
         self.text_embedding_layer = TextEmbebddingLayer(fixed=(not self.enable_text_prompt))
 
-        self.dropout = nn.Dropout(p=0.5)
+        self.dropout = nn.Dropout(p=0.1)
         self.patch_token_layer = ProjectLayer(
             visual_channel,
             text_channel,
