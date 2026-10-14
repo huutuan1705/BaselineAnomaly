@@ -1,0 +1,113 @@
+26-09-30 15:28:02.229 - INFO: batch_size = 32
+26-09-30 15:28:02.229 - INFO: ckt_path = workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20_best.pth
+26-09-30 15:28:02.229 - INFO: class_name = candle
+26-09-30 15:28:02.229 - INFO: image_path = asset/img.png
+26-09-30 15:28:02.229 - INFO: image_size = 518
+26-09-30 15:28:02.229 - INFO: k_clusters = 20
+26-09-30 15:28:02.229 - INFO: model = ViT-L-14-336
+26-09-30 15:28:02.229 - INFO: prompting_branch = VL
+26-09-30 15:28:02.229 - INFO: prompting_depth = 4
+26-09-30 15:28:02.229 - INFO: prompting_length = 5
+26-09-30 15:28:02.229 - INFO: prompting_type = SD
+26-09-30 15:28:02.229 - INFO: save_fig = False
+26-09-30 15:28:02.229 - INFO: save_name = test.png
+26-09-30 15:28:02.229 - INFO: save_path = ./workspaces
+26-09-30 15:28:02.229 - INFO: testing_data = btad
+26-09-30 15:28:02.229 - INFO: testing_model = dataset
+26-09-30 15:28:02.230 - INFO: use_hsf = True
+26-09-30 15:35:32.516 - INFO:              01 		I-Auroc:92.95 	I-F1:91.26 	I-AP:97.02 	P-Auroc:96.09 	P-F1:63.34 	P-AP:63.12 	P-AUPRO:85.84
+26-09-30 15:35:32.516 - INFO:              02 		I-Auroc:86.74 	I-F1:93.84 	I-AP:97.89 	P-Auroc:87.96 	P-F1:50.72 	P-AP:46.93 	P-AUPRO:54.93
+26-09-30 15:35:32.516 - INFO:              03 		I-Auroc:91.84 	I-F1:61.54 	I-AP:62.85 	P-Auroc:96.14 	P-F1:39.74 	P-AP:32.84 	P-AUPRO:91.62
+26-09-30 15:35:32.516 - INFO:         Average 		I-Auroc:90.51 	I-F1:82.21 	I-AP:85.92 	P-Auroc:93.40 	P-F1:51.27 	P-AP:47.63 	P-AUPRO:77.46
+
+26-09-30 15:35:34.861 - INFO: batch_size = 32
+26-09-30 15:35:34.861 - INFO: ckt_path = workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20_best.pth
+26-09-30 15:35:34.861 - INFO: class_name = candle
+26-09-30 15:35:34.861 - INFO: image_path = asset/img.png
+26-09-30 15:35:34.861 - INFO: image_size = 518
+26-09-30 15:35:34.861 - INFO: k_clusters = 20
+26-09-30 15:35:34.861 - INFO: model = ViT-L-14-336
+26-09-30 15:35:34.861 - INFO: prompting_branch = VL
+26-09-30 15:35:34.861 - INFO: prompting_depth = 4
+26-09-30 15:35:34.861 - INFO: prompting_length = 5
+26-09-30 15:35:34.862 - INFO: prompting_type = SD
+26-09-30 15:35:34.862 - INFO: save_fig = False
+26-09-30 15:35:34.862 - INFO: save_name = test.png
+26-09-30 15:35:34.862 - INFO: save_path = ./workspaces
+26-09-30 15:35:34.862 - INFO: testing_data = dagm
+26-09-30 15:35:34.862 - INFO: testing_model = dataset
+26-09-30 15:35:34.862 - INFO: use_hsf = True
+
+26-09-30 15:49:53.411 - INFO: batch_size = 32
+26-09-30 15:49:53.411 - INFO: ckt_path = workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20_best.pth
+26-09-30 15:49:53.411 - INFO: class_name = candle
+26-09-30 15:49:53.411 - INFO: image_path = asset/img.png
+26-09-30 15:49:53.411 - INFO: image_size = 518
+26-09-30 15:49:53.411 - INFO: k_clusters = 20
+26-09-30 15:49:53.411 - INFO: model = ViT-L-14-336
+26-09-30 15:49:53.411 - INFO: prompting_branch = VL
+26-09-30 15:49:53.411 - INFO: prompting_depth = 4
+26-09-30 15:49:53.411 - INFO: prompting_length = 5
+26-09-30 15:49:53.411 - INFO: prompting_type = SD
+26-09-30 15:49:53.411 - INFO: save_fig = False
+26-09-30 15:49:53.412 - INFO: save_name = test.png
+26-09-30 15:49:53.412 - INFO: save_path = ./workspaces
+26-09-30 15:49:53.412 - INFO: testing_data = dtd
+26-09-30 15:49:53.412 - INFO: testing_model = dataset
+26-09-30 15:49:53.412 - INFO: use_hsf = True
+26-09-30 16:00:16.914 - INFO:     Blotchy_099 		I-Auroc:87.81 	I-F1:90.32 	I-AP:97.12 	P-Auroc:99.44 	P-F1:70.40 	P-AP:76.00 	P-AUPRO:96.40
+26-09-30 16:00:16.914 - INFO:     Fibrous_183 		I-Auroc:94.38 	I-F1:94.55 	I-AP:98.58 	P-Auroc:98.68 	P-F1:61.62 	P-AP:66.65 	P-AUPRO:96.95
+26-09-30 16:00:16.915 - INFO:     Marbled_078 		I-Auroc:96.94 	I-F1:96.82 	I-AP:99.32 	P-Auroc:99.40 	P-F1:73.93 	P-AP:80.37 	P-AUPRO:98.44
+26-09-30 16:00:16.915 - INFO:      Matted_069 		I-Auroc:64.53 	I-F1:90.29 	I-AP:87.39 	P-Auroc:98.08 	P-F1:61.21 	P-AP:62.58 	P-AUPRO:84.00
+26-09-30 16:00:16.915 - INFO:        Mesh_114 		I-Auroc:78.94 	I-F1:83.16 	I-AP:91.15 	P-Auroc:94.47 	P-F1:65.06 	P-AP:63.33 	P-AUPRO:79.51
+26-09-30 16:00:16.915 - INFO:  Perforated_037 		I-Auroc:90.62 	I-F1:92.86 	I-AP:97.68 	P-Auroc:95.89 	P-F1:67.53 	P-AP:67.24 	P-AUPRO:88.29
+26-09-30 16:00:16.915 - INFO:  Stratified_154 		I-Auroc:96.12 	I-F1:95.24 	I-AP:99.05 	P-Auroc:98.54 	P-F1:71.80 	P-AP:76.56 	P-AUPRO:98.84
+26-09-30 16:00:16.915 - INFO:       Woven_001 		I-Auroc:99.86 	I-F1:98.59 	I-AP:99.94 	P-Auroc:99.62 	P-F1:75.66 	P-AP:80.91 	P-AUPRO:98.82
+26-09-30 16:00:16.915 - INFO:       Woven_068 		I-Auroc:94.80 	I-F1:91.61 	I-AP:97.43 	P-Auroc:98.69 	P-F1:68.64 	P-AP:72.16 	P-AUPRO:94.55
+26-09-30 16:00:16.915 - INFO:       Woven_104 		I-Auroc:93.06 	I-F1:93.08 	I-AP:98.40 	P-Auroc:96.51 	P-F1:68.56 	P-AP:68.29 	P-AUPRO:91.79
+26-09-30 16:00:16.915 - INFO:       Woven_125 		I-Auroc:97.41 	I-F1:96.25 	I-AP:99.40 	P-Auroc:99.63 	P-F1:79.15 	P-AP:86.01 	P-AUPRO:98.09
+26-09-30 16:00:16.915 - INFO:       Woven_127 		I-Auroc:63.16 	I-F1:66.67 	I-AP:67.86 	P-Auroc:93.48 	P-F1:59.04 	P-AP:55.42 	P-AUPRO:88.38
+26-09-30 16:00:16.915 - INFO:         Average 		I-Auroc:88.14 	I-F1:90.79 	I-AP:94.44 	P-Auroc:97.70 	P-F1:68.55 	P-AP:71.29 	P-AUPRO:92.84
+26-09-30 16:00:20.137 - INFO: batch_size = 32
+26-09-30 16:00:20.138 - INFO: ckt_path = workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20_best.pth
+26-09-30 16:00:20.138 - INFO: class_name = candle
+26-09-30 16:00:20.138 - INFO: image_path = asset/img.png
+26-09-30 16:00:20.138 - INFO: image_size = 518
+26-09-30 16:00:20.138 - INFO: k_clusters = 20
+26-09-30 16:00:20.138 - INFO: model = ViT-L-14-336
+26-09-30 16:00:20.138 - INFO: prompting_branch = VL
+26-09-30 16:00:20.138 - INFO: prompting_depth = 4
+26-09-30 16:00:20.138 - INFO: prompting_length = 5
+26-09-30 16:00:20.138 - INFO: prompting_type = SD
+26-09-30 16:00:20.138 - INFO: save_fig = False
+26-09-30 16:00:20.138 - INFO: save_name = test.png
+26-09-30 16:00:20.138 - INFO: save_path = ./workspaces
+26-09-30 16:00:20.138 - INFO: testing_data = mpdd
+26-09-30 16:00:20.138 - INFO: testing_model = dataset
+26-09-30 16:00:20.138 - INFO: use_hsf = True
+26-09-30 16:04:51.717 - INFO:   bracket_black 		I-Auroc:59.64 	I-F1:76.03 	I-AP:69.27 	P-Auroc:98.14 	P-F1:19.85 	P-AP:11.82 	P-AUPRO:93.68
+26-09-30 16:04:51.717 - INFO:   bracket_brown 		I-Auroc:66.14 	I-F1:81.60 	I-AP:81.42 	P-Auroc:94.67 	P-F1:12.80 	P-AP:5.95 	P-AUPRO:88.21
+26-09-30 16:04:51.717 - INFO:   bracket_white 		I-Auroc:50.28 	I-F1:71.05 	I-AP:48.51 	P-Auroc:99.38 	P-F1:12.59 	P-AP:4.97 	P-AUPRO:92.33
+26-09-30 16:04:51.717 - INFO:       connector 		I-Auroc:74.05 	I-F1:66.67 	I-AP:62.99 	P-Auroc:96.55 	P-F1:28.21 	P-AP:22.75 	P-AUPRO:87.62
+26-09-30 16:04:51.717 - INFO:     metal_plate 		I-Auroc:87.87 	I-F1:87.50 	I-AP:96.01 	P-Auroc:94.91 	P-F1:67.79 	P-AP:60.09 	P-AUPRO:81.45
+26-09-30 16:04:51.717 - INFO:           tubes 		I-Auroc:94.11 	I-F1:92.41 	I-AP:96.87 	P-Auroc:99.14 	P-F1:70.62 	P-AP:75.42 	P-AUPRO:96.61
+26-09-30 16:04:51.718 - INFO:         Average 		I-Auroc:72.01 	I-F1:79.21 	I-AP:75.85 	P-Auroc:97.13 	P-F1:35.31 	P-AP:30.17 	P-AUPRO:89.98
+26-09-30 16:04:54.172 - INFO: batch_size = 32
+26-09-30 16:04:54.172 - INFO: ckt_path = workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20_best.pth
+26-09-30 16:04:54.172 - INFO: class_name = candle
+26-09-30 16:04:54.172 - INFO: image_path = asset/img.png
+26-09-30 16:04:54.172 - INFO: image_size = 518
+26-09-30 16:04:54.172 - INFO: k_clusters = 20
+26-09-30 16:04:54.172 - INFO: model = ViT-L-14-336
+26-09-30 16:04:54.172 - INFO: prompting_branch = VL
+26-09-30 16:04:54.172 - INFO: prompting_depth = 4
+26-09-30 16:04:54.172 - INFO: prompting_length = 5
+26-09-30 16:04:54.172 - INFO: prompting_type = SD
+26-09-30 16:04:54.172 - INFO: save_fig = False
+26-09-30 16:04:54.172 - INFO: save_name = test.png
+26-09-30 16:04:54.172 - INFO: save_path = ./workspaces
+26-09-30 16:04:54.172 - INFO: testing_data = sdd
+26-09-30 16:04:54.172 - INFO: testing_model = dataset
+26-09-30 16:04:54.172 - INFO: use_hsf = True
+26-09-30 16:07:38.647 - INFO:             SDD 		I-Auroc:92.62 	I-F1:75.79 	I-AP:80.00 	P-Auroc:97.25 	P-F1:37.85 	P-AP:26.37 	P-AUPRO:93.18
+26-09-30 16:07:38.647 - INFO:         Average 		I-Auroc:92.62 	I-F1:75.79 	I-AP:80.00 	P-Auroc:97.25 	P-F1:37.85 	P-AP:26.37 	P-AUPRO:93.18

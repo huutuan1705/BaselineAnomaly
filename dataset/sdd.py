@@ -6,7 +6,7 @@ from config import DATA_ROOT
 SDD_CLS_NAMES = [
     'SDD',
 ]
-SDD_ROOT = os.path.join(DATA_ROOT, 'KSDD')
+SDD_ROOT = os.path.join(DATA_ROOT, 'RSDD')
 
 
 class SDDDataset(BaseDataset):

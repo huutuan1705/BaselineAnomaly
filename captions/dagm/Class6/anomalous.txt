@@ -1,0 +1,10 @@
+A noticeable dark vertical line is present in the second and third images, disrupting the otherwise uniform texture.
+A dark horizontal line is visible in the fourth image, extending across the width of the sample.
+A dark spot is visible in the center of the third image, contrasting sharply with the surrounding granular texture.
+A vertical line is visible in the second image, running through the center, disrupting the pattern.
+A horizontal line is present near the top left corner in the fourth image, disrupting the pattern.
+Localized areas of increased darkness are present in several images, disrupting the uniform texture.
+The texture around these darkened areas appears disrupted, with the granular structure becoming less uniform.
+The contrast between the dark and light areas is more pronounced in these anomalous regions.
+The darkened areas seem to cluster in specific locations, which is unusual for the random pattern observed in the normal samples.
+A noticeable horizontal line runs through the center of the granular structure in the second image.

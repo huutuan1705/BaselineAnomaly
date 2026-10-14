@@ -4,3 +4,5 @@
 /weights/
 /models/
 /images/
+/workspaces/models/
+/workspaces/tensorboard/

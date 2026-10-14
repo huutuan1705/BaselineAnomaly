@@ -26,6 +26,7 @@ class AdaCLIP_Trainer(nn.Module):
             prompting_depth=3, prompting_length=2,
             prompting_branch='VL', prompting_type='SD',
             use_hsf=True, k_clusters=20,
+            anomaly_config=None,
     ):
 
         super(AdaCLIP_Trainer, self).__init__()
@@ -45,10 +46,10 @@ class AdaCLIP_Trainer(nn.Module):
         freeze_clip  = freeze_clip.to(device)
         freeze_clip.eval()
 
-        self.clip_model = AdaCLIP(freeze_clip=freeze_clip,
+        self.clip_model = Baseline(freeze_clip=freeze_clip,
                                   text_channel=output_dim,
                                   visual_channel=input_dim,
-                                  prompting_length=prompting_length,
+                                 prompting_length=prompting_length,
                                   prompting_depth=prompting_depth,
                                   prompting_branch=prompting_branch,
                                   prompting_type=prompting_type,
@@ -76,15 +77,17 @@ class AdaCLIP_Trainer(nn.Module):
             'visual_prompter',
             'patch_token_layer',
             'cls_token_layer',
-            'dynamic_visual_prompt_generator',
-            'dynamic_text_prompt_generator'
+            'image_mapping',
+            'fuse',
         ]
 
         self.params_to_update = []
         for name, param in self.clip_model.named_parameters():
+            param.requires_grad_(False)
             # print(name)
             for update_name in self.learnable_paramter_list:
                 if update_name in name:
+                    param.requires_grad_(True)
                     # print(f'updated parameters--{name}: {update_name}')
                     self.params_to_update.append(param)
 
@@ -117,7 +120,7 @@ class AdaCLIP_Trainer(nn.Module):
 
         # losses
         gt = items['img_mask'].to(self.device)
-        gt = gt.squeeze()
+        gt = gt.squeeze(1)
 
         gt[gt > 0.5] = 1
         gt[gt <= 0.5] = 0
@@ -147,6 +150,7 @@ class AdaCLIP_Trainer(nn.Module):
 
     def train_epoch(self, loader):
         self.clip_model.train()
+        self.clip_model.freeze_clip.eval()
         loss_list = []
         for _, items in enumerate(tqdm(loader)):
             loss = self.train_one_batch(items)

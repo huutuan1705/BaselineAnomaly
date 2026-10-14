@@ -15,6 +15,7 @@ import cv2
 from tools import write2csv, setup_seed, Logger
 from dataset import get_data, dataset_dict
 from method import AdaCLIP_Trainer
+from config import ANOMALY_CONFIG, add_anomaly_arguments
 from PIL import Image
 import numpy as np
 
@@ -47,7 +48,7 @@ def train(args):
     # Set up the feature hierarchy
     n_layers = model_configs['vision_cfg']['layers']
     substage = n_layers // 4
-    features_list = [substage, substage * 2, substage * 3, substage * 4]
+    features_list = args.selected_layers or [substage, substage * 2, substage * 3, substage * 4]
 
     model = AdaCLIP_Trainer(
         backbone=args.model,
@@ -62,7 +63,8 @@ def train(args):
         prompting_branch=args.prompting_branch,
         prompting_type=args.prompting_type,
         use_hsf=args.use_hsf,
-        k_clusters=args.k_clusters
+        k_clusters=args.k_clusters,
+        anomaly_config={name: getattr(args, name) for name in ANOMALY_CONFIG}
     ).to(device)
 
     model.load(args.ckt_path)
@@ -96,14 +98,15 @@ def train(args):
 
         for tag, data in metric_dict.items():
             logger.info(
-                '{:>15} \t\tI-Auroc:{:.2f} \tI-F1:{:.2f} \tI-AP:{:.2f} \tP-Auroc:{:.2f} \tP-F1:{:.2f} \tP-AP:{:.2f}'.
+                '{:>15} \t\tI-Auroc:{:.2f} \tI-F1:{:.2f} \tI-AP:{:.2f} \tP-Auroc:{:.2f} \tP-F1:{:.2f} \tP-AP:{:.2f} \tP-AUPRO:{:.2f}'.
                     format(tag,
                            data['auroc_im'],
                            data['f1_im'],
                            data['ap_im'],
                            data['auroc_px'],
                            data['f1_px'],
-                           data['ap_px'])
+                           data['ap_px'],
+                           data['aupro_px'])
             )
 
 
@@ -174,7 +177,7 @@ if __name__ == '__main__':
                         help="Save figures for visualizations (default: False)")
 
     # Hyper-parameters
-    parser.add_argument("--batch_size", type=int, default=1, help="Batch size (default: 1)")
+    parser.add_argument("--batch_size", type=int, default=32, help="Batch size (default: 1)")
     parser.add_argument("--image_size", type=int, default=518, help="Size of the input images (default: 518)")
 
     # Prompting parameters
@@ -189,11 +192,12 @@ if __name__ == '__main__':
                         help="Use HSF for aggregation. If False, original class embedding is used (default: True)")
     parser.add_argument("--k_clusters", type=int, default=20, help="Number of clusters (default: 20)")
 
+    add_anomaly_arguments(parser, str2bool)
     args = parser.parse_args()
 
-    if args.batch_size != 1:
-        raise NotImplementedError(
-            "Currently, only batch size of 1 is supported due to unresolved bugs. Please set --batch_size to 1.")
+    # if args.batch_size != 1:
+    #     raise NotImplementedError(
+    #         "Currently, only batch size of 1 is supported due to unresolved bugs. Please set --batch_size to 1.")
 
     train(args)
 

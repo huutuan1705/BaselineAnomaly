@@ -54,17 +54,18 @@ class Logger(object):
 def log_metrics(metrics, logger, tensorboard_logger, epoch):
     def log_single_class(data, tag):
         logger.info(
-            '{:>15} \t\tI-Auroc:{:.2f} \tI-F1:{:.2f} \tI-AP:{:.2f} \tP-Auroc:{:.2f} \tP-F1:{:.2f} \tP-AP:{:.2f}'.
+            '{:>15} \t\tI-Auroc:{:.2f} \tI-F1:{:.2f} \tI-AP:{:.2f} \tP-Auroc:{:.2f} \tP-F1:{:.2f} \tP-AP:{:.2f} \tP-AUPRO:{:.2f}'.
             format(tag,
                    data['auroc_im'],
                    data['f1_im'],
                    data['ap_im'],
                    data['auroc_px'],
                    data['f1_px'],
-                   data['ap_px'])
+                   data['ap_px'],
+                   data['aupro_px'])
         )
         # Adding scalar metrics to TensorBoard
-        for metric_name in ['auroc_im', 'f1_im', 'ap_im', 'auroc_px', 'f1_px', 'ap_px']:
+        for metric_name in ['auroc_im', 'f1_im', 'ap_im', 'auroc_px', 'f1_px', 'ap_px', 'aupro_px']:
             tensorboard_logger.add_scalar(f'{tag}-{metric_name}', data[metric_name], epoch)
 
     for tag, data in metrics.items():

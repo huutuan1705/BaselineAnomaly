@@ -13,6 +13,7 @@ import torch
 from tools import write2csv, setup_paths, setup_seed, log_metrics, Logger
 from dataset import get_data
 from method import AdaCLIP_Trainer
+from config import ANOMALY_CONFIG, add_anomaly_arguments
 
 setup_seed(111)
 
@@ -46,7 +47,7 @@ def train(args):
     # Set up the feature hierarchy
     n_layers = model_configs['vision_cfg']['layers']
     substage = n_layers // 4
-    features_list = [substage, substage * 2, substage * 3, substage * 4]
+    features_list = args.selected_layers or [substage, substage * 2, substage * 3, substage * 4]
 
     model = AdaCLIP_Trainer(
         backbone=args.model,
@@ -61,7 +62,8 @@ def train(args):
         prompting_branch=args.prompting_branch,
         prompting_type=args.prompting_type,
         use_hsf=args.use_hsf,
-        k_clusters=args.k_clusters
+        k_clusters=args.k_clusters,
+        anomaly_config={name: getattr(args, name) for name in ANOMALY_CONFIG}
     ).to(device)
 
     train_data_cls_names, train_data, train_data_root = get_data(
@@ -153,7 +155,7 @@ if __name__ == '__main__':
     # Hyper-parameters
     parser.add_argument("--exp_indx", type=int, default=0, help="Index of the experiment (default: 0)")
     parser.add_argument("--epoch", type=int, default=5, help="Number of epochs (default: 5)")
-    parser.add_argument("--learning_rate", type=float, default=0.001, help="Learning rate (default: 0.01)")
+    parser.add_argument("--learning_rate", type=float, default=0.01, help="Learning rate (default: 0.01)")
     parser.add_argument("--batch_size", type=int, default=48, help="Batch size (default: 1)")
     parser.add_argument("--test_batch_size", type=int, default=48, help="Batch size (default: 1)")
 
@@ -173,6 +175,7 @@ if __name__ == '__main__':
                         help="Use HSF for aggregation. If False, original class embedding is used (default: True)")
     parser.add_argument("--k_clusters", type=int, default=20, help="Number of clusters (default: 20)")
 
+    add_anomaly_arguments(parser, str2bool)
     args = parser.parse_args()
 
     # if args.batch_size != 1:

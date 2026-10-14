@@ -1,132 +1,17 @@
-from typing import Union, List, Optional
 import numpy as np
 import torch
-from pkg_resources import packaging
 from torch import nn
 from torch.nn import functional as F
 from .clip_model import CLIP
-from .simple_tokenizer import SimpleTokenizer as _Tokenizer
+from method.fushion import ProjectLayer, TextEncoder, Global_Feature, LocalGlobalPosterior
 
 
-class ProjectLayer(nn.Module):
-    def __init__(self, input_dim, output_dim, num_replicas, stack=False, is_array=True):
-        super(ProjectLayer, self).__init__()
-
-        self.head = nn.ModuleList([nn.Linear(input_dim, output_dim) for _ in range(num_replicas)])
-        self.num_replicas = num_replicas
-        self.stack = stack
-        self.is_array = is_array
-
-    def forward(self, tokens):
-        out_tokens = []
-        for i in range(self.num_replicas):
-            if self.is_array:
-                temp = self.head[i](tokens[i][:, 1:, :]) # for ViT, we exclude the class token and only extract patch tokens here.
-            else:
-                temp = self.head[i](tokens)
-
-            out_tokens.append(temp)
-
-        if self.stack:
-            out_tokens = torch.stack(out_tokens, dim=1)
-
-        return out_tokens
-
-class TextEmbebddingLayer(nn.Module):
-    def __init__(self, fixed):
-        super(TextEmbebddingLayer, self).__init__()
-        self.tokenizer = _Tokenizer()
-        self.ensemble_text_features = {}
-        self.prompt_normal = ['{}', 'flawless {}', 'perfect {}', 'unblemished {}', '{} without flaw',
-                              '{} without defect',
-                              '{} without damage']
-        self.prompt_abnormal = ['damaged {}', 'broken {}', '{} with flaw', '{} with defect', '{} with damage']
-        self.prompt_state = [self.prompt_normal, self.prompt_abnormal]
-        self.prompt_templates = ['a bad photo of a {}.',
-                                 'a low resolution photo of the {}.',
-                                 'a bad photo of the {}.',
-                                 'a cropped photo of the {}.',
-                                 ]
-        self.fixed = fixed
-
-    def tokenize(self, texts: Union[str, List[str]], context_length: int = 77, truncate: bool = False) -> Union[
-        torch.IntTensor, torch.LongTensor]:
-        if isinstance(texts, str):
-            texts = [texts]
-
-        sot_token = self.tokenizer.encoder["<|startoftext|>"]
-        eot_token = self.tokenizer.encoder["<|endoftext|>"]
-        all_tokens = [[sot_token] + self.tokenizer.encode(text) + [eot_token] for text in texts]
-        if packaging.version.parse(torch.__version__) < packaging.version.parse("1.8.0"):
-            result = torch.zeros(len(all_tokens), context_length, dtype=torch.long)
-        else:
-            result = torch.zeros(len(all_tokens), context_length, dtype=torch.int)
-
-        for i, tokens in enumerate(all_tokens):
-            if len(tokens) > context_length:
-                if truncate:
-                    tokens = tokens[:context_length]
-                    tokens[-1] = eot_token
-                else:
-                    raise RuntimeError(f"Input {texts[i]} is too long for context length {context_length}")
-            result[i, :len(tokens)] = torch.tensor(tokens)
-
-        return result
-
-    ## TODO: text layeer is not compitable with multiple batches...
-    def forward(self, model, texts, device):
-        text_feature_list = []
-
-        for indx, text in enumerate(texts):
-
-            if self.fixed:
-                if self.ensemble_text_features.get(text) is None:
-                    text_features = self.encode_text(model, text, device)
-                    self.ensemble_text_features[text] = text_features
-                else:
-                    text_features = self.ensemble_text_features[text]
-            else:
-                text_features = self.encode_text(model, text, device)
-                self.ensemble_text_features[text] = text_features
-
-            text_feature_list.append(text_features)
-
-        text_features = torch.stack(text_feature_list, dim=0)
-        text_features = F.normalize(text_features, dim=1)
-
-        return text_features
-
-    def encode_text(self, model, text, device):
-        text_features = []
-        for i in range(len(self.prompt_state)):
-            text = text.replace('-', ' ')
-            prompted_state = [state.format(text) for state in self.prompt_state[i]]
-            prompted_sentence = []
-            for s in prompted_state:
-                for template in self.prompt_templates:
-                    prompted_sentence.append(template.format(s))
-            prompted_sentence = self.tokenize(prompted_sentence, context_length=77).to(device)
-
-            class_embeddings = model.encode_text(prompted_sentence)
-
-            #class_embeddings /= class_embeddings.norm(dim=-1, keepdim=True)
-            class_embeddings = class_embeddings / class_embeddings.norm(dim=-1, keepdim=True)
-            class_embedding = class_embeddings.mean(dim=0)
-            #class_embedding /= class_embedding.norm()
-            class_embedding = class_embedding / class_embedding.norm()
-            text_features.append(class_embedding)
-
-        text_features = torch.stack(text_features, dim=1)
-
-        return text_features
-
-
-class AdaCLIP(nn.Module):
+class Baseline(nn.Module):
     def __init__(self, freeze_clip: CLIP, text_channel: int, visual_channel: int,
                  prompting_length: int, prompting_depth: int, prompting_branch: str, prompting_type: str,
                  use_hsf: bool, k_clusters: int,
                  output_layers: list, device: str, image_size: int):
-        super(AdaCLIP, self).__init__()
+        super(Baseline, self).__init__()
         self.freeze_clip = freeze_clip
 
         self.visual = self.freeze_clip.visual
@@ -156,7 +41,8 @@ class AdaCLIP(nn.Module):
         else:
             self.enable_visual_prompt = False
 
-        self.text_embedding_layer = TextEmbebddingLayer(fixed=(not self.enable_text_prompt))
+        self.text_encoder = TextEncoder(fixed=(not self.enable_text_prompt))
+        self.lg_posterior = LocalGlobalPosterior()
 
         self.dropout = nn.Dropout(p=0.1)
         self.patch_token_layer = ProjectLayer(
@@ -170,7 +56,12 @@ class AdaCLIP(nn.Module):
             text_channel,
             1, stack=False, is_array=False
         )
-
+        self.image_mapping = nn.Linear(text_channel, text_channel)
+        self.fuse = Global_Feature(
+            dim_i=text_channel,
+            dim_out=text_channel,
+            k=len(output_layers),
+        )
         self.image_size = image_size
         self.device = device
 
@@ -238,20 +129,14 @@ class AdaCLIP(nn.Module):
     def proj_visual_tokens(self, image_features, patch_tokens):
 
         # for patch tokens
-        
         proj_patch_tokens = self.patch_token_layer(patch_tokens)
         
-        # proj_patch_tokens with dropout --> Monte Carlo Dropout for anomaly map
-        # proj_patch_tokens = self.dropout(self.patch_token_layer(patch_tokens))
-
         for layer in range(len(proj_patch_tokens)):
             #proj_patch_tokens[layer] /= proj_patch_tokens[layer].norm(dim=-1, keepdim=True)
             proj_patch_tokens[layer] = proj_patch_tokens[layer] / proj_patch_tokens[layer].norm(dim=-1, keepdim=True)
 
         # for cls tokens
         # proj_cls_tokens = self.cls_token_layer(image_features)[0]
-
-        # proj_cls_tokens with dropout --> Monte Carlo Dropout for anomaly score
         proj_cls_tokens = self.dropout(self.cls_token_layer(image_features)[0])
 
         proj_cls_tokens = proj_cls_tokens / proj_cls_tokens.norm(dim=-1, keepdim=True)
@@ -283,7 +168,8 @@ class AdaCLIP(nn.Module):
             anomaly_map = (100.0 * patch_token[layer] @ text_feature)
             anomaly_maps.append(anomaly_map)
 
-        cur_image_feature = image_feature
+        cur_image_feature = self.image_mapping(image_feature + self.fuse(patch_token))
+        cur_image_feature = cur_image_feature / cur_image_feature.norm(dim=-1, keepdim=True)
 
         anomaly_score = (100.0 * cur_image_feature.unsqueeze(1) @ text_feature)
         anomaly_score = anomaly_score.squeeze(1)
@@ -310,7 +196,7 @@ class AdaCLIP(nn.Module):
     def extract_feat(self, image, cls_name):
         with torch.no_grad():
             image_features, patch_tokens, _ = self.encode_image(image)
-            text_features = self.text_embedding_layer(self, cls_name, self.device)
+            text_features = self.text_encoder(self, cls_name, self.device)
 
         proj_cls_tokens, proj_patch_tokens = self.proj_visual_tokens(image_features, patch_tokens)
 

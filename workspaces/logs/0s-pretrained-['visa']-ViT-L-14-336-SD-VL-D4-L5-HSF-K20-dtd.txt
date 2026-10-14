@@ -1,0 +1,291 @@
+26-09-29 16:56:53.709 - INFO: batch_size = 48
+26-09-29 16:56:53.710 - INFO: ckt_path = 
+26-09-29 16:56:53.710 - INFO: epoch = 5
+26-09-29 16:56:53.710 - INFO: exp_indx = 0
+26-09-29 16:56:53.710 - INFO: image_size = 518
+26-09-29 16:56:53.710 - INFO: k_clusters = 20
+26-09-29 16:56:53.710 - INFO: learning_rate = 0.001
+26-09-29 16:56:53.710 - INFO: model = ViT-L-14-336
+26-09-29 16:56:53.710 - INFO: print_freq = 1
+26-09-29 16:56:53.710 - INFO: prompting_branch = VL
+26-09-29 16:56:53.710 - INFO: prompting_depth = 4
+26-09-29 16:56:53.710 - INFO: prompting_length = 5
+26-09-29 16:56:53.710 - INFO: prompting_type = SD
+26-09-29 16:56:53.710 - INFO: save_fig = True
+26-09-29 16:56:53.710 - INFO: save_path = ./workspaces
+26-09-29 16:56:53.710 - INFO: test_batch_size = 48
+26-09-29 16:56:53.710 - INFO: testing_data = dtd
+26-09-29 16:56:53.710 - INFO: training_data = ['visa']
+26-09-29 16:56:53.710 - INFO: use_hsf = True
+26-09-29 16:56:53.710 - INFO: valid_freq = 1
+26-09-29 16:56:53.710 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20
+26-09-29 16:56:57.736 - INFO: Data Root: training, /home/tuannh/Documents/datasets/anomaly_datasets/VisA; testing, /home/tuannh/Documents/datasets/anomaly_datasets/DTD
+26-09-29 17:01:21.767 - INFO: epoch [1/5], loss:3.8950
+26-09-29 17:01:21.767 - INFO: =============================Testing ====================================
+26-09-29 17:05:28.143 - INFO:     Blotchy_099 		I-Auroc:78.25 	I-F1:89.39 	I-AP:94.50 	P-Auroc:99.22 	P-F1:67.47 	P-AP:69.68
+26-09-29 17:05:28.143 - INFO:     Fibrous_183 		I-Auroc:84.69 	I-F1:90.24 	I-AP:96.06 	P-Auroc:99.01 	P-F1:66.41 	P-AP:70.17
+26-09-29 17:05:28.143 - INFO:     Marbled_078 		I-Auroc:92.44 	I-F1:93.83 	I-AP:98.16 	P-Auroc:99.33 	P-F1:73.11 	P-AP:78.54
+26-09-29 17:05:28.144 - INFO:      Matted_069 		I-Auroc:68.13 	I-F1:90.17 	I-AP:89.66 	P-Auroc:97.15 	P-F1:62.52 	P-AP:61.98
+26-09-29 17:05:28.144 - INFO:        Mesh_114 		I-Auroc:70.95 	I-F1:82.47 	I-AP:86.79 	P-Auroc:94.34 	P-F1:64.67 	P-AP:61.47
+26-09-29 17:05:28.144 - INFO:  Perforated_037 		I-Auroc:77.00 	I-F1:88.89 	I-AP:93.78 	P-Auroc:95.06 	P-F1:65.32 	P-AP:64.33
+26-09-29 17:05:28.144 - INFO:  Stratified_154 		I-Auroc:94.31 	I-F1:93.57 	I-AP:98.59 	P-Auroc:98.63 	P-F1:70.53 	P-AP:73.37
+26-09-29 17:05:28.144 - INFO:       Woven_001 		I-Auroc:97.62 	I-F1:95.10 	I-AP:99.02 	P-Auroc:99.55 	P-F1:71.80 	P-AP:75.06
+26-09-29 17:05:28.144 - INFO:       Woven_068 		I-Auroc:79.03 	I-F1:78.49 	I-AP:88.20 	P-Auroc:98.58 	P-F1:70.59 	P-AP:72.99
+26-09-29 17:05:28.145 - INFO:       Woven_104 		I-Auroc:91.81 	I-F1:92.41 	I-AP:98.06 	P-Auroc:95.18 	P-F1:64.06 	P-AP:63.84
+26-09-29 17:05:28.145 - INFO:       Woven_125 		I-Auroc:96.84 	I-F1:95.42 	I-AP:99.25 	P-Auroc:99.61 	P-F1:78.61 	P-AP:84.85
+26-09-29 17:05:28.145 - INFO:       Woven_127 		I-Auroc:42.25 	I-F1:67.23 	I-AP:47.06 	P-Auroc:92.77 	P-F1:57.28 	P-AP:50.95
+26-09-29 17:05:28.145 - INFO:         Average 		I-Auroc:81.11 	I-F1:88.10 	I-AP:90.76 	P-Auroc:97.37 	P-F1:67.70 	P-AP:68.94
+26-09-29 17:09:55.278 - INFO: epoch [2/5], loss:2.6564
+26-09-29 17:09:55.278 - INFO: =============================Testing ====================================
+26-09-29 17:14:04.069 - INFO:     Blotchy_099 		I-Auroc:89.62 	I-F1:91.82 	I-AP:97.59 	P-Auroc:99.36 	P-F1:71.30 	P-AP:73.00
+26-09-29 17:14:04.131 - INFO:     Fibrous_183 		I-Auroc:94.66 	I-F1:94.55 	I-AP:98.72 	P-Auroc:98.97 	P-F1:64.30 	P-AP:67.01
+26-09-29 17:14:04.132 - INFO:     Marbled_078 		I-Auroc:92.25 	I-F1:93.83 	I-AP:98.17 	P-Auroc:99.49 	P-F1:75.17 	P-AP:78.55
+26-09-29 17:14:04.132 - INFO:      Matted_069 		I-Auroc:70.95 	I-F1:90.70 	I-AP:90.07 	P-Auroc:98.74 	P-F1:68.39 	P-AP:70.14
+26-09-29 17:14:04.133 - INFO:        Mesh_114 		I-Auroc:72.69 	I-F1:82.42 	I-AP:88.06 	P-Auroc:92.63 	P-F1:63.06 	P-AP:58.41
+26-09-29 17:14:04.133 - INFO:  Perforated_037 		I-Auroc:81.16 	I-F1:88.89 	I-AP:95.07 	P-Auroc:93.80 	P-F1:63.92 	P-AP:61.98
+26-09-29 17:14:04.134 - INFO:  Stratified_154 		I-Auroc:97.22 	I-F1:95.42 	I-AP:99.34 	P-Auroc:98.50 	P-F1:67.98 	P-AP:68.90
+26-09-29 17:14:04.134 - INFO:       Woven_001 		I-Auroc:98.19 	I-F1:95.77 	I-AP:99.23 	P-Auroc:99.60 	P-F1:69.46 	P-AP:72.58
+26-09-29 17:14:04.134 - INFO:       Woven_068 		I-Auroc:83.69 	I-F1:80.72 	I-AP:91.08 	P-Auroc:98.15 	P-F1:69.08 	P-AP:69.29
+26-09-29 17:14:04.134 - INFO:       Woven_104 		I-Auroc:91.81 	I-F1:91.93 	I-AP:98.11 	P-Auroc:94.25 	P-F1:62.15 	P-AP:59.66
+26-09-29 17:14:04.134 - INFO:       Woven_125 		I-Auroc:97.97 	I-F1:96.86 	I-AP:99.54 	P-Auroc:99.57 	P-F1:74.87 	P-AP:79.56
+26-09-29 17:14:04.135 - INFO:       Woven_127 		I-Auroc:50.23 	I-F1:66.67 	I-AP:55.12 	P-Auroc:91.89 	P-F1:55.54 	P-AP:48.18
+26-09-29 17:14:04.136 - INFO:         Average 		I-Auroc:85.04 	I-F1:89.13 	I-AP:92.51 	P-Auroc:97.08 	P-F1:67.10 	P-AP:67.27
+26-09-29 17:18:26.966 - INFO: epoch [3/5], loss:2.3630
+26-09-29 17:18:26.966 - INFO: =============================Testing ====================================
+26-09-29 17:22:38.070 - INFO:     Blotchy_099 		I-Auroc:87.41 	I-F1:89.39 	I-AP:96.95 	P-Auroc:99.55 	P-F1:74.02 	P-AP:78.55
+26-09-29 17:22:38.070 - INFO:     Fibrous_183 		I-Auroc:94.50 	I-F1:94.55 	I-AP:98.65 	P-Auroc:98.74 	P-F1:64.61 	P-AP:68.80
+26-09-29 17:22:38.132 - INFO:     Marbled_078 		I-Auroc:92.25 	I-F1:93.83 	I-AP:98.14 	P-Auroc:99.51 	P-F1:74.64 	P-AP:81.15
+26-09-29 17:22:38.132 - INFO:      Matted_069 		I-Auroc:68.20 	I-F1:89.66 	I-AP:88.96 	P-Auroc:98.80 	P-F1:68.58 	P-AP:71.42
+26-09-29 17:22:38.132 - INFO:        Mesh_114 		I-Auroc:70.31 	I-F1:82.05 	I-AP:86.71 	P-Auroc:93.37 	P-F1:61.74 	P-AP:58.14
+26-09-29 17:22:38.133 - INFO:  Perforated_037 		I-Auroc:82.25 	I-F1:89.53 	I-AP:95.37 	P-Auroc:95.16 	P-F1:63.16 	P-AP:61.05
+26-09-29 17:22:38.133 - INFO:  Stratified_154 		I-Auroc:96.78 	I-F1:94.87 	I-AP:99.23 	P-Auroc:98.89 	P-F1:66.04 	P-AP:69.22
+26-09-29 17:22:38.133 - INFO:       Woven_001 		I-Auroc:99.19 	I-F1:97.90 	I-AP:99.65 	P-Auroc:99.68 	P-F1:72.99 	P-AP:79.23
+26-09-29 17:22:38.133 - INFO:       Woven_068 		I-Auroc:85.73 	I-F1:83.02 	I-AP:91.99 	P-Auroc:98.66 	P-F1:69.48 	P-AP:71.70
+26-09-29 17:22:38.133 - INFO:       Woven_104 		I-Auroc:90.69 	I-F1:91.25 	I-AP:97.82 	P-Auroc:95.61 	P-F1:63.59 	P-AP:61.46
+26-09-29 17:22:38.133 - INFO:       Woven_125 		I-Auroc:97.15 	I-F1:96.86 	I-AP:99.36 	P-Auroc:99.67 	P-F1:76.40 	P-AP:82.17
+26-09-29 17:22:38.133 - INFO:       Woven_127 		I-Auroc:48.12 	I-F1:66.95 	I-AP:54.53 	P-Auroc:92.68 	P-F1:53.21 	P-AP:46.95
+26-09-29 17:22:38.134 - INFO:         Average 		I-Auroc:84.38 	I-F1:89.15 	I-AP:92.28 	P-Auroc:97.53 	P-F1:67.37 	P-AP:69.15
+26-09-29 17:27:05.861 - INFO: epoch [4/5], loss:2.3334
+26-09-29 17:27:05.861 - INFO: =============================Testing ====================================
+26-09-29 17:31:11.079 - INFO:     Blotchy_099 		I-Auroc:85.72 	I-F1:89.39 	I-AP:96.50 	P-Auroc:99.31 	P-F1:69.79 	P-AP:73.05
+26-09-29 17:31:11.079 - INFO:     Fibrous_183 		I-Auroc:93.88 	I-F1:94.48 	I-AP:98.48 	P-Auroc:98.39 	P-F1:61.96 	P-AP:65.08
+26-09-29 17:31:11.079 - INFO:     Marbled_078 		I-Auroc:91.91 	I-F1:93.83 	I-AP:98.05 	P-Auroc:99.39 	P-F1:74.48 	P-AP:79.08
+26-09-29 17:31:11.080 - INFO:      Matted_069 		I-Auroc:66.39 	I-F1:90.17 	I-AP:88.13 	P-Auroc:98.52 	P-F1:66.82 	P-AP:68.86
+26-09-29 17:31:11.080 - INFO:        Mesh_114 		I-Auroc:72.47 	I-F1:82.72 	I-AP:87.79 	P-Auroc:91.92 	P-F1:61.95 	P-AP:57.10
+26-09-29 17:31:11.080 - INFO:  Perforated_037 		I-Auroc:81.97 	I-F1:89.02 	I-AP:95.35 	P-Auroc:93.98 	P-F1:62.63 	P-AP:60.27
+26-09-29 17:31:11.080 - INFO:  Stratified_154 		I-Auroc:96.94 	I-F1:94.74 	I-AP:99.27 	P-Auroc:98.61 	P-F1:66.93 	P-AP:68.47
+26-09-29 17:31:11.080 - INFO:       Woven_001 		I-Auroc:99.29 	I-F1:97.90 	I-AP:99.70 	P-Auroc:99.63 	P-F1:70.64 	P-AP:76.45
+26-09-29 17:31:11.081 - INFO:       Woven_068 		I-Auroc:86.58 	I-F1:84.08 	I-AP:92.28 	P-Auroc:98.31 	P-F1:70.23 	P-AP:71.22
+26-09-29 17:31:11.081 - INFO:       Woven_104 		I-Auroc:91.09 	I-F1:91.50 	I-AP:97.92 	P-Auroc:94.37 	P-F1:62.48 	P-AP:59.27
+26-09-29 17:31:11.081 - INFO:       Woven_125 		I-Auroc:98.04 	I-F1:96.86 	I-AP:99.55 	P-Auroc:99.60 	P-F1:76.42 	P-AP:80.66
+26-09-29 17:31:11.081 - INFO:       Woven_127 		I-Auroc:50.42 	I-F1:66.67 	I-AP:55.77 	P-Auroc:92.40 	P-F1:55.54 	P-AP:49.34
+26-09-29 17:31:11.081 - INFO:         Average 		I-Auroc:84.56 	I-F1:89.28 	I-AP:92.40 	P-Auroc:97.04 	P-F1:66.66 	P-AP:67.40
+26-09-29 17:35:36.820 - INFO: epoch [5/5], loss:2.1762
+26-09-29 17:35:36.820 - INFO: =============================Testing ====================================
+26-09-29 17:37:36.793 - INFO: batch_size = 48
+26-09-29 17:37:36.794 - INFO: ckt_path = 
+26-09-29 17:37:36.794 - INFO: epoch = 5
+26-09-29 17:37:36.794 - INFO: exp_indx = 0
+26-09-29 17:37:36.794 - INFO: image_size = 518
+26-09-29 17:37:36.794 - INFO: k_clusters = 20
+26-09-29 17:37:36.794 - INFO: learning_rate = 0.001
+26-09-29 17:37:36.794 - INFO: model = ViT-L-14-336
+26-09-29 17:37:36.794 - INFO: print_freq = 1
+26-09-29 17:37:36.794 - INFO: prompting_branch = VL
+26-09-29 17:37:36.794 - INFO: prompting_depth = 4
+26-09-29 17:37:36.794 - INFO: prompting_length = 5
+26-09-29 17:37:36.794 - INFO: prompting_type = SD
+26-09-29 17:37:36.794 - INFO: save_fig = True
+26-09-29 17:37:36.794 - INFO: save_path = ./workspaces
+26-09-29 17:37:36.794 - INFO: test_batch_size = 48
+26-09-29 17:37:36.794 - INFO: testing_data = dtd
+26-09-29 17:37:36.794 - INFO: training_data = ['visa']
+26-09-29 17:37:36.794 - INFO: use_hsf = True
+26-09-29 17:37:36.794 - INFO: valid_freq = 1
+26-09-29 17:37:36.794 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20
+26-09-29 17:38:06.689 - INFO: batch_size = 48
+26-09-29 17:38:06.689 - INFO: ckt_path = 
+26-09-29 17:38:06.689 - INFO: epoch = 5
+26-09-29 17:38:06.689 - INFO: exp_indx = 0
+26-09-29 17:38:06.689 - INFO: image_size = 518
+26-09-29 17:38:06.689 - INFO: k_clusters = 20
+26-09-29 17:38:06.690 - INFO: learning_rate = 0.001
+26-09-29 17:38:06.690 - INFO: model = ViT-L-14-336
+26-09-29 17:38:06.690 - INFO: print_freq = 1
+26-09-29 17:38:06.690 - INFO: prompting_branch = VL
+26-09-29 17:38:06.690 - INFO: prompting_depth = 4
+26-09-29 17:38:06.690 - INFO: prompting_length = 5
+26-09-29 17:38:06.690 - INFO: prompting_type = SD
+26-09-29 17:38:06.690 - INFO: save_fig = True
+26-09-29 17:38:06.690 - INFO: save_path = ./workspaces
+26-09-29 17:38:06.690 - INFO: test_batch_size = 48
+26-09-29 17:38:06.690 - INFO: testing_data = dtd
+26-09-29 17:38:06.690 - INFO: training_data = ['visa']
+26-09-29 17:38:06.690 - INFO: use_hsf = True
+26-09-29 17:38:06.690 - INFO: valid_freq = 1
+26-09-29 17:38:06.690 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20
+26-09-29 17:38:10.625 - INFO: Data Root: training, /home/tuannh/Documents/datasets/anomaly_datasets/VisA; testing, /home/tuannh/Documents/datasets/anomaly_datasets/DTD
+26-09-29 20:06:03.432 - INFO: batch_size = 48
+26-09-29 20:06:03.433 - INFO: ckt_path = 
+26-09-29 20:06:03.433 - INFO: epoch = 5
+26-09-29 20:06:03.433 - INFO: exp_indx = 0
+26-09-29 20:06:03.433 - INFO: image_size = 518
+26-09-29 20:06:03.433 - INFO: k_clusters = 20
+26-09-29 20:06:03.433 - INFO: learning_rate = 0.001
+26-09-29 20:06:03.433 - INFO: model = ViT-L-14-336
+26-09-29 20:06:03.433 - INFO: print_freq = 1
+26-09-29 20:06:03.433 - INFO: prompting_branch = VL
+26-09-29 20:06:03.433 - INFO: prompting_depth = 4
+26-09-29 20:06:03.433 - INFO: prompting_length = 5
+26-09-29 20:06:03.433 - INFO: prompting_type = SD
+26-09-29 20:06:03.433 - INFO: save_fig = True
+26-09-29 20:06:03.433 - INFO: save_path = ./workspaces
+26-09-29 20:06:03.433 - INFO: test_batch_size = 48
+26-09-29 20:06:03.433 - INFO: testing_data = dtd
+26-09-29 20:06:03.433 - INFO: training_data = ['visa']
+26-09-29 20:06:03.433 - INFO: use_hsf = True
+26-09-29 20:06:03.433 - INFO: valid_freq = 1
+26-09-29 20:06:03.433 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20
+26-09-29 20:06:07.434 - INFO: Data Root: training, /home/tuannh/Documents/datasets/anomaly_datasets/VisA; testing, /home/tuannh/Documents/datasets/anomaly_datasets/DTD
+26-09-29 20:10:28.926 - INFO: epoch [1/5], loss:3.7696
+26-09-29 20:10:28.926 - INFO: =============================Testing ====================================
+26-09-29 20:14:36.760 - INFO:     Blotchy_099 		I-Auroc:85.81 	I-F1:88.89 	I-AP:96.70 	P-Auroc:99.17 	P-F1:66.77 	P-AP:69.40
+26-09-29 20:14:36.760 - INFO:     Fibrous_183 		I-Auroc:96.38 	I-F1:95.18 	I-AP:99.12 	P-Auroc:98.65 	P-F1:65.28 	P-AP:68.13
+26-09-29 20:14:36.761 - INFO:     Marbled_078 		I-Auroc:96.09 	I-F1:95.60 	I-AP:99.11 	P-Auroc:99.22 	P-F1:71.92 	P-AP:78.25
+26-09-29 20:14:36.761 - INFO:      Matted_069 		I-Auroc:64.11 	I-F1:90.29 	I-AP:86.63 	P-Auroc:98.02 	P-F1:62.15 	P-AP:62.48
+26-09-29 20:14:36.761 - INFO:        Mesh_114 		I-Auroc:76.55 	I-F1:83.98 	I-AP:89.57 	P-Auroc:93.20 	P-F1:65.26 	P-AP:60.87
+26-09-29 20:14:36.762 - INFO:  Perforated_037 		I-Auroc:81.75 	I-F1:91.33 	I-AP:94.91 	P-Auroc:95.19 	P-F1:66.19 	P-AP:64.92
+26-09-29 20:14:36.762 - INFO:  Stratified_154 		I-Auroc:97.69 	I-F1:96.30 	I-AP:99.43 	P-Auroc:98.44 	P-F1:69.92 	P-AP:72.97
+26-09-29 20:14:36.762 - INFO:       Woven_001 		I-Auroc:100.00 	I-F1:100.00 	I-AP:100.00 	P-Auroc:99.62 	P-F1:73.01 	P-AP:76.35
+26-09-29 20:14:36.763 - INFO:       Woven_068 		I-Auroc:93.68 	I-F1:89.80 	I-AP:96.72 	P-Auroc:98.60 	P-F1:72.28 	P-AP:74.71
+26-09-29 20:14:36.763 - INFO:       Woven_104 		I-Auroc:93.75 	I-F1:93.42 	I-AP:98.59 	P-Auroc:95.33 	P-F1:66.34 	P-AP:65.00
+26-09-29 20:14:36.763 - INFO:       Woven_125 		I-Auroc:94.37 	I-F1:95.65 	I-AP:98.53 	P-Auroc:99.63 	P-F1:79.36 	P-AP:85.72
+26-09-29 20:14:36.763 - INFO:       Woven_127 		I-Auroc:62.30 	I-F1:66.67 	I-AP:62.05 	P-Auroc:93.29 	P-F1:60.34 	P-AP:55.58
+26-09-29 20:14:36.764 - INFO:         Average 		I-Auroc:86.87 	I-F1:90.59 	I-AP:93.45 	P-Auroc:97.36 	P-F1:68.23 	P-AP:69.53
+26-09-29 20:18:59.109 - INFO: epoch [2/5], loss:2.7657
+26-09-29 20:18:59.109 - INFO: =============================Testing ====================================
+26-09-29 20:23:05.146 - INFO:     Blotchy_099 		I-Auroc:85.44 	I-F1:89.39 	I-AP:96.52 	P-Auroc:99.56 	P-F1:72.00 	P-AP:78.55
+26-09-29 20:23:05.146 - INFO:     Fibrous_183 		I-Auroc:87.12 	I-F1:92.86 	I-AP:96.62 	P-Auroc:99.15 	P-F1:66.61 	P-AP:71.39
+26-09-29 20:23:05.147 - INFO:     Marbled_078 		I-Auroc:94.22 	I-F1:93.75 	I-AP:98.67 	P-Auroc:99.57 	P-F1:73.91 	P-AP:80.52
+26-09-29 20:23:05.147 - INFO:      Matted_069 		I-Auroc:61.01 	I-F1:90.29 	I-AP:84.54 	P-Auroc:99.05 	P-F1:67.69 	P-AP:71.16
+26-09-29 20:23:05.147 - INFO:        Mesh_114 		I-Auroc:76.18 	I-F1:83.42 	I-AP:89.44 	P-Auroc:95.15 	P-F1:62.84 	P-AP:60.95
+26-09-29 20:23:05.147 - INFO:  Perforated_037 		I-Auroc:89.97 	I-F1:92.50 	I-AP:97.42 	P-Auroc:96.87 	P-F1:64.08 	P-AP:63.83
+26-09-29 20:23:05.147 - INFO:  Stratified_154 		I-Auroc:96.69 	I-F1:95.18 	I-AP:99.20 	P-Auroc:99.09 	P-F1:66.66 	P-AP:71.57
+26-09-29 20:23:05.147 - INFO:       Woven_001 		I-Auroc:99.95 	I-F1:99.29 	I-AP:99.98 	P-Auroc:99.77 	P-F1:73.51 	P-AP:79.36
+26-09-29 20:23:05.147 - INFO:       Woven_068 		I-Auroc:92.43 	I-F1:89.04 	I-AP:96.08 	P-Auroc:99.26 	P-F1:69.35 	P-AP:72.65
+26-09-29 20:23:05.148 - INFO:       Woven_104 		I-Auroc:92.69 	I-F1:92.90 	I-AP:98.28 	P-Auroc:96.71 	P-F1:64.92 	P-AP:66.30
+26-09-29 20:23:05.148 - INFO:       Woven_125 		I-Auroc:98.23 	I-F1:98.11 	I-AP:99.60 	P-Auroc:99.71 	P-F1:75.95 	P-AP:82.62
+26-09-29 20:23:05.148 - INFO:       Woven_127 		I-Auroc:55.48 	I-F1:66.67 	I-AP:59.11 	P-Auroc:94.35 	P-F1:58.15 	P-AP:52.46
+26-09-29 20:23:05.148 - INFO:         Average 		I-Auroc:85.78 	I-F1:90.28 	I-AP:92.95 	P-Auroc:98.19 	P-F1:67.97 	P-AP:70.95
+26-09-29 20:27:26.263 - INFO: epoch [3/5], loss:2.4902
+26-09-29 20:27:26.263 - INFO: =============================Testing ====================================
+26-09-29 20:31:30.256 - INFO:     Blotchy_099 		I-Auroc:84.81 	I-F1:89.39 	I-AP:96.30 	P-Auroc:99.22 	P-F1:69.16 	P-AP:71.91
+26-09-29 20:31:30.257 - INFO:     Fibrous_183 		I-Auroc:89.50 	I-F1:92.59 	I-AP:97.29 	P-Auroc:98.61 	P-F1:61.52 	P-AP:64.14
+26-09-29 20:31:30.257 - INFO:     Marbled_078 		I-Auroc:93.72 	I-F1:93.67 	I-AP:98.55 	P-Auroc:99.44 	P-F1:74.27 	P-AP:77.89
+26-09-29 20:31:30.257 - INFO:      Matted_069 		I-Auroc:59.43 	I-F1:90.29 	I-AP:84.26 	P-Auroc:98.00 	P-F1:67.53 	P-AP:68.98
+26-09-29 20:31:30.257 - INFO:        Mesh_114 		I-Auroc:74.38 	I-F1:82.90 	I-AP:88.73 	P-Auroc:91.97 	P-F1:62.21 	P-AP:57.72
+26-09-29 20:31:30.257 - INFO:  Perforated_037 		I-Auroc:84.78 	I-F1:89.77 	I-AP:96.17 	P-Auroc:93.75 	P-F1:61.95 	P-AP:59.93
+26-09-29 20:31:30.257 - INFO:  Stratified_154 		I-Auroc:96.88 	I-F1:95.24 	I-AP:99.24 	P-Auroc:98.60 	P-F1:65.42 	P-AP:66.38
+26-09-29 20:31:30.257 - INFO:       Woven_001 		I-Auroc:99.81 	I-F1:98.59 	I-AP:99.92 	P-Auroc:99.62 	P-F1:69.99 	P-AP:74.43
+26-09-29 20:31:30.258 - INFO:       Woven_068 		I-Auroc:92.43 	I-F1:88.05 	I-AP:95.92 	P-Auroc:98.46 	P-F1:69.02 	P-AP:70.25
+26-09-29 20:31:30.258 - INFO:       Woven_104 		I-Auroc:94.16 	I-F1:94.19 	I-AP:98.65 	P-Auroc:94.52 	P-F1:63.27 	P-AP:60.07
+26-09-29 20:31:30.258 - INFO:       Woven_125 		I-Auroc:99.05 	I-F1:98.11 	I-AP:99.78 	P-Auroc:99.63 	P-F1:74.91 	P-AP:80.24
+26-09-29 20:31:30.258 - INFO:       Woven_127 		I-Auroc:55.01 	I-F1:67.23 	I-AP:57.90 	P-Auroc:92.45 	P-F1:55.77 	P-AP:48.61
+26-09-29 20:31:30.258 - INFO:         Average 		I-Auroc:85.33 	I-F1:90.00 	I-AP:92.73 	P-Auroc:97.02 	P-F1:66.25 	P-AP:66.71
+26-09-29 20:32:33.764 - INFO: batch_size = 48
+26-09-29 20:32:33.764 - INFO: ckt_path = 
+26-09-29 20:32:33.764 - INFO: epoch = 5
+26-09-29 20:32:33.764 - INFO: exp_indx = 0
+26-09-29 20:32:33.764 - INFO: image_size = 518
+26-09-29 20:32:33.764 - INFO: k_clusters = 20
+26-09-29 20:32:33.764 - INFO: learning_rate = 0.0001
+26-09-29 20:32:33.764 - INFO: model = ViT-L-14-336
+26-09-29 20:32:33.764 - INFO: print_freq = 1
+26-09-29 20:32:33.764 - INFO: prompting_branch = VL
+26-09-29 20:32:33.764 - INFO: prompting_depth = 4
+26-09-29 20:32:33.764 - INFO: prompting_length = 5
+26-09-29 20:32:33.764 - INFO: prompting_type = SD
+26-09-29 20:32:33.764 - INFO: save_fig = True
+26-09-29 20:32:33.764 - INFO: save_path = ./workspaces
+26-09-29 20:32:33.764 - INFO: test_batch_size = 48
+26-09-29 20:32:33.764 - INFO: testing_data = dtd
+26-09-29 20:32:33.764 - INFO: training_data = ['visa']
+26-09-29 20:32:33.764 - INFO: use_hsf = True
+26-09-29 20:32:33.764 - INFO: valid_freq = 1
+26-09-29 20:32:33.764 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20
+26-09-29 20:32:37.735 - INFO: Data Root: training, /home/tuannh/Documents/datasets/anomaly_datasets/VisA; testing, /home/tuannh/Documents/datasets/anomaly_datasets/DTD
+26-09-29 20:36:51.534 - INFO: epoch [1/5], loss:4.4259
+26-09-29 20:36:51.534 - INFO: =============================Testing ====================================
+26-09-29 20:40:53.796 - INFO:     Blotchy_099 		I-Auroc:86.94 	I-F1:89.19 	I-AP:97.03 	P-Auroc:99.12 	P-F1:69.57 	P-AP:71.66
+26-09-29 20:40:53.796 - INFO:     Fibrous_183 		I-Auroc:98.06 	I-F1:96.30 	I-AP:99.54 	P-Auroc:97.11 	P-F1:53.33 	P-AP:55.01
+26-09-29 20:40:53.796 - INFO:     Marbled_078 		I-Auroc:98.94 	I-F1:98.75 	I-AP:99.78 	P-Auroc:98.79 	P-F1:66.57 	P-AP:69.03
+26-09-29 20:40:53.797 - INFO:      Matted_069 		I-Auroc:71.20 	I-F1:90.29 	I-AP:90.79 	P-Auroc:96.57 	P-F1:49.21 	P-AP:47.53
+26-09-29 20:40:53.797 - INFO:        Mesh_114 		I-Auroc:80.99 	I-F1:82.90 	I-AP:91.98 	P-Auroc:89.44 	P-F1:57.08 	P-AP:52.22
+26-09-29 20:40:53.797 - INFO:  Perforated_037 		I-Auroc:82.41 	I-F1:89.44 	I-AP:95.48 	P-Auroc:90.65 	P-F1:55.29 	P-AP:52.55
+26-09-29 20:40:53.797 - INFO:  Stratified_154 		I-Auroc:93.84 	I-F1:95.12 	I-AP:98.38 	P-Auroc:96.89 	P-F1:68.91 	P-AP:70.44
+26-09-29 20:40:53.797 - INFO:       Woven_001 		I-Auroc:99.62 	I-F1:99.29 	I-AP:99.83 	P-Auroc:99.14 	P-F1:72.48 	P-AP:75.06
+26-09-29 20:40:53.797 - INFO:       Woven_068 		I-Auroc:91.80 	I-F1:87.50 	I-AP:95.49 	P-Auroc:96.11 	P-F1:60.59 	P-AP:60.79
+26-09-29 20:40:53.797 - INFO:       Woven_104 		I-Auroc:90.78 	I-F1:91.46 	I-AP:97.81 	P-Auroc:93.28 	P-F1:63.52 	P-AP:61.51
+26-09-29 20:40:53.797 - INFO:       Woven_125 		I-Auroc:92.31 	I-F1:95.06 	I-AP:98.00 	P-Auroc:98.95 	P-F1:74.51 	P-AP:79.67
+26-09-29 20:40:53.798 - INFO:       Woven_127 		I-Auroc:70.73 	I-F1:68.87 	I-AP:75.07 	P-Auroc:90.36 	P-F1:55.18 	P-AP:50.10
+26-09-29 20:40:53.798 - INFO:         Average 		I-Auroc:88.13 	I-F1:90.35 	I-AP:94.93 	P-Auroc:95.53 	P-F1:62.18 	P-AP:62.13
+26-09-29 20:45:16.142 - INFO: epoch [2/5], loss:4.1366
+26-09-29 20:45:16.142 - INFO: =============================Testing ====================================
+26-09-29 20:49:18.267 - INFO:     Blotchy_099 		I-Auroc:86.12 	I-F1:88.89 	I-AP:96.76 	P-Auroc:99.36 	P-F1:68.98 	P-AP:73.42
+26-09-29 20:49:18.267 - INFO:     Fibrous_183 		I-Auroc:94.50 	I-F1:95.24 	I-AP:98.63 	P-Auroc:98.62 	P-F1:60.63 	P-AP:64.66
+26-09-29 20:49:18.268 - INFO:     Marbled_078 		I-Auroc:98.00 	I-F1:98.09 	I-AP:99.56 	P-Auroc:99.23 	P-F1:70.42 	P-AP:74.13
+26-09-29 20:49:18.268 - INFO:      Matted_069 		I-Auroc:66.74 	I-F1:90.29 	I-AP:88.48 	P-Auroc:97.60 	P-F1:54.06 	P-AP:53.47
+26-09-29 20:49:18.268 - INFO:        Mesh_114 		I-Auroc:79.64 	I-F1:83.16 	I-AP:91.49 	P-Auroc:93.13 	P-F1:63.64 	P-AP:60.17
+26-09-29 20:49:18.268 - INFO:  Perforated_037 		I-Auroc:89.16 	I-F1:91.33 	I-AP:97.35 	P-Auroc:95.11 	P-F1:63.46 	P-AP:62.36
+26-09-29 20:49:18.268 - INFO:  Stratified_154 		I-Auroc:94.31 	I-F1:94.67 	I-AP:98.56 	P-Auroc:98.28 	P-F1:71.82 	P-AP:75.53
+26-09-29 20:49:18.268 - INFO:       Woven_001 		I-Auroc:99.86 	I-F1:99.29 	I-AP:99.94 	P-Auroc:99.47 	P-F1:74.60 	P-AP:78.59
+26-09-29 20:49:18.269 - INFO:       Woven_068 		I-Auroc:93.15 	I-F1:89.66 	I-AP:96.52 	P-Auroc:98.07 	P-F1:64.79 	P-AP:66.19
+26-09-29 20:49:18.269 - INFO:       Woven_104 		I-Auroc:91.81 	I-F1:91.57 	I-AP:98.09 	P-Auroc:95.89 	P-F1:66.69 	P-AP:66.79
+26-09-29 20:49:18.269 - INFO:       Woven_125 		I-Auroc:95.38 	I-F1:95.06 	I-AP:98.90 	P-Auroc:99.50 	P-F1:76.82 	P-AP:83.55
+26-09-29 20:49:18.269 - INFO:       Woven_127 		I-Auroc:63.33 	I-F1:66.95 	I-AP:68.19 	P-Auroc:92.53 	P-F1:56.77 	P-AP:52.27
+26-09-29 20:49:18.269 - INFO:         Average 		I-Auroc:87.67 	I-F1:90.35 	I-AP:94.37 	P-Auroc:97.23 	P-F1:66.06 	P-AP:67.59
+26-09-29 20:53:37.176 - INFO: epoch [3/5], loss:4.0122
+26-09-29 20:53:37.176 - INFO: =============================Testing ====================================
+26-09-29 20:57:40.483 - INFO:     Blotchy_099 		I-Auroc:86.75 	I-F1:89.02 	I-AP:96.88 	P-Auroc:99.31 	P-F1:68.87 	P-AP:72.77
+26-09-29 20:57:40.484 - INFO:     Fibrous_183 		I-Auroc:94.88 	I-F1:94.67 	I-AP:98.72 	P-Auroc:98.66 	P-F1:61.04 	P-AP:65.85
+26-09-29 20:57:40.484 - INFO:     Marbled_078 		I-Auroc:97.81 	I-F1:97.47 	I-AP:99.52 	P-Auroc:99.27 	P-F1:72.39 	P-AP:76.79
+26-09-29 20:57:40.484 - INFO:      Matted_069 		I-Auroc:65.54 	I-F1:90.29 	I-AP:88.02 	P-Auroc:97.49 	P-F1:58.50 	P-AP:58.88
+26-09-29 20:57:40.484 - INFO:        Mesh_114 		I-Auroc:79.11 	I-F1:83.16 	I-AP:91.26 	P-Auroc:92.99 	P-F1:64.16 	P-AP:60.80
+26-09-29 20:57:40.484 - INFO:  Perforated_037 		I-Auroc:87.69 	I-F1:91.36 	I-AP:96.88 	P-Auroc:94.42 	P-F1:64.07 	P-AP:62.60
+26-09-29 20:57:40.485 - INFO:  Stratified_154 		I-Auroc:95.62 	I-F1:95.24 	I-AP:98.90 	P-Auroc:98.15 	P-F1:71.54 	P-AP:75.19
+26-09-29 20:57:40.485 - INFO:       Woven_001 		I-Auroc:100.00 	I-F1:100.00 	I-AP:100.00 	P-Auroc:99.55 	P-F1:75.12 	P-AP:79.13
+26-09-29 20:57:40.485 - INFO:       Woven_068 		I-Auroc:94.42 	I-F1:93.24 	I-AP:97.24 	P-Auroc:98.20 	P-F1:66.99 	P-AP:68.83
+26-09-29 20:57:40.485 - INFO:       Woven_104 		I-Auroc:93.44 	I-F1:92.90 	I-AP:98.47 	P-Auroc:95.59 	P-F1:67.43 	P-AP:65.98
+26-09-29 20:57:40.486 - INFO:       Woven_125 		I-Auroc:97.12 	I-F1:96.30 	I-AP:99.32 	P-Auroc:99.53 	P-F1:77.54 	P-AP:84.29
+26-09-29 20:57:40.486 - INFO:       Woven_127 		I-Auroc:61.00 	I-F1:66.67 	I-AP:64.22 	P-Auroc:92.88 	P-F1:59.72 	P-AP:55.28
+26-09-29 20:57:40.486 - INFO:         Average 		I-Auroc:87.78 	I-F1:90.86 	I-AP:94.12 	P-Auroc:97.17 	P-F1:67.28 	P-AP:68.87
+26-09-29 21:02:00.479 - INFO: epoch [4/5], loss:3.7980
+26-09-29 21:02:00.479 - INFO: =============================Testing ====================================
+26-09-29 21:06:04.445 - INFO:     Blotchy_099 		I-Auroc:87.09 	I-F1:89.03 	I-AP:96.95 	P-Auroc:99.37 	P-F1:69.48 	P-AP:74.01
+26-09-29 21:06:04.445 - INFO:     Fibrous_183 		I-Auroc:94.62 	I-F1:94.55 	I-AP:98.66 	P-Auroc:98.63 	P-F1:61.08 	P-AP:66.09
+26-09-29 21:06:04.445 - INFO:     Marbled_078 		I-Auroc:97.25 	I-F1:97.44 	I-AP:99.40 	P-Auroc:99.33 	P-F1:73.33 	P-AP:79.12
+26-09-29 21:06:04.445 - INFO:      Matted_069 		I-Auroc:64.81 	I-F1:90.29 	I-AP:87.56 	P-Auroc:97.91 	P-F1:61.34 	P-AP:62.33
+26-09-29 21:06:04.446 - INFO:        Mesh_114 		I-Auroc:78.25 	I-F1:83.33 	I-AP:90.81 	P-Auroc:93.63 	P-F1:64.65 	P-AP:61.93
+26-09-29 21:06:04.446 - INFO:  Perforated_037 		I-Auroc:88.22 	I-F1:91.46 	I-AP:97.07 	P-Auroc:95.00 	P-F1:66.28 	P-AP:65.32
+26-09-29 21:06:04.446 - INFO:  Stratified_154 		I-Auroc:96.38 	I-F1:95.24 	I-AP:99.10 	P-Auroc:98.09 	P-F1:70.93 	P-AP:74.60
+26-09-29 21:06:04.447 - INFO:       Woven_001 		I-Auroc:99.95 	I-F1:99.29 	I-AP:99.98 	P-Auroc:99.60 	P-F1:75.42 	P-AP:80.10
+26-09-29 21:06:04.447 - INFO:       Woven_068 		I-Auroc:94.39 	I-F1:91.78 	I-AP:97.24 	P-Auroc:98.46 	P-F1:68.41 	P-AP:71.13
+26-09-29 21:06:04.447 - INFO:       Woven_104 		I-Auroc:93.00 	I-F1:92.90 	I-AP:98.35 	P-Auroc:96.00 	P-F1:68.38 	P-AP:67.21
+26-09-29 21:06:04.447 - INFO:       Woven_125 		I-Auroc:96.55 	I-F1:96.25 	I-AP:99.18 	P-Auroc:99.58 	P-F1:78.25 	P-AP:85.07
+26-09-29 21:06:04.447 - INFO:       Woven_127 		I-Auroc:59.41 	I-F1:66.67 	I-AP:63.59 	P-Auroc:93.24 	P-F1:59.85 	P-AP:55.87
+26-09-29 21:06:04.447 - INFO:         Average 		I-Auroc:87.49 	I-F1:90.69 	I-AP:93.99 	P-Auroc:97.40 	P-F1:68.12 	P-AP:70.23
+26-09-29 21:10:25.809 - INFO: epoch [5/5], loss:3.7163
+26-09-29 21:10:25.810 - INFO: =============================Testing ====================================
+26-09-29 21:14:40.821 - INFO:     Blotchy_099 		I-Auroc:87.87 	I-F1:90.32 	I-AP:97.14 	P-Auroc:99.44 	P-F1:70.40 	P-AP:75.99
+26-09-29 21:14:40.821 - INFO:     Fibrous_183 		I-Auroc:94.38 	I-F1:94.55 	I-AP:98.58 	P-Auroc:98.68 	P-F1:61.62 	P-AP:66.65
+26-09-29 21:14:40.822 - INFO:     Marbled_078 		I-Auroc:96.94 	I-F1:96.82 	I-AP:99.32 	P-Auroc:99.40 	P-F1:73.93 	P-AP:80.37
+26-09-29 21:14:40.822 - INFO:      Matted_069 		I-Auroc:64.46 	I-F1:90.29 	I-AP:87.40 	P-Auroc:98.08 	P-F1:61.21 	P-AP:62.58
+26-09-29 21:14:40.822 - INFO:        Mesh_114 		I-Auroc:78.98 	I-F1:83.16 	I-AP:91.16 	P-Auroc:94.47 	P-F1:65.06 	P-AP:63.33
+26-09-29 21:14:40.822 - INFO:  Perforated_037 		I-Auroc:90.62 	I-F1:92.86 	I-AP:97.68 	P-Auroc:95.89 	P-F1:67.53 	P-AP:67.24
+26-09-29 21:14:40.823 - INFO:  Stratified_154 		I-Auroc:96.12 	I-F1:95.24 	I-AP:99.05 	P-Auroc:98.54 	P-F1:71.80 	P-AP:76.56
+26-09-29 21:14:40.823 - INFO:       Woven_001 		I-Auroc:99.86 	I-F1:98.59 	I-AP:99.94 	P-Auroc:99.62 	P-F1:75.66 	P-AP:80.91
+26-09-29 21:14:40.823 - INFO:       Woven_068 		I-Auroc:94.79 	I-F1:91.61 	I-AP:97.43 	P-Auroc:98.69 	P-F1:68.63 	P-AP:72.15
+26-09-29 21:14:40.823 - INFO:       Woven_104 		I-Auroc:93.06 	I-F1:93.08 	I-AP:98.40 	P-Auroc:96.51 	P-F1:68.56 	P-AP:68.28
+26-09-29 21:14:40.823 - INFO:       Woven_125 		I-Auroc:97.37 	I-F1:96.25 	I-AP:99.38 	P-Auroc:99.63 	P-F1:79.15 	P-AP:86.01
+26-09-29 21:14:40.823 - INFO:       Woven_127 		I-Auroc:63.27 	I-F1:66.67 	I-AP:68.16 	P-Auroc:93.48 	P-F1:59.04 	P-AP:55.42
+26-09-29 21:14:40.824 - INFO:         Average 		I-Auroc:88.14 	I-F1:90.79 	I-AP:94.47 	P-Auroc:97.70 	P-F1:68.55 	P-AP:71.29
