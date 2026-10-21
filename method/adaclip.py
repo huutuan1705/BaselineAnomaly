@@ -201,9 +201,8 @@ class Baseline(nn.Module):
             return anomaly_maps, anomaly_score
 
     def extract_feat(self, image, cls_name):
-        with torch.no_grad():
-            image_features, patch_tokens, _ = self.encode_image(image)
-            text_features = self.text_encoder(self, cls_name, self.device)
+        image_features, patch_tokens, _ = self.encode_image(image)
+        text_features = self.text_encoder(self, cls_name, self.device)
 
         proj_cls_tokens, proj_patch_tokens = self.proj_visual_tokens(image_features, patch_tokens)
 
