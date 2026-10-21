@@ -9,7 +9,11 @@ gpu_id=0
 
 # pre-trained on Visa and Clinicdb
 # CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py --training_data visa --testing_data dtd
+
 CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py \
+    --prompting_length 5 \
+    --learning_rate 0.001 \
+    --prompting_depth 4 \
     --training_data visa \
     --testing_data mvtec
 

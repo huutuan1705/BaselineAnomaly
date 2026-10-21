@@ -8,109 +8,6 @@ from torch.nn import functional as F
 from .clip_model import CLIP
 from .simple_tokenizer import SimpleTokenizer as _Tokenizer
 
-class LocalGlobalPosterior(nn.Module):
-    def __init__(
-        self,
-        embed_dim=512,
-        prompt_dim=512,
-        num_prompts=3,
-        topk_ratio=0.1,
-    ):
-        super().__init__()
-
-        self.num_prompts = num_prompts
-        self.prompt_dim = prompt_dim
-        self.topk_ratio = topk_ratio
-
-        self.fusion = nn.Sequential(
-            nn.Linear(embed_dim * 3, embed_dim),
-            nn.GELU(),
-            nn.Linear(embed_dim, embed_dim),
-        )
-
-        self.posterior = nn.Linear(
-            embed_dim,
-            2 * num_prompts * prompt_dim
-        )
-
-    def forward(
-        self,
-        global_image_feature,
-        patch_features,
-        normal_text_features,
-        abnormal_text_features,
-        sample=True,
-    ):
-        B, N, D = patch_features.shape
-
-        # [D] or [B, D] -> [B, D]
-        if normal_text_features.ndim == 1:
-            normal_text_features = (normal_text_features.unsqueeze(0).expand(B, -1))
-
-        if abnormal_text_features.ndim == 1:
-            abnormal_text_features = (abnormal_text_features.unsqueeze(0).expand(B, -1))
-
-        # 1. Normalize for cosine similarity
-        patches = F.normalize(patch_features, dim=-1)
-        normal = F.normalize(normal_text_features, dim=-1)
-        abnormal = F.normalize(abnormal_text_features, dim=-1)
-
-        # 2. Text-guided anomaly evidence: [B, N]
-        sim_normal = torch.einsum("bnd,bd->bn", patches, normal)
-        sim_abnormal = torch.einsum("bnd,bd->bn", patches, abnormal)
-
-        anomaly_evidence = sim_abnormal - sim_normal
-
-        # 3. Select suspicious patches
-        k = max(1, min(N, int(N * self.topk_ratio)))
-
-        indices = anomaly_evidence.topk(
-            k, dim=1
-        ).indices
-
-        selected_patches = torch.gather(
-            patch_features,
-            dim=1,
-            index=indices.unsqueeze(-1).expand(-1, -1, D)
-        )
-
-        local_feature = selected_patches.mean(dim=1)
-
-        # 4. Feature dispersion
-        std_feature = patch_features.std(
-            dim=1, unbiased=False
-        )
-
-        # 5. Local-global fusion
-        fused_feature = torch.cat(
-            [
-                global_image_feature,
-                local_feature,
-                std_feature,
-            ],
-            dim=-1,
-        )
-
-        h = self.fusion(fused_feature)
-
-        # 6. Gaussian posterior
-        params = self.posterior(h)
-        params = params.reshape(
-            B, self.num_prompts, 2 * self.prompt_dim
-        )
-
-        mu, logvar = params.chunk(2, dim=-1)
-
-        logvar = logvar.clamp(-10, 4)
-
-        # 7. Reparameterization
-        if sample:
-            std = torch.exp(0.5 * logvar)
-            z = mu + std * torch.randn_like(std)
-        else:
-            z = mu
-
-        return z, mu, logvar
 
 class Global_Feature(nn.Module):
     def __init__(self, dim_i=1024, dim_hid=512, dim_out=768, k=4):
@@ -243,3 +140,140 @@ class TextEncoder(nn.Module):
         text_features = torch.stack(text_features, dim=1)
 
         return text_features
+
+class PromptLayer(nn.Module):
+    def __init__(self, channel, length, depth, is_text, enabled=True):
+        super(PromptLayer, self).__init__()
+        self.enabled = enabled
+        self.channel = channel
+        self.length = length
+        self.depth = depth
+        self.is_text = is_text
+
+        self.rep_tokens_text_layers = [6, 7, 8, 9, 10, 11, 12]
+        self.rep_tokens_visual_layers = [18, 19, 20, 21, 22, 23, 24]
+        
+
+        if self.enabled:
+            # self.text_prompts = nn.ParameterList(
+            #         [nn.Parameter(torch.empty(self.length, self.channel))
+            #          for _ in range(self.depth)])
+            # self.visual_prompts = nn.ParameterList(
+            #         [nn.Parameter(torch.empty(self.length, self.channel))
+            #             for _ in range(self.depth)])
+
+            self.text_prompts = nn.ParameterList(
+                                [nn.Parameter(torch.empty(self.length, self.channel))
+                                 for _ in range(len(self.rep_tokens_text_layers))])
+            self.visual_prompts = nn.ParameterList(
+                    [nn.Parameter(torch.empty(self.length, self.channel))
+                        for _ in range(len(self.rep_tokens_visual_layers))])
+
+            for single_para in self.text_prompts:
+                nn.init.normal_(single_para, std=0.02)
+            for single_para in self.visual_prompts:
+                nn.init.normal_(single_para, std=0.02)
+
+    def forward_text(self, resblock, indx, x, k_x=None, v_x=None, attn_mask: Optional[torch.Tensor] = None):
+        if self.enabled:
+            length = self.length
+
+            # only prompt the first J layers
+            # if indx < self.depth:
+            #     textual_context = self.text_prompts[indx].unsqueeze(0).expand(x.shape[1], -1, -1)
+
+            # if indx == 0:  # for the first layer
+            #     x = x
+            # else:
+            #     if indx < self.depth:  # replace with learnalbe tokens
+            #         prefix = x[:1, :, :]
+            #         suffix = x[1 + length:, :, :]
+            #         textual_context = textual_context.permute(1, 0, 2).half()
+            #         x = torch.cat([prefix, textual_context, suffix], dim=0)
+            #     else:  # keep the same
+            #         x = x
+
+            if indx in self.rep_tokens_text_layers:
+                if indx == self.rep_tokens_text_layers[0]:
+                    width = x.shape[0]
+                    prefix = x[:1, :, :]
+                    suffix = x[1:, :, :]
+                else:
+                    width = x.shape[0] - length
+                    prefix = x[:1, :, :]
+                    suffix = x[1 + length:, :, :]
+
+                index = self.rep_tokens_text_layers.index(indx)
+                textual_context = self.text_prompts[index].unsqueeze(0).expand(x.shape[1], -1, -1)
+                textual_context = textual_context.permute(1, 0, 2).half()
+                x = torch.cat([prefix, textual_context, suffix], dim=0)
+
+            if indx >= self.rep_tokens_text_layers[0]:
+                width = x.shape[0]
+                attn_mask = x.new_full((width, width), float('-inf')).triu_(1)
+
+        else:
+            x = x
+
+        x, attn_tmp = resblock(q_x=x, k_x=k_x, v_x= v_x, attn_mask=attn_mask)
+
+        return x, attn_tmp
+
+    def forward_visual(self, resblock, indx, x, k_x=None, v_x=None, attn_mask: Optional[torch.Tensor] = None):
+        if self.enabled:
+            length = self.length
+
+            # only prompt the first J layers
+            # if indx < self.depth:
+            #     visual_context = self.visual_prompts[indx].unsqueeze(0).expand(x.shape[1], -1, -1)
+
+            # if indx == 0:  # for the first layer
+            #     visual_context = visual_context.permute(1, 0, 2).half()
+            #     x = torch.cat([x, visual_context], dim=0)
+            # else:
+            #     if indx < self.depth:  # replace with learnalbe tokens
+            #         prefix = x[0:x.shape[0] - length, :, :]
+            #         visual_context = visual_context.permute(1, 0, 2).half()
+            #         x = torch.cat([prefix, visual_context], dim=0)
+            #     else:  # keep the same
+            #         x = x
+
+            if indx in self.rep_tokens_visual_layers:
+                if indx == self.rep_tokens_visual_layers[0]:
+                    prefix = x[:1, :, :]
+                    suffix = x[1:, :, :]
+                else:
+                    prefix = x[:1, :, :]
+                    suffix = x[1 + length:, :, :]
+
+                index = self.rep_tokens_visual_layers.index(indx)
+                visual_context = self.visual_prompts[index].unsqueeze(0).expand(x.shape[1], -1, -1)
+                visual_context = visual_context.permute(1, 0, 2).half()
+                x = torch.cat([prefix, visual_context, suffix], dim=0)
+
+        else:  
+            x = x
+
+        x, attn_tmp = resblock(q_x=x, k_x=k_x, v_x= v_x, attn_mask=attn_mask)
+
+        if self.enabled and indx >= self.rep_tokens_visual_layers[0]:
+            # Prompts follow CLS; preserve CLS and every spatial patch token.
+            tokens = torch.cat([x[:1, :, :], x[1 + self.length:, :, :]], dim=0)
+        else:
+            tokens = x
+
+        return x, tokens, attn_tmp
+
+    def forward(self, resblock, indx, x, k_x=None, v_x=None, attn_mask: Optional[torch.Tensor] = None):
+        if self.is_text:
+            return self.forward_text(resblock, indx, x, k_x, v_x, attn_mask)
+        else:
+            return self.forward_visual(resblock, indx, x, k_x, v_x, attn_mask)
+
+class PromptGenerator(nn.Module):
+    def __init__(self, cls_names, device):
+        super(PromptGenerator, self).__init__()
+        
+
+    def forward(self, class_idx):
+        pass

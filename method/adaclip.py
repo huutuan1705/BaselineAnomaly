@@ -3,7 +3,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 from .clip_model import CLIP
-from method.fushion import ProjectLayer, TextEncoder, Global_Feature, LocalGlobalPosterior
+from method.fushion import ProjectLayer, TextEncoder, Global_Feature, PromptLayer
 
 
 class Baseline(nn.Module):
@@ -42,7 +42,10 @@ class Baseline(nn.Module):
             self.enable_visual_prompt = False
 
         self.text_encoder = TextEncoder(fixed=(not self.enable_text_prompt))
-        self.lg_posterior = LocalGlobalPosterior()
+        self.text_prompter = PromptLayer(text_channel, prompting_length, prompting_depth, is_text=True,
+                                         enabled=self.enable_text_prompt)
+        self.visual_prompter = PromptLayer(visual_channel, prompting_length, prompting_depth, is_text=False,
+                                           enabled=self.enable_visual_prompt)
 
         self.dropout = nn.Dropout(p=0.1)
         self.patch_token_layer = ProjectLayer(
@@ -104,8 +107,10 @@ class Baseline(nn.Module):
         patch_tokens = []
 
         for indx, resblock in enumerate(self.visual.transformer.resblocks):
-            x, attn_tmp = resblock(q_x=x, k_x=None, v_x=None, attn_mask=None)
-            tokens = x 
+            # x, attn_tmp = resblock(q_x=x, k_x=None, v_x=None, attn_mask=None)
+            # tokens = x 
+
+            x, tokens, attn_tmp = self.visual_prompter(resblock, indx, x, k_x=None, v_x=None, attn_mask=None)
 
             if (indx + 1) in self.output_layers:
                 patch_tokens.append(tokens)
@@ -152,7 +157,9 @@ class Baseline(nn.Module):
         x = x.permute(1, 0, 2)  # NLD -> LND
 
         for indx, resblock in enumerate(self.transformer.resblocks):
-            x, attn_tmp = resblock(q_x=x, k_x=None, v_x=None, attn_mask=self.attn_mask)
+            # x, attn_tmp = resblock(q_x=x, k_x=None, v_x=None, attn_mask=self.attn_mask)
+
+            x, attn_tmp = self.text_prompter(resblock, indx, x, k_x=None, v_x=None, attn_mask=self.attn_mask)
 
         x = x.permute(1, 0, 2)  # LND -> NLD
         x = self.ln_final(x)  # [batch_size, n_ctx, transformer.width]
