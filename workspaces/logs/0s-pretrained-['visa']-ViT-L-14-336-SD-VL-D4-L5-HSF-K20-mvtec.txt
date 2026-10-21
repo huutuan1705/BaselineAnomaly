@@ -2283,3 +2283,222 @@ The config:
 26-10-21 13:29:53.431 - INFO:            wood 		I-Auroc:98.95 	I-F1:97.44 	I-AP:99.69 	P-Auroc:92.56 	P-F1:57.22 	P-AP:55.77 	P-AUPRO:90.47
 26-10-21 13:29:53.432 - INFO:          zipper 		I-Auroc:96.56 	I-F1:95.83 	I-AP:99.12 	P-Auroc:94.90 	P-F1:44.89 	P-AP:46.05 	P-AUPRO:77.67
 26-10-21 13:29:53.432 - INFO:         Average 		I-Auroc:88.75 	I-F1:91.31 	I-AP:94.82 	P-Auroc:85.20 	P-F1:41.22 	P-AP:38.00 	P-AUPRO:76.98
+26-10-21 15:53:46.809 - INFO: batch_size = 48
+26-10-21 15:53:46.809 - INFO: ckt_path = 
+26-10-21 15:53:46.809 - INFO: epoch = 5
+26-10-21 15:53:46.809 - INFO: exp_indx = 0
+26-10-21 15:53:46.809 - INFO: image_size = 518
+26-10-21 15:53:46.809 - INFO: k_clusters = 20
+26-10-21 15:53:46.809 - INFO: kmeans_iterations = 5
+26-10-21 15:53:46.809 - INFO: lambda_rank = 0.0
+26-10-21 15:53:46.809 - INFO: learning_rate = 0.001
+26-10-21 15:53:46.809 - INFO: model = ViT-L-14-336
+26-10-21 15:53:46.810 - INFO: normal_fraction = 0.7
+26-10-21 15:53:46.810 - INFO: num_normal_prototypes = 3
+26-10-21 15:53:46.810 - INFO: print_freq = 1
+26-10-21 15:53:46.810 - INFO: prompt_temperature = 0.07
+26-10-21 15:53:46.810 - INFO: prompting_branch = VL
+26-10-21 15:53:46.810 - INFO: prompting_depth = 4
+26-10-21 15:53:46.810 - INFO: prompting_length = 5
+26-10-21 15:53:46.810 - INFO: prompting_type = SD
+26-10-21 15:53:46.810 - INFO: ranking_margin = 0.2
+26-10-21 15:53:46.810 - INFO: save_fig = False
+26-10-21 15:53:46.810 - INFO: save_path = ./workspaces
+26-10-21 15:53:46.810 - INFO: selected_layers = None
+26-10-21 15:53:46.810 - INFO: tail_gate_hidden_dim = 16
+26-10-21 15:53:46.810 - INFO: tail_ratios = [0.01, 0.03, 0.1, 0.25]
+26-10-21 15:53:46.810 - INFO: test_batch_size = 48
+26-10-21 15:53:46.810 - INFO: testing_data = mvtec
+26-10-21 15:53:46.810 - INFO: training_data = ['visa']
+26-10-21 15:53:46.810 - INFO: use_adaptive_tail = True
+26-10-21 15:53:46.810 - INFO: use_hsf = True
+26-10-21 15:53:46.810 - INFO: use_multi_tail = True
+26-10-21 15:53:46.810 - INFO: use_prompt_ensemble = True
+26-10-21 15:53:46.810 - INFO: use_self_reference = True
+26-10-21 15:53:46.810 - INFO: use_tail_branch = True
+26-10-21 15:53:46.810 - INFO: use_uncertainty_fusion = True
+26-10-21 15:53:46.810 - INFO: valid_freq = 1
+26-10-21 15:53:46.810 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20
+26-10-21 15:53:50.783 - INFO: Data Root: training, /home/tuannh/Documents/datasets/anomaly_datasets/VisA; testing, /home/tuannh/Documents/datasets/anomaly_datasets/MVTec
+26-10-21 15:56:28.102 - INFO: batch_size = 48
+26-10-21 15:56:28.102 - INFO: ckt_path = 
+26-10-21 15:56:28.102 - INFO: epoch = 5
+26-10-21 15:56:28.102 - INFO: exp_indx = 0
+26-10-21 15:56:28.102 - INFO: image_size = 518
+26-10-21 15:56:28.103 - INFO: k_clusters = 20
+26-10-21 15:56:28.103 - INFO: kmeans_iterations = 5
+26-10-21 15:56:28.103 - INFO: lambda_rank = 0.0
+26-10-21 15:56:28.103 - INFO: learning_rate = 0.001
+26-10-21 15:56:28.103 - INFO: model = ViT-L-14-336
+26-10-21 15:56:28.103 - INFO: normal_fraction = 0.7
+26-10-21 15:56:28.103 - INFO: num_normal_prototypes = 3
+26-10-21 15:56:28.103 - INFO: print_freq = 1
+26-10-21 15:56:28.103 - INFO: prompt_temperature = 0.07
+26-10-21 15:56:28.103 - INFO: prompting_branch = VL
+26-10-21 15:56:28.103 - INFO: prompting_depth = 4
+26-10-21 15:56:28.103 - INFO: prompting_length = 5
+26-10-21 15:56:28.103 - INFO: prompting_type = SD
+26-10-21 15:56:28.103 - INFO: ranking_margin = 0.2
+26-10-21 15:56:28.103 - INFO: save_fig = False
+26-10-21 15:56:28.103 - INFO: save_path = ./workspaces
+26-10-21 15:56:28.103 - INFO: selected_layers = None
+26-10-21 15:56:28.103 - INFO: tail_gate_hidden_dim = 16
+26-10-21 15:56:28.103 - INFO: tail_ratios = [0.01, 0.03, 0.1, 0.25]
+26-10-21 15:56:28.103 - INFO: test_batch_size = 48
+26-10-21 15:56:28.103 - INFO: testing_data = mvtec
+26-10-21 15:56:28.103 - INFO: training_data = ['visa']
+26-10-21 15:56:28.103 - INFO: use_adaptive_tail = True
+26-10-21 15:56:28.103 - INFO: use_hsf = True
+26-10-21 15:56:28.103 - INFO: use_multi_tail = True
+26-10-21 15:56:28.103 - INFO: use_prompt_ensemble = True
+26-10-21 15:56:28.103 - INFO: use_self_reference = True
+26-10-21 15:56:28.103 - INFO: use_tail_branch = True
+26-10-21 15:56:28.103 - INFO: use_uncertainty_fusion = True
+26-10-21 15:56:28.103 - INFO: valid_freq = 1
+26-10-21 15:56:28.103 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20
+26-10-21 15:56:32.143 - INFO: Data Root: training, /home/tuannh/Documents/datasets/anomaly_datasets/VisA; testing, /home/tuannh/Documents/datasets/anomaly_datasets/MVTec
+26-10-21 15:59:44.501 - INFO: epoch [1/5], loss:4.5408
+26-10-21 15:59:44.501 - INFO: =============================Testing ====================================
+26-10-21 16:13:49.156 - INFO:          bottle 		I-Auroc:90.32 	I-F1:89.23 	I-AP:96.72 	P-Auroc:84.97 	P-F1:52.23 	P-AP:51.86 	P-AUPRO:80.45
+26-10-21 16:13:49.156 - INFO:           cable 		I-Auroc:81.44 	I-F1:80.18 	I-AP:86.60 	P-Auroc:67.26 	P-F1:21.00 	P-AP:12.80 	P-AUPRO:62.94
+26-10-21 16:13:49.156 - INFO:         capsule 		I-Auroc:82.23 	I-F1:90.99 	I-AP:95.08 	P-Auroc:94.24 	P-F1:31.57 	P-AP:27.53 	P-AUPRO:92.52
+26-10-21 16:13:49.157 - INFO:          carpet 		I-Auroc:98.68 	I-F1:97.18 	I-AP:99.46 	P-Auroc:98.62 	P-F1:69.48 	P-AP:71.48 	P-AUPRO:96.56
+26-10-21 16:13:49.157 - INFO:            grid 		I-Auroc:81.50 	I-F1:87.30 	I-AP:92.95 	P-Auroc:97.37 	P-F1:43.61 	P-AP:39.13 	P-AUPRO:89.48
+26-10-21 16:13:49.157 - INFO:        hazelnut 		I-Auroc:79.57 	I-F1:81.21 	I-AP:87.41 	P-Auroc:96.81 	P-F1:51.97 	P-AP:52.82 	P-AUPRO:93.72
+26-10-21 16:13:49.157 - INFO:         leather 		I-Auroc:99.63 	I-F1:99.46 	I-AP:99.85 	P-Auroc:99.49 	P-F1:55.39 	P-AP:57.31 	P-AUPRO:99.24
+26-10-21 16:13:49.157 - INFO:       metal_nut 		I-Auroc:60.19 	I-F1:89.42 	I-AP:86.42 	P-Auroc:67.92 	P-F1:29.46 	P-AP:24.29 	P-AUPRO:50.38
+26-10-21 16:13:49.158 - INFO:            pill 		I-Auroc:75.38 	I-F1:92.20 	I-AP:93.13 	P-Auroc:86.32 	P-F1:34.30 	P-AP:31.67 	P-AUPRO:95.35
+26-10-21 16:13:49.158 - INFO:           screw 		I-Auroc:62.56 	I-F1:85.61 	I-AP:81.32 	P-Auroc:98.63 	P-F1:40.06 	P-AP:36.31 	P-AUPRO:93.07
+26-10-21 16:13:49.158 - INFO:            tile 		I-Auroc:98.30 	I-F1:96.39 	I-AP:99.18 	P-Auroc:91.94 	P-F1:64.57 	P-AP:63.80 	P-AUPRO:88.31
+26-10-21 16:13:49.158 - INFO:      toothbrush 		I-Auroc:87.36 	I-F1:89.55 	I-AP:92.77 	P-Auroc:94.36 	P-F1:33.92 	P-AP:29.78 	P-AUPRO:89.20
+26-10-21 16:13:49.158 - INFO:      transistor 		I-Auroc:82.19 	I-F1:75.00 	I-AP:82.90 	P-Auroc:67.55 	P-F1:17.82 	P-AP:10.68 	P-AUPRO:53.42
+26-10-21 16:13:49.158 - INFO:            wood 		I-Auroc:99.12 	I-F1:97.44 	I-AP:99.66 	P-Auroc:96.59 	P-F1:64.97 	P-AP:65.97 	P-AUPRO:95.14
+26-10-21 16:13:49.158 - INFO:          zipper 		I-Auroc:95.51 	I-F1:94.47 	I-AP:98.34 	P-Auroc:96.28 	P-F1:56.93 	P-AP:57.07 	P-AUPRO:85.78
+26-10-21 16:13:49.159 - INFO:         Average 		I-Auroc:84.93 	I-F1:89.71 	I-AP:92.79 	P-Auroc:89.22 	P-F1:44.48 	P-AP:42.17 	P-AUPRO:84.37
+26-10-21 16:17:04.198 - INFO: epoch [2/5], loss:3.9425
+26-10-21 16:17:04.198 - INFO: =============================Testing ====================================
+26-10-21 16:31:05.814 - INFO:          bottle 		I-Auroc:93.49 	I-F1:92.19 	I-AP:98.13 	P-Auroc:84.38 	P-F1:57.21 	P-AP:57.32 	P-AUPRO:82.08
+26-10-21 16:31:05.814 - INFO:           cable 		I-Auroc:78.99 	I-F1:78.65 	I-AP:86.53 	P-Auroc:65.35 	P-F1:22.20 	P-AP:14.44 	P-AUPRO:66.52
+26-10-21 16:31:05.815 - INFO:         capsule 		I-Auroc:88.33 	I-F1:91.96 	I-AP:97.36 	P-Auroc:93.72 	P-F1:34.88 	P-AP:30.39 	P-AUPRO:90.48
+26-10-21 16:31:05.815 - INFO:          carpet 		I-Auroc:100.00 	I-F1:100.00 	I-AP:100.00 	P-Auroc:98.77 	P-F1:69.56 	P-AP:73.76 	P-AUPRO:96.08
+26-10-21 16:31:05.815 - INFO:            grid 		I-Auroc:91.81 	I-F1:94.02 	I-AP:96.73 	P-Auroc:97.67 	P-F1:42.27 	P-AP:38.16 	P-AUPRO:91.83
+26-10-21 16:31:05.816 - INFO:        hazelnut 		I-Auroc:87.57 	I-F1:87.14 	I-AP:93.53 	P-Auroc:96.94 	P-F1:48.39 	P-AP:51.11 	P-AUPRO:89.86
+26-10-21 16:31:05.816 - INFO:         leather 		I-Auroc:99.73 	I-F1:99.46 	I-AP:99.90 	P-Auroc:99.48 	P-F1:54.02 	P-AP:56.03 	P-AUPRO:98.98
+26-10-21 16:31:05.816 - INFO:       metal_nut 		I-Auroc:90.52 	I-F1:93.62 	I-AP:97.46 	P-Auroc:68.91 	P-F1:30.53 	P-AP:25.93 	P-AUPRO:36.80
+26-10-21 16:31:05.816 - INFO:            pill 		I-Auroc:81.34 	I-F1:92.46 	I-AP:95.64 	P-Auroc:84.81 	P-F1:33.73 	P-AP:31.05 	P-AUPRO:93.98
+26-10-21 16:31:05.816 - INFO:           screw 		I-Auroc:84.73 	I-F1:90.40 	I-AP:93.81 	P-Auroc:98.87 	P-F1:38.38 	P-AP:34.79 	P-AUPRO:93.19
+26-10-21 16:31:05.816 - INFO:            tile 		I-Auroc:99.66 	I-F1:98.80 	I-AP:99.87 	P-Auroc:91.26 	P-F1:65.72 	P-AP:63.24 	P-AUPRO:86.02
+26-10-21 16:31:05.817 - INFO:      toothbrush 		I-Auroc:85.14 	I-F1:90.91 	I-AP:93.26 	P-Auroc:94.85 	P-F1:34.37 	P-AP:29.92 	P-AUPRO:90.11
+26-10-21 16:31:05.817 - INFO:      transistor 		I-Auroc:86.04 	I-F1:78.26 	I-AP:86.18 	P-Auroc:66.54 	P-F1:17.29 	P-AP:10.26 	P-AUPRO:54.23
+26-10-21 16:31:05.817 - INFO:            wood 		I-Auroc:99.56 	I-F1:99.16 	I-AP:99.87 	P-Auroc:96.44 	P-F1:61.98 	P-AP:62.18 	P-AUPRO:92.89
+26-10-21 16:31:05.817 - INFO:          zipper 		I-Auroc:97.05 	I-F1:95.80 	I-AP:99.24 	P-Auroc:96.93 	P-F1:59.07 	P-AP:60.13 	P-AUPRO:88.02
+26-10-21 16:31:05.817 - INFO:         Average 		I-Auroc:90.93 	I-F1:92.19 	I-AP:95.83 	P-Auroc:88.99 	P-F1:44.64 	P-AP:42.58 	P-AUPRO:83.40
+26-10-21 16:34:19.284 - INFO: epoch [3/5], loss:3.5192
+26-10-21 16:34:19.284 - INFO: =============================Testing ====================================
+26-10-21 16:48:27.248 - INFO:          bottle 		I-Auroc:93.17 	I-F1:92.44 	I-AP:98.08 	P-Auroc:83.42 	P-F1:57.19 	P-AP:57.46 	P-AUPRO:82.80
+26-10-21 16:48:27.248 - INFO:           cable 		I-Auroc:77.09 	I-F1:78.00 	I-AP:85.11 	P-Auroc:64.69 	P-F1:19.80 	P-AP:12.56 	P-AUPRO:64.31
+26-10-21 16:48:27.249 - INFO:         capsule 		I-Auroc:87.48 	I-F1:91.40 	I-AP:97.25 	P-Auroc:91.85 	P-F1:36.23 	P-AP:31.41 	P-AUPRO:90.08
+26-10-21 16:48:27.249 - INFO:          carpet 		I-Auroc:100.00 	I-F1:100.00 	I-AP:100.00 	P-Auroc:98.61 	P-F1:69.91 	P-AP:74.27 	P-AUPRO:95.62
+26-10-21 16:48:27.249 - INFO:            grid 		I-Auroc:94.82 	I-F1:94.83 	I-AP:97.96 	P-Auroc:97.55 	P-F1:42.71 	P-AP:38.32 	P-AUPRO:92.24
+26-10-21 16:48:27.249 - INFO:        hazelnut 		I-Auroc:87.86 	I-F1:87.77 	I-AP:93.79 	P-Auroc:97.10 	P-F1:49.49 	P-AP:53.03 	P-AUPRO:89.68
+26-10-21 16:48:27.250 - INFO:         leather 		I-Auroc:99.69 	I-F1:99.46 	I-AP:99.89 	P-Auroc:99.45 	P-F1:53.70 	P-AP:55.64 	P-AUPRO:98.45
+26-10-21 16:48:27.250 - INFO:       metal_nut 		I-Auroc:94.65 	I-F1:95.83 	I-AP:98.69 	P-Auroc:69.38 	P-F1:30.92 	P-AP:22.66 	P-AUPRO:33.66
+26-10-21 16:48:27.250 - INFO:            pill 		I-Auroc:83.37 	I-F1:92.46 	I-AP:96.17 	P-Auroc:84.19 	P-F1:33.63 	P-AP:31.09 	P-AUPRO:94.15
+26-10-21 16:48:27.250 - INFO:           screw 		I-Auroc:82.39 	I-F1:90.48 	I-AP:92.77 	P-Auroc:98.74 	P-F1:36.99 	P-AP:32.56 	P-AUPRO:92.59
+26-10-21 16:48:27.250 - INFO:            tile 		I-Auroc:99.82 	I-F1:98.80 	I-AP:99.93 	P-Auroc:89.93 	P-F1:65.12 	P-AP:62.24 	P-AUPRO:86.58
+26-10-21 16:48:27.250 - INFO:      toothbrush 		I-Auroc:80.14 	I-F1:88.24 	I-AP:91.17 	P-Auroc:94.36 	P-F1:31.49 	P-AP:27.45 	P-AUPRO:90.37
+26-10-21 16:48:27.250 - INFO:      transistor 		I-Auroc:85.58 	I-F1:76.74 	I-AP:85.77 	P-Auroc:65.50 	P-F1:16.97 	P-AP:9.83 	P-AUPRO:50.21
+26-10-21 16:48:27.251 - INFO:            wood 		I-Auroc:99.56 	I-F1:99.16 	I-AP:99.87 	P-Auroc:96.43 	P-F1:61.52 	P-AP:61.88 	P-AUPRO:95.66
+26-10-21 16:48:27.251 - INFO:          zipper 		I-Auroc:96.31 	I-F1:94.51 	I-AP:99.03 	P-Auroc:96.48 	P-F1:53.85 	P-AP:55.64 	P-AUPRO:85.91
+26-10-21 16:48:27.251 - INFO:         Average 		I-Auroc:90.80 	I-F1:92.01 	I-AP:95.70 	P-Auroc:88.51 	P-F1:43.97 	P-AP:41.73 	P-AUPRO:82.82
+26-10-21 16:51:39.975 - INFO: epoch [4/5], loss:3.2606
+26-10-21 16:51:39.975 - INFO: =============================Testing ====================================
+26-10-21 17:05:43.729 - INFO:          bottle 		I-Auroc:91.83 	I-F1:92.19 	I-AP:97.68 	P-Auroc:82.80 	P-F1:54.90 	P-AP:54.45 	P-AUPRO:80.56
+26-10-21 17:05:43.729 - INFO:           cable 		I-Auroc:78.00 	I-F1:79.14 	I-AP:85.76 	P-Auroc:62.04 	P-F1:18.41 	P-AP:10.79 	P-AUPRO:59.83
+26-10-21 17:05:43.730 - INFO:         capsule 		I-Auroc:85.86 	I-F1:92.31 	I-AP:96.76 	P-Auroc:91.15 	P-F1:30.83 	P-AP:26.87 	P-AUPRO:84.00
+26-10-21 17:05:43.730 - INFO:          carpet 		I-Auroc:100.00 	I-F1:100.00 	I-AP:100.00 	P-Auroc:98.11 	P-F1:69.20 	P-AP:72.02 	P-AUPRO:90.55
+26-10-21 17:05:43.730 - INFO:            grid 		I-Auroc:95.82 	I-F1:94.12 	I-AP:98.44 	P-Auroc:95.85 	P-F1:41.69 	P-AP:36.16 	P-AUPRO:80.97
+26-10-21 17:05:43.731 - INFO:        hazelnut 		I-Auroc:89.20 	I-F1:87.14 	I-AP:93.88 	P-Auroc:97.23 	P-F1:51.42 	P-AP:55.23 	P-AUPRO:88.68
+26-10-21 17:05:43.731 - INFO:         leather 		I-Auroc:99.56 	I-F1:99.46 	I-AP:99.84 	P-Auroc:99.31 	P-F1:53.41 	P-AP:54.54 	P-AUPRO:93.17
+26-10-21 17:05:43.731 - INFO:       metal_nut 		I-Auroc:90.98 	I-F1:93.88 	I-AP:97.77 	P-Auroc:66.73 	P-F1:29.65 	P-AP:21.97 	P-AUPRO:38.47
+26-10-21 17:05:43.731 - INFO:            pill 		I-Auroc:81.66 	I-F1:92.46 	I-AP:95.56 	P-Auroc:85.09 	P-F1:34.44 	P-AP:31.84 	P-AUPRO:94.54
+26-10-21 17:05:43.731 - INFO:           screw 		I-Auroc:82.07 	I-F1:89.49 	I-AP:92.20 	P-Auroc:98.66 	P-F1:35.23 	P-AP:30.85 	P-AUPRO:89.64
+26-10-21 17:05:43.731 - INFO:            tile 		I-Auroc:99.82 	I-F1:98.81 	I-AP:99.93 	P-Auroc:89.97 	P-F1:62.88 	P-AP:60.71 	P-AUPRO:73.76
+26-10-21 17:05:43.732 - INFO:      toothbrush 		I-Auroc:77.08 	I-F1:89.23 	I-AP:89.73 	P-Auroc:94.80 	P-F1:32.83 	P-AP:28.36 	P-AUPRO:88.03
+26-10-21 17:05:43.732 - INFO:      transistor 		I-Auroc:84.21 	I-F1:79.52 	I-AP:84.17 	P-Auroc:65.27 	P-F1:17.97 	P-AP:10.47 	P-AUPRO:50.99
+26-10-21 17:05:43.732 - INFO:            wood 		I-Auroc:99.39 	I-F1:98.33 	I-AP:99.82 	P-Auroc:95.86 	P-F1:62.50 	P-AP:62.16 	P-AUPRO:89.60
+26-10-21 17:05:43.732 - INFO:          zipper 		I-Auroc:96.40 	I-F1:94.92 	I-AP:99.09 	P-Auroc:95.11 	P-F1:44.35 	P-AP:45.40 	P-AUPRO:75.49
+26-10-21 17:05:43.732 - INFO:         Average 		I-Auroc:90.12 	I-F1:92.07 	I-AP:95.38 	P-Auroc:87.87 	P-F1:42.65 	P-AP:40.12 	P-AUPRO:78.55
+26-10-21 17:06:02.740 - INFO: batch_size = 48
+26-10-21 17:06:02.740 - INFO: ckt_path = 
+26-10-21 17:06:02.740 - INFO: epoch = 5
+26-10-21 17:06:02.740 - INFO: exp_indx = 0
+26-10-21 17:06:02.740 - INFO: image_size = 518
+26-10-21 17:06:02.740 - INFO: k_clusters = 20
+26-10-21 17:06:02.740 - INFO: kmeans_iterations = 5
+26-10-21 17:06:02.740 - INFO: lambda_rank = 0.0
+26-10-21 17:06:02.740 - INFO: learning_rate = 0.001
+26-10-21 17:06:02.740 - INFO: model = ViT-L-14-336
+26-10-21 17:06:02.740 - INFO: normal_fraction = 0.7
+26-10-21 17:06:02.740 - INFO: num_normal_prototypes = 3
+26-10-21 17:06:02.740 - INFO: print_freq = 1
+26-10-21 17:06:02.740 - INFO: prompt_temperature = 0.07
+26-10-21 17:06:02.740 - INFO: prompting_branch = VL
+26-10-21 17:06:02.740 - INFO: prompting_depth = 4
+26-10-21 17:06:02.740 - INFO: prompting_length = 5
+26-10-21 17:06:02.740 - INFO: prompting_type = SD
+26-10-21 17:06:02.740 - INFO: ranking_margin = 0.2
+26-10-21 17:06:02.740 - INFO: save_fig = False
+26-10-21 17:06:02.740 - INFO: save_path = ./workspaces
+26-10-21 17:06:02.740 - INFO: selected_layers = None
+26-10-21 17:06:02.741 - INFO: tail_gate_hidden_dim = 16
+26-10-21 17:06:02.741 - INFO: tail_ratios = [0.01, 0.03, 0.1, 0.25]
+26-10-21 17:06:02.741 - INFO: test_batch_size = 48
+26-10-21 17:06:02.741 - INFO: testing_data = mvtec
+26-10-21 17:06:02.741 - INFO: training_data = ['visa']
+26-10-21 17:06:02.741 - INFO: use_adaptive_tail = True
+26-10-21 17:06:02.741 - INFO: use_hsf = True
+26-10-21 17:06:02.741 - INFO: use_multi_tail = True
+26-10-21 17:06:02.741 - INFO: use_prompt_ensemble = True
+26-10-21 17:06:02.741 - INFO: use_self_reference = True
+26-10-21 17:06:02.741 - INFO: use_tail_branch = True
+26-10-21 17:06:02.741 - INFO: use_uncertainty_fusion = True
+26-10-21 17:06:02.741 - INFO: valid_freq = 1
+26-10-21 17:06:02.741 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20
+26-10-21 17:06:06.658 - INFO: Data Root: training, /home/tuannh/Documents/datasets/anomaly_datasets/VisA; testing, /home/tuannh/Documents/datasets/anomaly_datasets/MVTec
+26-10-21 17:09:22.918 - INFO: epoch [1/5], loss:4.4220
+26-10-21 17:09:22.918 - INFO: =============================Testing ====================================
+26-10-21 17:23:23.141 - INFO:          bottle 		I-Auroc:91.71 	I-F1:90.91 	I-AP:97.44 	P-Auroc:80.17 	P-F1:52.26 	P-AP:51.13 	P-AUPRO:75.90
+26-10-21 17:23:23.141 - INFO:           cable 		I-Auroc:79.45 	I-F1:80.41 	I-AP:85.42 	P-Auroc:68.18 	P-F1:20.48 	P-AP:12.35 	P-AUPRO:66.14
+26-10-21 17:23:23.142 - INFO:         capsule 		I-Auroc:87.91 	I-F1:91.91 	I-AP:96.99 	P-Auroc:93.40 	P-F1:27.61 	P-AP:24.55 	P-AUPRO:89.43
+26-10-21 17:23:23.142 - INFO:          carpet 		I-Auroc:100.00 	I-F1:100.00 	I-AP:100.00 	P-Auroc:97.61 	P-F1:70.36 	P-AP:72.96 	P-AUPRO:94.95
+26-10-21 17:23:23.142 - INFO:            grid 		I-Auroc:89.89 	I-F1:90.91 	I-AP:95.95 	P-Auroc:96.49 	P-F1:42.98 	P-AP:40.21 	P-AUPRO:87.86
+26-10-21 17:23:23.143 - INFO:        hazelnut 		I-Auroc:82.20 	I-F1:81.08 	I-AP:89.78 	P-Auroc:97.42 	P-F1:57.65 	P-AP:60.83 	P-AUPRO:93.00
+26-10-21 17:23:23.143 - INFO:         leather 		I-Auroc:99.86 	I-F1:99.46 	I-AP:99.95 	P-Auroc:99.49 	P-F1:56.23 	P-AP:58.14 	P-AUPRO:98.05
+26-10-21 17:23:23.143 - INFO:       metal_nut 		I-Auroc:50.54 	I-F1:89.42 	I-AP:81.08 	P-Auroc:69.55 	P-F1:29.97 	P-AP:29.65 	P-AUPRO:36.51
+26-10-21 17:23:23.143 - INFO:            pill 		I-Auroc:77.39 	I-F1:92.72 	I-AP:94.33 	P-Auroc:84.10 	P-F1:33.01 	P-AP:29.18 	P-AUPRO:93.69
+26-10-21 17:23:23.143 - INFO:           screw 		I-Auroc:81.33 	I-F1:88.46 	I-AP:91.42 	P-Auroc:98.65 	P-F1:37.92 	P-AP:33.19 	P-AUPRO:91.50
+26-10-21 17:23:23.144 - INFO:            tile 		I-Auroc:99.78 	I-F1:98.20 	I-AP:99.89 	P-Auroc:86.38 	P-F1:63.58 	P-AP:60.88 	P-AUPRO:82.78
+26-10-21 17:23:23.144 - INFO:      toothbrush 		I-Auroc:85.69 	I-F1:87.50 	I-AP:93.16 	P-Auroc:93.74 	P-F1:37.80 	P-AP:32.71 	P-AUPRO:89.70
+26-10-21 17:23:23.144 - INFO:      transistor 		I-Auroc:84.08 	I-F1:74.67 	I-AP:83.86 	P-Auroc:66.88 	P-F1:16.94 	P-AP:10.38 	P-AUPRO:52.94
+26-10-21 17:23:23.144 - INFO:            wood 		I-Auroc:99.21 	I-F1:98.31 	I-AP:99.77 	P-Auroc:96.37 	P-F1:65.08 	P-AP:67.07 	P-AUPRO:94.77
+26-10-21 17:23:23.144 - INFO:          zipper 		I-Auroc:97.68 	I-F1:95.83 	I-AP:99.28 	P-Auroc:95.14 	P-F1:50.05 	P-AP:50.71 	P-AUPRO:81.10
+26-10-21 17:23:23.145 - INFO:         Average 		I-Auroc:87.11 	I-F1:90.65 	I-AP:93.89 	P-Auroc:88.24 	P-F1:44.13 	P-AP:42.26 	P-AUPRO:81.89
+26-10-21 17:26:37.778 - INFO: epoch [2/5], loss:4.0063
+26-10-21 17:26:37.778 - INFO: =============================Testing ====================================
+26-10-21 17:40:42.630 - INFO:          bottle 		I-Auroc:92.10 	I-F1:92.31 	I-AP:97.71 	P-Auroc:83.44 	P-F1:58.14 	P-AP:58.60 	P-AUPRO:74.27
+26-10-21 17:40:42.631 - INFO:           cable 		I-Auroc:73.83 	I-F1:77.72 	I-AP:82.38 	P-Auroc:65.30 	P-F1:25.82 	P-AP:17.20 	P-AUPRO:67.12
+26-10-21 17:40:42.631 - INFO:         capsule 		I-Auroc:88.87 	I-F1:91.74 	I-AP:97.49 	P-Auroc:91.00 	P-F1:37.72 	P-AP:33.44 	P-AUPRO:91.60
+26-10-21 17:40:42.631 - INFO:          carpet 		I-Auroc:100.00 	I-F1:100.00 	I-AP:100.00 	P-Auroc:98.39 	P-F1:69.73 	P-AP:74.80 	P-AUPRO:88.00
+26-10-21 17:40:42.631 - INFO:            grid 		I-Auroc:92.82 	I-F1:92.17 	I-AP:97.15 	P-Auroc:96.22 	P-F1:41.91 	P-AP:39.38 	P-AUPRO:83.61
+26-10-21 17:40:42.632 - INFO:        hazelnut 		I-Auroc:88.32 	I-F1:86.30 	I-AP:93.54 	P-Auroc:96.96 	P-F1:50.69 	P-AP:53.39 	P-AUPRO:88.22
+26-10-21 17:40:42.632 - INFO:         leather 		I-Auroc:99.80 	I-F1:99.46 	I-AP:99.93 	P-Auroc:99.53 	P-F1:55.75 	P-AP:57.99 	P-AUPRO:96.98
+26-10-21 17:40:42.632 - INFO:       metal_nut 		I-Auroc:68.70 	I-F1:89.42 	I-AP:87.84 	P-Auroc:65.84 	P-F1:28.21 	P-AP:23.75 	P-AUPRO:51.07
+26-10-21 17:40:42.632 - INFO:            pill 		I-Auroc:80.28 	I-F1:92.46 	I-AP:94.81 	P-Auroc:83.95 	P-F1:33.92 	P-AP:30.64 	P-AUPRO:91.75
+26-10-21 17:40:42.633 - INFO:           screw 		I-Auroc:83.03 	I-F1:89.60 	I-AP:92.65 	P-Auroc:99.08 	P-F1:43.98 	P-AP:41.39 	P-AUPRO:94.14
+26-10-21 17:40:42.633 - INFO:            tile 		I-Auroc:99.55 	I-F1:98.80 	I-AP:99.83 	P-Auroc:86.96 	P-F1:63.58 	P-AP:60.54 	P-AUPRO:71.09
+26-10-21 17:40:42.633 - INFO:      toothbrush 		I-Auroc:76.67 	I-F1:89.23 	I-AP:88.58 	P-Auroc:94.02 	P-F1:36.84 	P-AP:32.33 	P-AUPRO:89.13
+26-10-21 17:40:42.633 - INFO:      transistor 		I-Auroc:85.75 	I-F1:77.42 	I-AP:85.62 	P-Auroc:64.16 	P-F1:16.80 	P-AP:10.33 	P-AUPRO:45.51
+26-10-21 17:40:42.634 - INFO:            wood 		I-Auroc:99.34 	I-F1:97.52 	I-AP:99.79 	P-Auroc:95.29 	P-F1:60.82 	P-AP:62.97 	P-AUPRO:94.56
+26-10-21 17:40:42.634 - INFO:          zipper 		I-Auroc:97.15 	I-F1:95.80 	I-AP:99.23 	P-Auroc:96.70 	P-F1:61.62 	P-AP:61.23 	P-AUPRO:84.35
+26-10-21 17:40:42.634 - INFO:         Average 		I-Auroc:88.41 	I-F1:91.33 	I-AP:94.44 	P-Auroc:87.79 	P-F1:45.70 	P-AP:43.87 	P-AUPRO:80.76

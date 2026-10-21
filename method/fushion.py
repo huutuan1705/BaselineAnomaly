@@ -150,8 +150,8 @@ class PromptLayer(nn.Module):
         self.depth = depth
         self.is_text = is_text
 
-        self.rep_tokens_text_layers = [6, 7, 8, 9, 10, 11, 12]
-        self.rep_tokens_visual_layers = [18, 19, 20, 21, 22, 23, 24]
+        self.rep_tokens_text_layers = [6, 7, 8, 9, 10, 11]
+        self.rep_tokens_visual_layers = [18, 19, 20, 21, 22, 23]
         
 
         if self.enabled:
@@ -239,12 +239,8 @@ class PromptLayer(nn.Module):
             #         x = x
 
             if indx in self.rep_tokens_visual_layers:
-                if indx == self.rep_tokens_visual_layers[0]:
-                    prefix = x[:1, :, :]
-                    suffix = x[1:, :, :]
-                else:
-                    prefix = x[:1, :, :]
-                    suffix = x[1 + length:, :, :]
+                prefix = x[:1, :, :]
+                suffix = x[1:, :, :]
 
                 index = self.rep_tokens_visual_layers.index(indx)
                 visual_context = self.visual_prompts[index].unsqueeze(0).expand(x.shape[1], -1, -1)
@@ -256,9 +252,11 @@ class PromptLayer(nn.Module):
 
         x, attn_tmp = resblock(q_x=x, k_x=k_x, v_x= v_x, attn_mask=attn_mask)
 
-        if self.enabled and indx >= self.rep_tokens_visual_layers[0]:
+        if self.enabled and indx in self.rep_tokens_visual_layers:
             # Prompts follow CLS; preserve CLS and every spatial patch token.
             tokens = torch.cat([x[:1, :, :], x[1 + self.length:, :, :]], dim=0)
+            # Keep prompts local to selected layers, including nonconsecutive ones.
+            x = tokens
         else:
             tokens = x
 

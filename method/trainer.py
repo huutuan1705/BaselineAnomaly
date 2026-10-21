@@ -77,21 +77,16 @@ class AdaCLIP_Trainer(nn.Module):
             'visual_prompter',
             'patch_token_layer',
             'cls_token_layer',
-            'text_prompter',
-            'visual_prompter',
             'image_mapping',
             'fuse',
         ]
 
         self.params_to_update = []
         for name, param in self.clip_model.named_parameters():
-            param.requires_grad_(False)
-            # print(name)
-            for update_name in self.learnable_paramter_list:
-                if update_name in name:
-                    param.requires_grad_(True)
-                    # print(f'updated parameters--{name}: {update_name}')
-                    self.params_to_update.append(param)
+            should_update = any(update_name in name for update_name in self.learnable_paramter_list)
+            param.requires_grad_(should_update)
+            if should_update:
+                self.params_to_update.append(param)
 
         # build the optimizer
         self.optimizer = torch.optim.AdamW(self.params_to_update, lr=learning_rate, betas=(0.5, 0.999))
