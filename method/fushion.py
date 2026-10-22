@@ -141,6 +141,21 @@ class TextEncoder(nn.Module):
 
         return text_features
 
+class PromptGenerator(nn.Module):
+    def __init__(self, dim, length, hidden_dim=None):
+        super(PromptGenerator, self).__init__()
+        hidden_dim = dim if hidden_dim is None else hidden_dim
+        self.length = length
+        self.dim = dim
+        self.mlp = nn.Sequential(
+            nn.Linear(dim, hidden_dim),
+            nn.GELU(),
+            nn.Linear(hidden_dim, length * dim),
+        )
+
+    def forward(self, raw_img_features=None):
+        return self.mlp(raw_img_features).reshape(raw_img_features.shape[0], self.length, self.dim)
+    
 class PromptLayer(nn.Module):
     def __init__(self, channel, length, depth, is_text, enabled=True):
         super(PromptLayer, self).__init__()
@@ -162,19 +177,17 @@ class PromptLayer(nn.Module):
             #         [nn.Parameter(torch.empty(self.length, self.channel))
             #             for _ in range(self.depth)])
 
-            self.text_prompts = nn.ParameterList(
-                                [nn.Parameter(torch.empty(self.length, self.channel))
-                                 for _ in range(len(self.rep_tokens_text_layers))])
             self.visual_prompts = nn.ParameterList(
-                    [nn.Parameter(torch.empty(self.length, self.channel))
-                        for _ in range(len(self.rep_tokens_visual_layers))])
+                                [nn.Parameter(torch.empty(self.length, self.channel))
+                                 for _ in range(len(self.rep_tokens_visual_layers))])
+            self.text_prompts = nn.ModuleList(
+                    [PromptGenerator(dim=self.channel, length=self.length)
+                        for _ in range(len(self.rep_tokens_text_layers))])
 
-            for single_para in self.text_prompts:
-                nn.init.normal_(single_para, std=0.02)
             for single_para in self.visual_prompts:
                 nn.init.normal_(single_para, std=0.02)
 
-    def forward_text(self, resblock, indx, x, k_x=None, v_x=None, attn_mask: Optional[torch.Tensor] = None):
+    def forward_text(self, resblock, indx, x, k_x=None, v_x=None, attn_mask: Optional[torch.Tensor] = None, raw_img_features=None):
         if self.enabled:
             length = self.length
 
@@ -204,7 +217,7 @@ class PromptLayer(nn.Module):
                     suffix = x[1 + length:, :, :]
 
                 index = self.rep_tokens_text_layers.index(indx)
-                textual_context = self.text_prompts[index].unsqueeze(0).expand(x.shape[1], -1, -1)
+                textual_context = self.text_prompts[index](raw_img_features).unsqueeze(0).expand(x.shape[1], -1, -1)
                 textual_context = textual_context.permute(1, 0, 2).half()
                 x = torch.cat([prefix, textual_context, suffix], dim=0)
 
@@ -239,8 +252,12 @@ class PromptLayer(nn.Module):
             #         x = x
 
             if indx in self.rep_tokens_visual_layers:
-                prefix = x[:1, :, :]
-                suffix = x[1:, :, :]
+                if indx == self.rep_tokens_visual_layers[0]:
+                    prefix = x[:1, :, :]
+                    suffix = x[1:, :, :]
+                else:
+                    prefix = x[:1, :, :]
+                    suffix = x[1 + length:, :, :]
 
                 index = self.rep_tokens_visual_layers.index(indx)
                 visual_context = self.visual_prompts[index].unsqueeze(0).expand(x.shape[1], -1, -1)
@@ -268,10 +285,4 @@ class PromptLayer(nn.Module):
         else:
             return self.forward_visual(resblock, indx, x, k_x, v_x, attn_mask)
 
-class PromptGenerator(nn.Module):
-    def __init__(self, cls_names, device):
-        super(PromptGenerator, self).__init__()
-        
 
-    def forward(self, class_idx):
-        pass
