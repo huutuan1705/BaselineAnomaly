@@ -44,7 +44,6 @@ class AdaCLIP_Trainer(nn.Module):
         freeze_clip, _, self.preprocess = create_model_and_transforms(backbone, image_size,
                                                                       pretrained='openai')
         freeze_clip  = freeze_clip.to(device)
-        freeze_clip.requires_grad_(False)
         freeze_clip.eval()
 
         self.clip_model = Baseline(freeze_clip=freeze_clip,
@@ -84,11 +83,10 @@ class AdaCLIP_Trainer(nn.Module):
 
         self.params_to_update = []
         for name, param in self.clip_model.named_parameters():
-            # print(name)
-            for update_name in self.learnable_paramter_list:
-                if update_name in name:
-                    # print(f'updated parameters--{name}: {update_name}')
-                    self.params_to_update.append(param)
+            should_update = any(update_name in name for update_name in self.learnable_paramter_list)
+            param.requires_grad_(should_update)
+            if should_update:
+                self.params_to_update.append(param)
 
         # build the optimizer
         self.optimizer = torch.optim.AdamW(self.params_to_update, lr=learning_rate, betas=(0.5, 0.999), weight_decay=0.01)
