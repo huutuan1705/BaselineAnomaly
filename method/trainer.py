@@ -44,6 +44,7 @@ class AdaCLIP_Trainer(nn.Module):
         freeze_clip, _, self.preprocess = create_model_and_transforms(backbone, image_size,
                                                                       pretrained='openai')
         freeze_clip  = freeze_clip.to(device)
+        freeze_clip.requires_grad_(False)
         freeze_clip.eval()
 
         self.clip_model = Baseline(freeze_clip=freeze_clip,

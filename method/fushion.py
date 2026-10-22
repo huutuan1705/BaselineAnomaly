@@ -155,19 +155,19 @@ class PromptLayer(nn.Module):
         
 
         if self.enabled:
-            # self.text_prompts = nn.ParameterList(
-            #         [nn.Parameter(torch.empty(self.length, self.channel))
-            #          for _ in range(self.depth)])
-            # self.visual_prompts = nn.ParameterList(
-            #         [nn.Parameter(torch.empty(self.length, self.channel))
-            #             for _ in range(self.depth)])
-
             self.text_prompts = nn.ParameterList(
-                                [nn.Parameter(torch.empty(self.length, self.channel))
-                                 for _ in range(len(self.rep_tokens_text_layers))])
+                    [nn.Parameter(torch.empty(self.length, self.channel))
+                     for _ in range(self.depth)])
             self.visual_prompts = nn.ParameterList(
                     [nn.Parameter(torch.empty(self.length, self.channel))
-                        for _ in range(len(self.rep_tokens_visual_layers))])
+                        for _ in range(self.depth)])
+
+            # self.text_prompts = nn.ParameterList(
+            #                     [nn.Parameter(torch.empty(self.length, self.channel))
+            #                      for _ in range(len(self.rep_tokens_text_layers))])
+            # self.visual_prompts = nn.ParameterList(
+            #         [nn.Parameter(torch.empty(self.length, self.channel))
+            #             for _ in range(len(self.rep_tokens_visual_layers))])
 
             for single_para in self.text_prompts:
                 nn.init.normal_(single_para, std=0.02)
@@ -179,38 +179,38 @@ class PromptLayer(nn.Module):
             length = self.length
 
             # only prompt the first J layers
-            # if indx < self.depth:
-            #     textual_context = self.text_prompts[indx].unsqueeze(0).expand(x.shape[1], -1, -1)
+            if indx < self.depth:
+                textual_context = self.text_prompts[indx].unsqueeze(0).expand(x.shape[1], -1, -1)
 
-            # if indx == 0:  # for the first layer
-            #     x = x
-            # else:
-            #     if indx < self.depth:  # replace with learnalbe tokens
-            #         prefix = x[:1, :, :]
-            #         suffix = x[1 + length:, :, :]
-            #         textual_context = textual_context.permute(1, 0, 2).half()
-            #         x = torch.cat([prefix, textual_context, suffix], dim=0)
-            #     else:  # keep the same
-            #         x = x
-
-            if indx in self.rep_tokens_text_layers:
-                if indx == self.rep_tokens_text_layers[0]:
-                    width = x.shape[0]
-                    prefix = x[:1, :, :]
-                    suffix = x[1:, :, :]
-                else:
-                    width = x.shape[0] - length
+            if indx == 0:  # for the first layer
+                x = x
+            else:
+                if indx < self.depth:  # replace with learnalbe tokens
                     prefix = x[:1, :, :]
                     suffix = x[1 + length:, :, :]
+                    textual_context = textual_context.permute(1, 0, 2).half()
+                    x = torch.cat([prefix, textual_context, suffix], dim=0)
+                else:  # keep the same
+                    x = x
 
-                index = self.rep_tokens_text_layers.index(indx)
-                textual_context = self.text_prompts[index].unsqueeze(0).expand(x.shape[1], -1, -1)
-                textual_context = textual_context.permute(1, 0, 2).half()
-                x = torch.cat([prefix, textual_context, suffix], dim=0)
+            # if indx in self.rep_tokens_text_layers:
+            #     if indx == self.rep_tokens_text_layers[0]:
+            #         width = x.shape[0]
+            #         prefix = x[:1, :, :]
+            #         suffix = x[1:, :, :]
+            #     else:
+            #         width = x.shape[0] - length
+            #         prefix = x[:1, :, :]
+            #         suffix = x[1 + length:, :, :]
 
-            if indx >= self.rep_tokens_text_layers[0]:
-                width = x.shape[0]
-                attn_mask = x.new_full((width, width), float('-inf')).triu_(1)
+            #     index = self.rep_tokens_text_layers.index(indx)
+            #     textual_context = self.text_prompts[index].unsqueeze(0).expand(x.shape[1], -1, -1)
+            #     textual_context = textual_context.permute(1, 0, 2).half()
+            #     x = torch.cat([prefix, textual_context, suffix], dim=0)
+
+            # if indx >= self.rep_tokens_text_layers[0]:
+            #     width = x.shape[0]
+            #     attn_mask = x.new_full((width, width), float('-inf')).triu_(1)
 
         else:
             x = x
@@ -224,39 +224,39 @@ class PromptLayer(nn.Module):
             length = self.length
 
             # only prompt the first J layers
-            # if indx < self.depth:
-            #     visual_context = self.visual_prompts[indx].unsqueeze(0).expand(x.shape[1], -1, -1)
+            if indx < self.depth:
+                visual_context = self.visual_prompts[indx].unsqueeze(0).expand(x.shape[1], -1, -1)
 
-            # if indx == 0:  # for the first layer
-            #     visual_context = visual_context.permute(1, 0, 2).half()
-            #     x = torch.cat([x, visual_context], dim=0)
-            # else:
-            #     if indx < self.depth:  # replace with learnalbe tokens
-            #         prefix = x[0:x.shape[0] - length, :, :]
-            #         visual_context = visual_context.permute(1, 0, 2).half()
-            #         x = torch.cat([prefix, visual_context], dim=0)
-            #     else:  # keep the same
-            #         x = x
-
-            if indx in self.rep_tokens_visual_layers:
-                prefix = x[:1, :, :]
-                suffix = x[1:, :, :]
-
-                index = self.rep_tokens_visual_layers.index(indx)
-                visual_context = self.visual_prompts[index].unsqueeze(0).expand(x.shape[1], -1, -1)
+            if indx == 0:  # for the first layer
                 visual_context = visual_context.permute(1, 0, 2).half()
-                x = torch.cat([prefix, visual_context, suffix], dim=0)
+                x = torch.cat([x, visual_context], dim=0)
+            else:
+                if indx < self.depth:  # replace with learnalbe tokens
+                    prefix = x[0:x.shape[0] - length, :, :]
+                    visual_context = visual_context.permute(1, 0, 2).half()
+                    x = torch.cat([prefix, visual_context], dim=0)
+                else:  # keep the same
+                    x = x
+
+            # if indx in self.rep_tokens_visual_layers:
+            #     prefix = x[:1, :, :]
+            #     suffix = x[1:, :, :]
+
+            #     index = self.rep_tokens_visual_layers.index(indx)
+            #     visual_context = self.visual_prompts[index].unsqueeze(0).expand(x.shape[1], -1, -1)
+            #     visual_context = visual_context.permute(1, 0, 2).half()
+            #     x = torch.cat([prefix, visual_context, suffix], dim=0)
 
         else:  
             x = x
 
         x, attn_tmp = resblock(q_x=x, k_x=k_x, v_x= v_x, attn_mask=attn_mask)
 
-        if self.enabled and indx in self.rep_tokens_visual_layers:
-            # Prompts follow CLS; preserve CLS and every spatial patch token.
-            tokens = torch.cat([x[:1, :, :], x[1 + self.length:, :, :]], dim=0)
-            # Keep prompts local to selected layers, including nonconsecutive ones.
-            x = tokens
+        if self.enabled:
+            tokens = x[:x.shape[0] - length, :, :]
+        # if self.enabled and indx in self.rep_tokens_visual_layers:
+        #     tokens = torch.cat([x[:1, :, :], x[1 + self.length:, :, :]], dim=0)
+        #     x = tokens
         else:
             tokens = x
 
