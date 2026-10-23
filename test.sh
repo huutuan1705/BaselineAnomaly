@@ -1,5 +1,5 @@
 # pre-trained from VisA 
-ckt_path="workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20_best.pth"
+ckt_path="workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L2-HSF-K20_best.pth"
 gpu_id=0
 
 # Industrial

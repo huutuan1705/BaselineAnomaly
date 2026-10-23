@@ -111,3 +111,150 @@
 26-09-30 16:04:54.172 - INFO: use_hsf = True
 26-09-30 16:07:38.647 - INFO:             SDD 		I-Auroc:92.62 	I-F1:75.79 	I-AP:80.00 	P-Auroc:97.25 	P-F1:37.85 	P-AP:26.37 	P-AUPRO:93.18
 26-09-30 16:07:38.647 - INFO:         Average 		I-Auroc:92.62 	I-F1:75.79 	I-AP:80.00 	P-Auroc:97.25 	P-F1:37.85 	P-AP:26.37 	P-AUPRO:93.18
+
+
+26-10-23 10:32:28.500 - INFO: batch_size = 32
+26-10-23 10:32:28.500 - INFO: ckt_path = workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L2-HSF-K20_best.pth
+26-10-23 10:32:28.500 - INFO: class_name = candle
+26-10-23 10:32:28.500 - INFO: image_path = asset/img.png
+26-10-23 10:32:28.500 - INFO: image_size = 518
+26-10-23 10:32:28.500 - INFO: k_clusters = 20
+26-10-23 10:32:28.500 - INFO: kmeans_iterations = 5
+26-10-23 10:32:28.500 - INFO: lambda_rank = 0.0
+26-10-23 10:32:28.500 - INFO: model = ViT-L-14-336
+26-10-23 10:32:28.500 - INFO: normal_fraction = 0.7
+26-10-23 10:32:28.500 - INFO: num_normal_prototypes = 3
+26-10-23 10:32:28.500 - INFO: prompt_temperature = 0.07
+26-10-23 10:32:28.500 - INFO: prompting_branch = VL
+26-10-23 10:32:28.500 - INFO: prompting_depth = 4
+26-10-23 10:32:28.500 - INFO: prompting_length = 2
+26-10-23 10:32:28.500 - INFO: prompting_type = SD
+26-10-23 10:32:28.501 - INFO: ranking_margin = 0.2
+26-10-23 10:32:28.501 - INFO: save_fig = False
+26-10-23 10:32:28.501 - INFO: save_name = test.png
+26-10-23 10:32:28.501 - INFO: save_path = ./workspaces
+26-10-23 10:32:28.501 - INFO: selected_layers = None
+26-10-23 10:32:28.501 - INFO: tail_gate_hidden_dim = 16
+26-10-23 10:32:28.501 - INFO: tail_ratios = [0.01, 0.03, 0.1, 0.25]
+26-10-23 10:32:28.501 - INFO: testing_data = btad
+26-10-23 10:32:28.501 - INFO: testing_model = dataset
+26-10-23 10:32:28.501 - INFO: use_adaptive_tail = True
+26-10-23 10:32:28.501 - INFO: use_hsf = True
+26-10-23 10:32:28.501 - INFO: use_multi_tail = True
+26-10-23 10:32:28.501 - INFO: use_prompt_ensemble = True
+26-10-23 10:32:28.501 - INFO: use_self_reference = True
+26-10-23 10:32:28.501 - INFO: use_tail_branch = True
+26-10-23 10:32:28.501 - INFO: use_uncertainty_fusion = True
+26-10-23 10:37:26.135 - INFO:              01 		I-Auroc:94.51 	I-F1:95.83 	I-AP:96.59 	P-Auroc:93.66 	P-F1:52.01 	P-AP:51.23 	P-AUPRO:5.93
+26-10-23 10:37:26.135 - INFO:              02 		I-Auroc:76.44 	I-F1:93.21 	I-AP:95.99 	P-Auroc:90.22 	P-F1:54.30 	P-AP:52.71 	P-AUPRO:30.80
+26-10-23 10:37:26.135 - INFO:              03 		I-Auroc:77.46 	I-F1:48.84 	I-AP:43.01 	P-Auroc:95.78 	P-F1:40.83 	P-AP:36.10 	P-AUPRO:55.44
+26-10-23 10:37:26.135 - INFO:         Average 		I-Auroc:82.80 	I-F1:79.29 	I-AP:78.53 	P-Auroc:93.22 	P-F1:49.04 	P-AP:46.68 	P-AUPRO:30.72
+26-10-23 10:37:28.599 - INFO: batch_size = 32
+26-10-23 10:37:28.599 - INFO: ckt_path = workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L2-HSF-K20_best.pth
+26-10-23 10:37:28.599 - INFO: class_name = candle
+26-10-23 10:37:28.599 - INFO: image_path = asset/img.png
+26-10-23 10:37:28.599 - INFO: image_size = 518
+26-10-23 10:37:28.599 - INFO: k_clusters = 20
+26-10-23 10:37:28.599 - INFO: kmeans_iterations = 5
+26-10-23 10:37:28.599 - INFO: lambda_rank = 0.0
+26-10-23 10:37:28.599 - INFO: model = ViT-L-14-336
+26-10-23 10:37:28.599 - INFO: normal_fraction = 0.7
+26-10-23 10:37:28.599 - INFO: num_normal_prototypes = 3
+26-10-23 10:37:28.599 - INFO: prompt_temperature = 0.07
+26-10-23 10:37:28.599 - INFO: prompting_branch = VL
+26-10-23 10:37:28.599 - INFO: prompting_depth = 4
+26-10-23 10:37:28.600 - INFO: prompting_length = 2
+26-10-23 10:37:28.600 - INFO: prompting_type = SD
+26-10-23 10:37:28.600 - INFO: ranking_margin = 0.2
+26-10-23 10:37:28.600 - INFO: save_fig = False
+26-10-23 10:37:28.600 - INFO: save_name = test.png
+26-10-23 10:37:28.600 - INFO: save_path = ./workspaces
+26-10-23 10:37:28.600 - INFO: selected_layers = None
+26-10-23 10:37:28.600 - INFO: tail_gate_hidden_dim = 16
+26-10-23 10:37:28.600 - INFO: tail_ratios = [0.01, 0.03, 0.1, 0.25]
+26-10-23 10:37:28.600 - INFO: testing_data = dagm
+26-10-23 10:37:28.600 - INFO: testing_model = dataset
+26-10-23 10:37:28.600 - INFO: use_adaptive_tail = True
+26-10-23 10:37:28.600 - INFO: use_hsf = True
+26-10-23 10:37:28.600 - INFO: use_multi_tail = True
+26-10-23 10:37:28.600 - INFO: use_prompt_ensemble = True
+26-10-23 10:37:28.600 - INFO: use_self_reference = True
+26-10-23 10:37:28.600 - INFO: use_tail_branch = True
+26-10-23 10:37:28.600 - INFO: use_uncertainty_fusion = True
+26-10-23 10:48:41.141 - INFO: batch_size = 32
+26-10-23 10:48:41.141 - INFO: ckt_path = workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L2-HSF-K20_best.pth
+26-10-23 10:48:41.142 - INFO: class_name = candle
+26-10-23 10:48:41.142 - INFO: image_path = asset/img.png
+26-10-23 10:48:41.142 - INFO: image_size = 518
+26-10-23 10:48:41.142 - INFO: k_clusters = 20
+26-10-23 10:48:41.142 - INFO: kmeans_iterations = 5
+26-10-23 10:48:41.142 - INFO: lambda_rank = 0.0
+26-10-23 10:48:41.142 - INFO: model = ViT-L-14-336
+26-10-23 10:48:41.142 - INFO: normal_fraction = 0.7
+26-10-23 10:48:41.142 - INFO: num_normal_prototypes = 3
+26-10-23 10:48:41.142 - INFO: prompt_temperature = 0.07
+26-10-23 10:48:41.142 - INFO: prompting_branch = VL
+26-10-23 10:48:41.142 - INFO: prompting_depth = 4
+26-10-23 10:48:41.142 - INFO: prompting_length = 2
+26-10-23 10:48:41.142 - INFO: prompting_type = SD
+26-10-23 10:48:41.142 - INFO: ranking_margin = 0.2
+26-10-23 10:48:41.142 - INFO: save_fig = False
+26-10-23 10:48:41.142 - INFO: save_name = test.png
+26-10-23 10:48:41.142 - INFO: save_path = ./workspaces
+26-10-23 10:48:41.142 - INFO: selected_layers = None
+26-10-23 10:48:41.142 - INFO: tail_gate_hidden_dim = 16
+26-10-23 10:48:41.142 - INFO: tail_ratios = [0.01, 0.03, 0.1, 0.25]
+26-10-23 10:48:41.142 - INFO: testing_data = dtd
+26-10-23 10:48:41.142 - INFO: testing_model = dataset
+26-10-23 10:48:41.142 - INFO: use_adaptive_tail = True
+26-10-23 10:48:41.143 - INFO: use_hsf = True
+26-10-23 10:48:41.143 - INFO: use_multi_tail = True
+26-10-23 10:48:41.143 - INFO: use_prompt_ensemble = True
+26-10-23 10:48:41.143 - INFO: use_self_reference = True
+26-10-23 10:48:41.143 - INFO: use_tail_branch = True
+26-10-23 10:48:41.143 - INFO: use_uncertainty_fusion = True
+26-10-23 10:56:50.408 - INFO:     Blotchy_099 		I-Auroc:79.56 	I-F1:89.39 	I-AP:94.59 	P-Auroc:99.18 	P-F1:66.80 	P-AP:68.88 	P-AUPRO:59.47
+26-10-23 10:56:50.408 - INFO:     Fibrous_183 		I-Auroc:92.94 	I-F1:92.72 	I-AP:98.44 	P-Auroc:98.65 	P-F1:61.30 	P-AP:62.22 	P-AUPRO:23.99
+26-10-23 10:56:50.408 - INFO:     Marbled_078 		I-Auroc:90.19 	I-F1:91.50 	I-AP:97.68 	P-Auroc:98.97 	P-F1:68.21 	P-AP:73.23 	P-AUPRO:68.74
+26-10-23 10:56:50.408 - INFO:      Matted_069 		I-Auroc:80.16 	I-F1:89.14 	I-AP:94.15 	P-Auroc:97.89 	P-F1:61.86 	P-AP:63.81 	P-AUPRO:55.06
+26-10-23 10:56:50.408 - INFO:        Mesh_114 		I-Auroc:78.21 	I-F1:82.05 	I-AP:91.66 	P-Auroc:92.82 	P-F1:61.96 	P-AP:56.92 	P-AUPRO:46.85
+26-10-23 10:56:50.408 - INFO:  Perforated_037 		I-Auroc:93.94 	I-F1:93.75 	I-AP:98.61 	P-Auroc:95.28 	P-F1:63.22 	P-AP:60.55 	P-AUPRO:50.27
+26-10-23 10:56:50.408 - INFO:  Stratified_154 		I-Auroc:99.31 	I-F1:98.11 	I-AP:99.84 	P-Auroc:98.10 	P-F1:63.68 	P-AP:62.36 	P-AUPRO:58.75
+26-10-23 10:56:50.408 - INFO:       Woven_001 		I-Auroc:100.00 	I-F1:100.00 	I-AP:100.00 	P-Auroc:99.76 	P-F1:66.58 	P-AP:72.89 	P-AUPRO:56.23
+26-10-23 10:56:50.408 - INFO:       Woven_068 		I-Auroc:98.39 	I-F1:94.81 	I-AP:99.05 	P-Auroc:98.73 	P-F1:70.06 	P-AP:71.57 	P-AUPRO:62.38
+26-10-23 10:56:50.409 - INFO:       Woven_104 		I-Auroc:95.75 	I-F1:96.10 	I-AP:99.08 	P-Auroc:91.76 	P-F1:58.42 	P-AP:54.07 	P-AUPRO:49.36
+26-10-23 10:56:50.409 - INFO:       Woven_125 		I-Auroc:99.56 	I-F1:99.36 	I-AP:99.90 	P-Auroc:99.68 	P-F1:74.36 	P-AP:77.85 	P-AUPRO:65.04
+26-10-23 10:56:50.409 - INFO:       Woven_127 		I-Auroc:84.52 	I-F1:81.01 	I-AP:89.72 	P-Auroc:93.95 	P-F1:57.10 	P-AP:49.62 	P-AUPRO:5.32
+26-10-23 10:56:50.409 - INFO:         Average 		I-Auroc:91.04 	I-F1:92.33 	I-AP:96.89 	P-Auroc:97.06 	P-F1:64.46 	P-AP:64.50 	P-AUPRO:50.12
+26-10-23 10:56:53.796 - INFO: batch_size = 32
+26-10-23 10:56:53.796 - INFO: ckt_path = workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L2-HSF-K20_best.pth
+26-10-23 10:56:53.796 - INFO: class_name = candle
+26-10-23 10:56:53.796 - INFO: image_path = asset/img.png
+26-10-23 10:56:53.796 - INFO: image_size = 518
+26-10-23 10:56:53.797 - INFO: k_clusters = 20
+26-10-23 10:56:53.797 - INFO: kmeans_iterations = 5
+26-10-23 10:56:53.797 - INFO: lambda_rank = 0.0
+26-10-23 10:56:53.797 - INFO: model = ViT-L-14-336
+26-10-23 10:56:53.797 - INFO: normal_fraction = 0.7
+26-10-23 10:56:53.797 - INFO: num_normal_prototypes = 3
+26-10-23 10:56:53.797 - INFO: prompt_temperature = 0.07
+26-10-23 10:56:53.797 - INFO: prompting_branch = VL
+26-10-23 10:56:53.797 - INFO: prompting_depth = 4
+26-10-23 10:56:53.797 - INFO: prompting_length = 2
+26-10-23 10:56:53.797 - INFO: prompting_type = SD
+26-10-23 10:56:53.797 - INFO: ranking_margin = 0.2
+26-10-23 10:56:53.797 - INFO: save_fig = False
+26-10-23 10:56:53.797 - INFO: save_name = test.png
+26-10-23 10:56:53.797 - INFO: save_path = ./workspaces
+26-10-23 10:56:53.797 - INFO: selected_layers = None
+26-10-23 10:56:53.797 - INFO: tail_gate_hidden_dim = 16
+26-10-23 10:56:53.797 - INFO: tail_ratios = [0.01, 0.03, 0.1, 0.25]
+26-10-23 10:56:53.797 - INFO: testing_data = mpdd
+26-10-23 10:56:53.797 - INFO: testing_model = dataset
+26-10-23 10:56:53.797 - INFO: use_adaptive_tail = True
+26-10-23 10:56:53.797 - INFO: use_hsf = True
+26-10-23 10:56:53.797 - INFO: use_multi_tail = True
+26-10-23 10:56:53.797 - INFO: use_prompt_ensemble = True
+26-10-23 10:56:53.797 - INFO: use_self_reference = True
+26-10-23 10:56:53.797 - INFO: use_tail_branch = True
+26-10-23 10:56:53.797 - INFO: use_uncertainty_fusion = True
