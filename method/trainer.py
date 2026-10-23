@@ -81,13 +81,12 @@ class AdaCLIP_Trainer(nn.Module):
             'fuse',
         ]
 
-        self.clip_model.requires_grad_(False)
-        for module_name in self.learnable_paramter_list:
-            self.clip_model.get_submodule(module_name).requires_grad_(True)
-
-        self.params_to_update = [
-            param for param in self.clip_model.parameters() if param.requires_grad
-        ]
+        self.params_to_update = []
+        for name, param in self.clip_model.named_parameters():
+            should_update = any(update_name in name for update_name in self.learnable_paramter_list)
+            param.requires_grad_(should_update)
+            if should_update:
+                self.params_to_update.append(param)
 
         # build the optimizer
         self.optimizer = torch.optim.AdamW(self.params_to_update, lr=learning_rate, betas=(0.5, 0.999), weight_decay=0.01)

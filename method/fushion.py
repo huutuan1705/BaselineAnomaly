@@ -284,5 +284,3 @@ class PromptLayer(nn.Module):
             return self.forward_text(resblock, indx, x, k_x, v_x, attn_mask)
         else:
             return self.forward_visual(resblock, indx, x, k_x, v_x, attn_mask)
-
-

@@ -182,7 +182,7 @@ if __name__ == '__main__':
 
     # Prompting parameters
     parser.add_argument("--prompting_depth", type=int, default=4, help="Depth of prompting (default: 4)")
-    parser.add_argument("--prompting_length", type=int, default=5, help="Length of prompting (default: 5)")
+    parser.add_argument("--prompting_length", type=int, default=2, help="Length of prompting (default: 2)")
     parser.add_argument("--prompting_type", type=str, default='SD', choices=['', 'S', 'D', 'SD'],
                         help="Type of prompting. 'S' for Static, 'D' for Dynamic, 'SD' for both (default: 'SD')")
     parser.add_argument("--prompting_branch", type=str, default='VL', choices=['', 'V', 'L', 'VL'],
