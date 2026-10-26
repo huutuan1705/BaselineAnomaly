@@ -725,3 +725,79 @@ setting:
 26-10-23 10:29:41.374 - INFO:            wood 		I-Auroc:99.30 	I-F1:98.33 	I-AP:99.78 	P-Auroc:96.13 	P-F1:60.42 	P-AP:57.55 	P-AUPRO:65.01
 26-10-23 10:29:41.374 - INFO:          zipper 		I-Auroc:93.12 	I-F1:95.00 	I-AP:97.90 	P-Auroc:96.30 	P-F1:53.41 	P-AP:51.00 	P-AUPRO:4.68
 26-10-23 10:29:41.374 - INFO:         Average 		I-Auroc:90.72 	I-F1:91.48 	I-AP:95.19 	P-Auroc:89.32 	P-F1:44.04 	P-AP:41.37 	P-AUPRO:43.33
+26-10-26 09:50:24.414 - INFO: batch_size = 20
+26-10-26 09:50:24.414 - INFO: ckt_path = 
+26-10-26 09:50:24.414 - INFO: epoch = 5
+26-10-26 09:50:24.414 - INFO: exp_indx = 0
+26-10-26 09:50:24.414 - INFO: image_size = 518
+26-10-26 09:50:24.414 - INFO: k_clusters = 20
+26-10-26 09:50:24.414 - INFO: kmeans_iterations = 5
+26-10-26 09:50:24.414 - INFO: lambda_rank = 0.0
+26-10-26 09:50:24.414 - INFO: learning_rate = 0.001
+26-10-26 09:50:24.414 - INFO: model = ViT-L-14-336
+26-10-26 09:50:24.414 - INFO: normal_fraction = 0.7
+26-10-26 09:50:24.414 - INFO: num_normal_prototypes = 3
+26-10-26 09:50:24.414 - INFO: print_freq = 1
+26-10-26 09:50:24.414 - INFO: prompt_temperature = 0.07
+26-10-26 09:50:24.414 - INFO: prompting_branch = VL
+26-10-26 09:50:24.414 - INFO: prompting_depth = 4
+26-10-26 09:50:24.414 - INFO: prompting_length = 2
+26-10-26 09:50:24.414 - INFO: prompting_type = SD
+26-10-26 09:50:24.414 - INFO: ranking_margin = 0.2
+26-10-26 09:50:24.414 - INFO: save_fig = False
+26-10-26 09:50:24.414 - INFO: save_path = ./workspaces
+26-10-26 09:50:24.414 - INFO: selected_layers = None
+26-10-26 09:50:24.414 - INFO: tail_gate_hidden_dim = 16
+26-10-26 09:50:24.414 - INFO: tail_ratios = [0.01, 0.03, 0.1, 0.25]
+26-10-26 09:50:24.414 - INFO: test_batch_size = 48
+26-10-26 09:50:24.415 - INFO: testing_data = mvtec
+26-10-26 09:50:24.415 - INFO: training_data = ['visa']
+26-10-26 09:50:24.415 - INFO: use_adaptive_tail = True
+26-10-26 09:50:24.415 - INFO: use_hsf = True
+26-10-26 09:50:24.415 - INFO: use_multi_tail = True
+26-10-26 09:50:24.415 - INFO: use_prompt_ensemble = True
+26-10-26 09:50:24.415 - INFO: use_self_reference = True
+26-10-26 09:50:24.415 - INFO: use_tail_branch = True
+26-10-26 09:50:24.415 - INFO: use_uncertainty_fusion = True
+26-10-26 09:50:24.415 - INFO: valid_freq = 1
+26-10-26 09:50:24.415 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L2-HSF-K20
+26-10-26 09:50:28.389 - INFO: Data Root: training, /home/tuannh/Documents/datasets/anomaly_datasets/VisA; testing, /home/tuannh/Documents/datasets/anomaly_datasets/MVTec
+26-10-26 09:53:59.664 - INFO: batch_size = 20
+26-10-26 09:53:59.665 - INFO: ckt_path = 
+26-10-26 09:53:59.665 - INFO: epoch = 5
+26-10-26 09:53:59.665 - INFO: exp_indx = 0
+26-10-26 09:53:59.665 - INFO: image_size = 518
+26-10-26 09:53:59.665 - INFO: k_clusters = 20
+26-10-26 09:53:59.665 - INFO: kmeans_iterations = 5
+26-10-26 09:53:59.665 - INFO: lambda_rank = 0.0
+26-10-26 09:53:59.665 - INFO: learning_rate = 0.001
+26-10-26 09:53:59.665 - INFO: model = ViT-L-14-336
+26-10-26 09:53:59.665 - INFO: normal_fraction = 0.7
+26-10-26 09:53:59.665 - INFO: num_normal_prototypes = 3
+26-10-26 09:53:59.665 - INFO: print_freq = 1
+26-10-26 09:53:59.665 - INFO: prompt_temperature = 0.07
+26-10-26 09:53:59.665 - INFO: prompting_branch = VL
+26-10-26 09:53:59.665 - INFO: prompting_depth = 4
+26-10-26 09:53:59.665 - INFO: prompting_length = 2
+26-10-26 09:53:59.665 - INFO: prompting_type = SD
+26-10-26 09:53:59.665 - INFO: ranking_margin = 0.2
+26-10-26 09:53:59.665 - INFO: save_fig = False
+26-10-26 09:53:59.665 - INFO: save_path = ./workspaces
+26-10-26 09:53:59.665 - INFO: selected_layers = None
+26-10-26 09:53:59.665 - INFO: tail_gate_hidden_dim = 16
+26-10-26 09:53:59.665 - INFO: tail_ratios = [0.01, 0.03, 0.1, 0.25]
+26-10-26 09:53:59.665 - INFO: test_batch_size = 48
+26-10-26 09:53:59.665 - INFO: testing_data = mvtec
+26-10-26 09:53:59.665 - INFO: training_data = ['visa']
+26-10-26 09:53:59.665 - INFO: use_adaptive_tail = True
+26-10-26 09:53:59.665 - INFO: use_hsf = True
+26-10-26 09:53:59.665 - INFO: use_multi_tail = True
+26-10-26 09:53:59.665 - INFO: use_prompt_ensemble = True
+26-10-26 09:53:59.665 - INFO: use_self_reference = True
+26-10-26 09:53:59.665 - INFO: use_tail_branch = True
+26-10-26 09:53:59.665 - INFO: use_uncertainty_fusion = True
+26-10-26 09:53:59.665 - INFO: valid_freq = 1
+26-10-26 09:53:59.666 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L2-HSF-K20
+26-10-26 09:54:03.679 - INFO: Data Root: training, /home/tuannh/Documents/datasets/anomaly_datasets/VisA; testing, /home/tuannh/Documents/datasets/anomaly_datasets/MVTec
+26-10-26 09:58:07.538 - INFO: epoch [1/5], loss:3.1906
+26-10-26 09:58:07.538 - INFO: =============================Testing ====================================
