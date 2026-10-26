@@ -225,4 +225,3 @@ class Baseline(nn.Module):
             anomaly_score = anomaly_score
 
             return anomaly_maps, anomaly_score
-

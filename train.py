@@ -183,4 +183,3 @@ if __name__ == '__main__':
     #         "Currently, only batch size of 1 is supported due to unresolved bugs. Please set --batch_size to 1.")
 
     train(args)
-
