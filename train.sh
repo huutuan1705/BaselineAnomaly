@@ -13,7 +13,9 @@ gpu_id=0
 CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py \
     --prompting_length 2 \
     --learning_rate 0.001 \
-    --batch_size 20 \
+    --batch_size 1 \
+    --epoch 10 \
+    --test_batch_size 1 \
     --training_data visa \
     --testing_data mvtec
 

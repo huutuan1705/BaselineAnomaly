@@ -59,6 +59,11 @@ class Baseline(nn.Module):
             text_channel,
             1, stack=False, is_array=False
         )
+
+        self.frozen_text_encoder = TextEncoder(fixed=True, use_prompt=False)   # cache, CLIP gốc
+        self.seg_patch_token_layer = ProjectLayer(visual_channel, text_channel,
+                                                len(output_layers), stack=False, is_array=True)
+        
         self.image_mapping = nn.Linear(text_channel, text_channel)
         self.fuse = Global_Feature(
             dim_i=text_channel,
@@ -148,7 +153,7 @@ class Baseline(nn.Module):
 
         return proj_cls_tokens, proj_patch_tokens
 
-    def encode_text(self, text):
+    def encode_text(self, text, image_features=None, use_prompt=True):
         cast_dtype = self.transformer.get_cast_dtype()
 
         x = self.token_embedding(text).to(cast_dtype)  # [batch_size, n_ctx, d_model]
@@ -157,17 +162,36 @@ class Baseline(nn.Module):
         x = x.permute(1, 0, 2)  # NLD -> LND
 
         for indx, resblock in enumerate(self.transformer.resblocks):
-            # x, attn_tmp = resblock(q_x=x, k_x=None, v_x=None, attn_mask=self.attn_mask)
-
-            x, attn_tmp = self.text_prompter(resblock, indx, x, k_x=None, v_x=None, attn_mask=self.attn_mask)
+            if use_prompt:
+                x, _ = self.text_prompter(
+                    resblock, indx, x, k_x=None, v_x=None,
+                    attn_mask=self.attn_mask, image_features=image_features,
+                )
+            else:
+                x, _ = resblock(q_x=x, k_x=None, v_x=None, attn_mask=self.attn_mask)
 
         x = x.permute(1, 0, 2)  # LND -> NLD
         x = self.ln_final(x)  # [batch_size, n_ctx, transformer.width]
 
         # take features from the eot embedding (eot_token is the highest number in each sequence)
-        x = x[torch.arange(x.shape[0]), text.argmax(dim=-1)] @ self.text_projection
+        # x = x[torch.arange(x.shape[0]), text.argmax(dim=-1)] @ self.text_projection
+        n_inserted = x.shape[1] - text.shape[1]
+        eot_idx = text.argmax(dim=-1) + n_inserted
+        x = x[torch.arange(x.shape[0]), eot_idx] @ self.text_projection
         return x
 
+    def patch_text_maps(self, patch_token, text_feature, aggregation):
+        maps = []
+        for t in patch_token:
+            m = 100.0 * t @ text_feature
+            B, L, _ = m.shape; H = int(np.sqrt(L))
+            m = m.permute(0, 2, 1).view(B, 2, H, H)
+            maps.append(F.interpolate(m, size=self.image_size, mode='bilinear', align_corners=True))
+        if aggregation:
+            m = torch.softmax(torch.stack(maps, 1).mean(1), dim=1)
+            return (m[:, 1:] + 1 - m[:, :1]) / 2.0
+        return [torch.softmax(m, dim=1) for m in maps]
+    
     def visual_text_similarity(self, image_feature, patch_token, text_feature, aggregation):
         anomaly_maps = []
 
@@ -201,27 +225,36 @@ class Baseline(nn.Module):
             return anomaly_maps, anomaly_score
 
     def extract_feat(self, image, cls_name):
+        # with torch.no_grad():
+        #     frozen_cls, frozen_patch = self.visual(image, out_layers=self.output_layers)
+        #     seg_text = self.frozen_text_encoder(self, cls_name, self.device)
+        # image_features, patch_tokens, _ = self.encode_image(image)
+        # text_features = self.text_encoder(self, cls_name, self.device,
+        #                                 image_features=frozen_cls if self.enable_text_prompt else None)
+        # proj_cls, proj_patch = self.proj_visual_tokens(image_features, patch_tokens)
+        # seg_patch = [t / t.norm(dim=-1, keepdim=True) for t in self.seg_patch_token_layer(frozen_patch)]
+        # return proj_cls, proj_patch, text_features, seg_patch, seg_text
         image_features, patch_tokens, _ = self.encode_image(image)
-        text_features = self.text_encoder(self, cls_name, self.device)
+        with torch.no_grad():
+            seg_text = self.frozen_text_encoder(self, cls_name, self.device)
 
-        proj_cls_tokens, proj_patch_tokens = self.proj_visual_tokens(image_features, patch_tokens)
+        text_features = self.text_encoder(
+            self, cls_name, self.device,
+            image_features=image_features.detach() if self.enable_text_prompt else None)
 
-        return proj_cls_tokens, proj_patch_tokens, text_features
+        proj_cls, proj_patch = self.proj_visual_tokens(image_features, patch_tokens)
+
+        # Chặn gradient seg đi ngược vào visual_prompter (qua token layer 24)
+        seg_in = [t.detach() for t in patch_tokens]
+        seg_patch = [t / t.norm(dim=-1, keepdim=True) for t in self.seg_patch_token_layer(seg_in)]
+        return proj_cls, proj_patch, text_features, seg_patch, seg_text
 
     @torch.cuda.amp.autocast()
     def forward(self, image, cls_name, aggregation=True):
-        # extract features for images and texts
-        image_features, patch_tokens, text_features = self.extract_feat(image, cls_name)
-        anomaly_map, anomaly_score = self.visual_text_similarity(image_features, patch_tokens, text_features, aggregation)
-
+        img_f, patch_f, text_f, seg_patch, seg_text = self.extract_feat(image, cls_name)
+        aux_maps, anomaly_score = self.visual_text_similarity(img_f, patch_f, text_f, aggregation)  # giữ nguyên
+        seg_maps = self.patch_text_maps(seg_patch, seg_text, aggregation)
+        # seg_maps = self.patch_text_maps(seg_patch, text_f, aggregation)
         if aggregation:
-            anomaly_map = anomaly_map # tensor
-            anomaly_score = anomaly_score
-            anomaly_map = anomaly_map.squeeze(1)
-
-            return anomaly_map, anomaly_score
-        else:
-            anomaly_maps = anomaly_map # list
-            anomaly_score = anomaly_score
-
-            return anomaly_maps, anomaly_score
+            return seg_maps.squeeze(1), anomaly_score
+        return seg_maps, aux_maps, anomaly_score

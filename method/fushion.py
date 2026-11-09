@@ -54,7 +54,7 @@ class ProjectLayer(nn.Module):
         return out_tokens
 
 class TextEncoder(nn.Module):
-    def __init__(self, fixed):
+    def __init__(self, fixed, use_prompt=True):
         super(TextEncoder, self).__init__()
         self.tokenizer = _Tokenizer()
         self.ensemble_text_features = {}
@@ -69,7 +69,7 @@ class TextEncoder(nn.Module):
                                  'a cropped photo of the {}.',
                                  ]
         self.fixed = fixed
-
+        self.use_prompt = use_prompt
     def tokenize(self, texts: Union[str, List[str]], context_length: int = 77, truncate: bool = False) -> Union[
         torch.IntTensor, torch.LongTensor]:
         if isinstance(texts, str):
@@ -94,8 +94,7 @@ class TextEncoder(nn.Module):
 
         return result
 
-    ## TODO: text layeer is not compitable with multiple batches...
-    def forward(self, model, texts, device):
+    def forward(self, model, texts, device, image_features=None):
         text_feature_list = []
 
         for indx, text in enumerate(texts):
@@ -107,8 +106,8 @@ class TextEncoder(nn.Module):
                 else:
                     text_features = self.ensemble_text_features[text]
             else:
-                text_features = self.encode_text(model, text, device)
-                self.ensemble_text_features[text] = text_features
+                image_feature = image_features[indx:indx + 1] if image_features is not None else None
+                text_features = self.encode_text(model, text, device, image_features=image_feature)
 
             text_feature_list.append(text_features)
 
@@ -117,7 +116,7 @@ class TextEncoder(nn.Module):
 
         return text_features
 
-    def encode_text(self, model, text, device):
+    def encode_text(self, model, text, device, image_features=None):
         text_features = []
         for i in range(len(self.prompt_state)):
             text = text.replace('-', ' ')
@@ -128,7 +127,7 @@ class TextEncoder(nn.Module):
                     prompted_sentence.append(template.format(s))
             prompted_sentence = self.tokenize(prompted_sentence, context_length=77).to(device)
 
-            class_embeddings = model.encode_text(prompted_sentence)
+            class_embeddings = model.encode_text(prompted_sentence, image_features=image_features, use_prompt=self.use_prompt)
 
             #class_embeddings /= class_embeddings.norm(dim=-1, keepdim=True)
             class_embeddings = class_embeddings / class_embeddings.norm(dim=-1, keepdim=True)
@@ -152,15 +151,13 @@ class PromptLayer(nn.Module):
 
         self.rep_tokens_text_layers = [6, 7, 8, 9, 10, 11]
         self.rep_tokens_visual_layers = [18, 19, 20, 21, 22, 23]
-        
+
+        self.prompt_generator = PromptGenerator(
+            cond_dim=channel, hidden_dim=512, channel=channel,
+            length=length, depth=len(self.rep_tokens_text_layers),
+        )
 
         if self.enabled:
-            # self.text_prompts = nn.ParameterList(
-            #         [nn.Parameter(torch.empty(self.length, self.channel))
-            #          for _ in range(self.depth)])
-            # self.visual_prompts = nn.ParameterList(
-            #         [nn.Parameter(torch.empty(self.length, self.channel))
-            #             for _ in range(self.depth)])
 
             self.text_prompts = nn.ParameterList(
                                 [nn.Parameter(torch.empty(self.length, self.channel))
@@ -174,26 +171,12 @@ class PromptLayer(nn.Module):
             for single_para in self.visual_prompts:
                 nn.init.normal_(single_para, std=0.02)
 
-    def forward_text(self, resblock, indx, x, k_x=None, v_x=None, attn_mask: Optional[torch.Tensor] = None):
+    def forward_text(self, resblock, indx, x, k_x=None, v_x=None, attn_mask: Optional[torch.Tensor] = None, image_features=None):
         if self.enabled:
             length = self.length
 
-            # only prompt the first J layers
-            # if indx < self.depth:
-            #     textual_context = self.text_prompts[indx].unsqueeze(0).expand(x.shape[1], -1, -1)
-
-            # if indx == 0:  # for the first layer
-            #     x = x
-            # else:
-            #     if indx < self.depth:  # replace with learnalbe tokens
-            #         prefix = x[:1, :, :]
-            #         suffix = x[1 + length:, :, :]
-            #         textual_context = textual_context.permute(1, 0, 2).half()
-            #         x = torch.cat([prefix, textual_context, suffix], dim=0)
-            #     else:  # keep the same
-            #         x = x
-
             if indx in self.rep_tokens_text_layers:
+                text_prompts = self.prompt_generator(image_features)
                 if indx == self.rep_tokens_text_layers[0]:
                     width = x.shape[0]
                     prefix = x[:1, :, :]
@@ -204,8 +187,8 @@ class PromptLayer(nn.Module):
                     suffix = x[1 + length:, :, :]
 
                 index = self.rep_tokens_text_layers.index(indx)
-                textual_context = self.text_prompts[index].unsqueeze(0).expand(x.shape[1], -1, -1)
-                textual_context = textual_context.permute(1, 0, 2).half()
+                textual_context = text_prompts[index].expand(x.shape[1], -1, -1)
+                textual_context = textual_context.permute(1, 0, 2).to(x.dtype)
                 x = torch.cat([prefix, textual_context, suffix], dim=0)
 
             if indx >= self.rep_tokens_text_layers[0]:
@@ -221,23 +204,6 @@ class PromptLayer(nn.Module):
 
     def forward_visual(self, resblock, indx, x, k_x=None, v_x=None, attn_mask: Optional[torch.Tensor] = None):
         if self.enabled:
-            length = self.length
-
-            # only prompt the first J layers
-            # if indx < self.depth:
-            #     visual_context = self.visual_prompts[indx].unsqueeze(0).expand(x.shape[1], -1, -1)
-
-            # if indx == 0:  # for the first layer
-            #     visual_context = visual_context.permute(1, 0, 2).half()
-            #     x = torch.cat([x, visual_context], dim=0)
-            # else:
-            #     if indx < self.depth:  # replace with learnalbe tokens
-            #         prefix = x[0:x.shape[0] - length, :, :]
-            #         visual_context = visual_context.permute(1, 0, 2).half()
-            #         x = torch.cat([prefix, visual_context], dim=0)
-            #     else:  # keep the same
-            #         x = x
-
             if indx in self.rep_tokens_visual_layers:
                 prefix = x[:1, :, :]
                 suffix = x[1:, :, :]
@@ -262,16 +228,30 @@ class PromptLayer(nn.Module):
 
         return x, tokens, attn_tmp
 
-    def forward(self, resblock, indx, x, k_x=None, v_x=None, attn_mask: Optional[torch.Tensor] = None):
+    def forward(self, resblock, indx, x, k_x=None, v_x=None, attn_mask: Optional[torch.Tensor] = None, image_features=None):
         if self.is_text:
-            return self.forward_text(resblock, indx, x, k_x, v_x, attn_mask)
+            return self.forward_text(resblock, indx, x, k_x, v_x, attn_mask, image_features)
         else:
             return self.forward_visual(resblock, indx, x, k_x, v_x, attn_mask)
 
 class PromptGenerator(nn.Module):
-    def __init__(self, cls_names, device):
+    def __init__(self, cond_dim, hidden_dim, channel, length, depth):
         super(PromptGenerator, self).__init__()
-        
+        self.length = length
+        self.channel = channel
+        self.depth = depth
+        self.generators = nn.ModuleList([
+            nn.Sequential(
+                nn.Dropout(p=0.1),
+                nn.Linear(cond_dim, hidden_dim),
+                nn.GELU(),
+                nn.Linear(hidden_dim, self.length * self.channel))
+            for _ in range(self.depth)])
 
-    def forward(self, class_idx):
-        pass
+    def forward(self, img_features):
+        batch_size = img_features.shape[0]
+        prompts = []
+        for _, generator in enumerate(self.generators):
+            prompt = generator(img_features).view(batch_size, self.length, self.channel)
+            prompts.append(prompt)
+        return prompts

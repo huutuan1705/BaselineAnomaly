@@ -89,7 +89,11 @@ class AdaCLIP_Trainer(nn.Module):
                 self.params_to_update.append(param)
 
         # build the optimizer
-        self.optimizer = torch.optim.AdamW(self.params_to_update, lr=learning_rate, betas=(0.5, 0.999), weight_decay=0.01)
+        seg_ids = {id(p) for n, p in self.clip_model.named_parameters() if 'seg_patch_token_layer' in n}
+        self.optimizer = torch.optim.AdamW(
+            [{'params': [p for p in self.params_to_update if id(p) not in seg_ids]},
+            {'params': [p for p in self.params_to_update if id(p) in seg_ids], 'lr': 0.001}],
+            lr=learning_rate, betas=(0.5, 0.999), weight_decay=0.01)
 
     def save(self, path):
         self.save_dict = {}
@@ -110,10 +114,10 @@ class AdaCLIP_Trainer(nn.Module):
         cls_name = items['cls_name']
 
         # pixel level
-        anomaly_map, anomaly_score = self.clip_model(image, cls_name, aggregation=False)
+        seg_maps, aux_maps, anomaly_score = self.clip_model(image, cls_name, aggregation=False)
 
-        if not isinstance(anomaly_map, list):
-            anomaly_map = [anomaly_map]
+        # if not isinstance(anomaly_map, list):
+        #     anomaly_map = [anomaly_map]
 
         # losses
         gt = items['img_mask'].to(self.device)
@@ -132,12 +136,9 @@ class AdaCLIP_Trainer(nn.Module):
         loss += classification_loss
 
         # seg loss
-        seg_loss = 0
-        for am, in zip(anomaly_map):
-            seg_loss += (self.loss_focal(am, gt) + self.loss_dice(am[:, 1, :, :], gt) +
-                         self.loss_dice(am[:, 0, :, :], 1-gt))
-
-        loss += seg_loss
+        seg_l = lambda maps: sum(self.loss_focal(am, gt) + self.loss_dice(am[:, 1], gt)
+                         + self.loss_dice(am[:, 0], 1 - gt) for am in maps)
+        loss += seg_l(seg_maps) #+ seg_l(aux_maps)
 
         self.optimizer.zero_grad()
         loss.backward()
