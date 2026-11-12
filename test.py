@@ -177,7 +177,7 @@ if __name__ == '__main__':
                         help="Save figures for visualizations (default: False)")
 
     # Hyper-parameters
-    parser.add_argument("--batch_size", type=int, default=32, help="Batch size (default: 1)")
+    parser.add_argument("--batch_size", type=int, default=1, help="Batch size (default: 1)")
     parser.add_argument("--image_size", type=int, default=518, help="Size of the input images (default: 518)")
 
     # Prompting parameters

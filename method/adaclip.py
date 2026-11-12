@@ -253,8 +253,8 @@ class Baseline(nn.Module):
     def forward(self, image, cls_name, aggregation=True):
         img_f, patch_f, text_f, seg_patch, seg_text = self.extract_feat(image, cls_name)
         aux_maps, anomaly_score = self.visual_text_similarity(img_f, patch_f, text_f, aggregation)  # giữ nguyên
-        seg_maps = self.patch_text_maps(seg_patch, seg_text, aggregation)
-        # seg_maps = self.patch_text_maps(seg_patch, text_f, aggregation)
+        # seg_maps = self.patch_text_maps(seg_patch, seg_text, aggregation)
+        seg_maps = self.patch_text_maps(seg_patch, text_f, aggregation)
         if aggregation:
             return seg_maps.squeeze(1), anomaly_score
         return seg_maps, aux_maps, anomaly_score
