@@ -11,13 +11,44 @@ gpu_id=0
 # CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py --training_data visa --testing_data dtd
 
 CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py \
-    --prompting_length 2 \
+    --seg_text_mode frozen \
+    --early_pool false \
     --learning_rate 0.001 \
     --batch_size 1 \
     --epoch 10 \
     --test_batch_size 1 \
     --training_data visa \
-    --testing_data mvtec
+    --testing_data mvtec \
+
+CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py \
+    --seg_text_mode frozen \
+    --early_pool true \
+    --learning_rate 0.001 \
+    --batch_size 1 \
+    --epoch 10 \
+    --test_batch_size 1 \
+    --training_data visa \
+    --testing_data mvtec\
+
+CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py \
+    --seg_text_mode prompted \
+    --early_pool false \
+    --learning_rate 0.001 \
+    --batch_size 1 \
+    --epoch 10 \
+    --test_batch_size 1 \
+    --training_data visa \
+    --testing_data mvtec\
+
+CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py \
+    --seg_text_mode prompted \
+    --early_pool true \
+    --learning_rate 0.001 \
+    --batch_size 1 \
+    --epoch 10 \
+    --test_batch_size 1 \
+    --training_data visa \
+    --testing_data mvtec\
 
 # This model is pre-trained on all available data to create a powerful Zero-Shot Anomaly Detection (ZSAD) model for demonstration purposes.
 # CUDA_VISIBLE_DEVICES=$gpu_id python3 train.py --save_fig True \

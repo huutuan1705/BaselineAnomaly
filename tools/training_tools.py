@@ -33,13 +33,11 @@ def setup_paths(args):
     if args.use_hsf:
         # prepare model name
         model_name = f'{args.exp_indx}s-pretrained-{args.training_data}-{args.model}-' \
-                     f'{args.prompting_type}-{args.prompting_branch}-' \
-                     f'D{args.prompting_depth}-L{args.prompting_length}-HSF-K{args.k_clusters}'
+                     f'{args.seg_text_mode}-{args.early_pool}-using-prompted-image'
     else:
         # prepare model name
         model_name = f'{args.exp_indx}s-pretrained-{args.training_data}-{args.model}-' \
-                     f'{args.prompting_type}-{args.prompting_branch}-' \
-                     f'D{args.prompting_depth}-L{args.prompting_length}-WO-HSF'
+                     f'{args.seg_text_mode}-{args.early_pool}-using-prompted-image'
 
 
     # prepare model path

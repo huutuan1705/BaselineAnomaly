@@ -10,8 +10,15 @@ class Baseline(nn.Module):
     def __init__(self, freeze_clip: CLIP, text_channel: int, visual_channel: int,
                  prompting_length: int, prompting_depth: int, prompting_branch: str, prompting_type: str,
                  use_hsf: bool, k_clusters: int,
-                 output_layers: list, device: str, image_size: int):
+                 output_layers: list, device: str, image_size: int,
+                 seg_text_mode: str = "prompted", early_pool: bool = True):
         super(Baseline, self).__init__()
+        if seg_text_mode not in ("frozen", "prompted"):
+            raise ValueError(
+                f"Invalid seg_text_mode: {seg_text_mode!r}. "
+                "Expected 'frozen' or 'prompted'."
+            )
+        self.seg_text_mode = seg_text_mode
         self.freeze_clip = freeze_clip
 
         self.visual = self.freeze_clip.visual
@@ -41,7 +48,7 @@ class Baseline(nn.Module):
         else:
             self.enable_visual_prompt = False
 
-        self.text_encoder = TextEncoder(fixed=(not self.enable_text_prompt))
+        self.text_encoder = TextEncoder(fixed=(not self.enable_text_prompt), early_pool=early_pool)
         self.text_prompter = PromptLayer(text_channel, prompting_length, prompting_depth, is_text=True,
                                          enabled=self.enable_text_prompt)
         self.visual_prompter = PromptLayer(visual_channel, prompting_length, prompting_depth, is_text=False,
@@ -60,7 +67,7 @@ class Baseline(nn.Module):
             1, stack=False, is_array=False
         )
 
-        self.frozen_text_encoder = TextEncoder(fixed=True, use_prompt=False)   # cache, CLIP gốc
+        self.frozen_text_encoder = TextEncoder(fixed=True, use_prompt=False, early_pool=False)   # cache, CLIP gốc
         self.seg_patch_token_layer = ProjectLayer(visual_channel, text_channel,
                                                 len(output_layers), stack=False, is_array=True)
         
@@ -153,7 +160,7 @@ class Baseline(nn.Module):
 
         return proj_cls_tokens, proj_patch_tokens
 
-    def encode_text(self, text, image_features=None, use_prompt=True):
+    def encode_text(self, text, image_features=None, use_prompt=True, early_pool=True):
         cast_dtype = self.transformer.get_cast_dtype()
 
         x = self.token_embedding(text).to(cast_dtype)  # [batch_size, n_ctx, d_model]
@@ -161,7 +168,14 @@ class Baseline(nn.Module):
         x = x + self.positional_embedding.to(cast_dtype)
         x = x.permute(1, 0, 2)  # NLD -> LND
 
+        early_pool = early_pool and use_prompt and self.text_prompter.enabled
+        first_prompt_layer = self.text_prompter.rep_tokens_text_layers[0]
+
         for indx, resblock in enumerate(self.transformer.resblocks):
+            if early_pool and indx == first_prompt_layer:
+                # average the sentences of this state right before the first prompted layer
+                x = x.mean(dim=1, keepdim=True)  # [n_ctx, N, D] -> [n_ctx, 1, D]
+
             if use_prompt:
                 x, _ = self.text_prompter(
                     resblock, indx, x, k_x=None, v_x=None,
@@ -237,10 +251,15 @@ class Baseline(nn.Module):
         image_features, patch_tokens, _ = self.encode_image(image)
         with torch.no_grad():
             seg_text = self.frozen_text_encoder(self, cls_name, self.device)
+            frozen_cls, _ = self.visual(image, out_layers=self.output_layers)
+
+        # text_features = self.text_encoder(
+        #     self, cls_name, self.device,
+        #     image_features=frozen_cls if self.enable_text_prompt else None)
 
         text_features = self.text_encoder(
-            self, cls_name, self.device,
-            image_features=image_features.detach() if self.enable_text_prompt else None)
+                    self, cls_name, self.device,
+                    image_features=image_features.detach() if self.enable_text_prompt else None)
 
         proj_cls, proj_patch = self.proj_visual_tokens(image_features, patch_tokens)
 
@@ -253,8 +272,11 @@ class Baseline(nn.Module):
     def forward(self, image, cls_name, aggregation=True):
         img_f, patch_f, text_f, seg_patch, seg_text = self.extract_feat(image, cls_name)
         aux_maps, anomaly_score = self.visual_text_similarity(img_f, patch_f, text_f, aggregation)  # giữ nguyên
-        # seg_maps = self.patch_text_maps(seg_patch, seg_text, aggregation)
-        seg_maps = self.patch_text_maps(seg_patch, text_f, aggregation)
+        if self.seg_text_mode == "frozen":
+            seg_text_feature = seg_text
+        else:
+            seg_text_feature = text_f
+        seg_maps = self.patch_text_maps(seg_patch, seg_text_feature, aggregation)
         if aggregation:
             return seg_maps.squeeze(1), anomaly_score
         return seg_maps, aux_maps, anomaly_score

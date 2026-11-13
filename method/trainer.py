@@ -46,6 +46,7 @@ class AdaCLIP_Trainer(nn.Module):
         freeze_clip  = freeze_clip.to(device)
         freeze_clip.eval()
 
+        anomaly_config = anomaly_config or {}
         self.clip_model = Baseline(freeze_clip=freeze_clip,
                                   text_channel=output_dim,
                                   visual_channel=input_dim,
@@ -57,7 +58,9 @@ class AdaCLIP_Trainer(nn.Module):
                                   k_clusters=k_clusters,
                                   output_layers=feat_list,
                                   device=device,
-                                  image_size=image_size).to(device)
+                                  image_size=image_size,
+                                  seg_text_mode=anomaly_config.get("seg_text_mode", "prompted"),
+                                  early_pool=anomaly_config.get("early_pool", True)).to(device)
 
         self.transform = transforms.Compose([
             transforms.Resize((image_size, image_size)),

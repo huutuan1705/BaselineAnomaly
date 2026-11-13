@@ -3,11 +3,11 @@ ckt_path="workspaces/models/0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L2-HSF-
 gpu_id=0
 
 # Industrial
-# CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data btad
+CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data btad
 CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data dagm
-# CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data dtd
-# CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data mpdd
-# CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data sdd
+CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data dtd
+CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data mpdd
+CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data sdd
 
 # CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data br35h
 # CUDA_VISIBLE_DEVICES=$gpu_id python3 test.py --testing_model dataset --ckt_path $ckt_path --testing_data brain_mri

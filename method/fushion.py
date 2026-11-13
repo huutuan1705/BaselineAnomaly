@@ -54,7 +54,7 @@ class ProjectLayer(nn.Module):
         return out_tokens
 
 class TextEncoder(nn.Module):
-    def __init__(self, fixed, use_prompt=True):
+    def __init__(self, fixed, use_prompt=True, early_pool=True):
         super(TextEncoder, self).__init__()
         self.tokenizer = _Tokenizer()
         self.ensemble_text_features = {}
@@ -70,6 +70,7 @@ class TextEncoder(nn.Module):
                                  ]
         self.fixed = fixed
         self.use_prompt = use_prompt
+        self.early_pool = early_pool
     def tokenize(self, texts: Union[str, List[str]], context_length: int = 77, truncate: bool = False) -> Union[
         torch.IntTensor, torch.LongTensor]:
         if isinstance(texts, str):
@@ -127,7 +128,10 @@ class TextEncoder(nn.Module):
                     prompted_sentence.append(template.format(s))
             prompted_sentence = self.tokenize(prompted_sentence, context_length=77).to(device)
 
-            class_embeddings = model.encode_text(prompted_sentence, image_features=image_features, use_prompt=self.use_prompt)
+            class_embeddings = model.encode_text(
+                prompted_sentence, image_features=image_features,
+                use_prompt=self.use_prompt, early_pool=self.early_pool,
+            )
 
             #class_embeddings /= class_embeddings.norm(dim=-1, keepdim=True)
             class_embeddings = class_embeddings / class_embeddings.norm(dim=-1, keepdim=True)
