@@ -76,6 +76,7 @@ class AdaCLIP_Trainer(nn.Module):
             'text_prompter',
             'visual_prompter',
             'patch_token_layer',
+            'seg_patch_token_layer',
             'cls_token_layer',
             'image_mapping',
             'fuse',
