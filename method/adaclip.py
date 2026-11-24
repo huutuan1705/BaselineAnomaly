@@ -6,6 +6,7 @@ from torch import nn
 from torch.nn import functional as F
 from .clip_model import CLIP
 from .simple_tokenizer import SimpleTokenizer as _Tokenizer
+from method.fushion import ProjectLayer, Global_Feature
 
 
 class ProjectLayer(nn.Module):
@@ -164,11 +165,17 @@ class AdaCLIP(nn.Module):
             text_channel,
             len(output_layers), stack=False, is_array=True
         )
-
+        self.image_mapping = nn.Linear(text_channel, text_channel)
         self.cls_token_layer = ProjectLayer(
             text_channel,
             text_channel,
             1, stack=False, is_array=False
+        )
+
+        self.fuse = Global_Feature(
+            dim_i=text_channel,
+            dim_out=text_channel,
+            k=len(output_layers),
         )
 
         self.image_size = image_size
@@ -245,14 +252,13 @@ class AdaCLIP(nn.Module):
         # proj_patch_tokens = self.dropout(self.patch_token_layer(patch_tokens))
 
         for layer in range(len(proj_patch_tokens)):
-            #proj_patch_tokens[layer] /= proj_patch_tokens[layer].norm(dim=-1, keepdim=True)
             proj_patch_tokens[layer] = proj_patch_tokens[layer] / proj_patch_tokens[layer].norm(dim=-1, keepdim=True)
 
         # for cls tokens
         # proj_cls_tokens = self.cls_token_layer(image_features)[0]
 
-        # proj_cls_tokens with dropout --> Monte Carlo Dropout for anomaly score
         proj_cls_tokens = self.dropout(self.cls_token_layer(image_features)[0])
+        # proj_cls_tokens = self.dropout(self.cls_token_layer(image_features))
 
         proj_cls_tokens = proj_cls_tokens / proj_cls_tokens.norm(dim=-1, keepdim=True)
 
@@ -283,7 +289,9 @@ class AdaCLIP(nn.Module):
             anomaly_map = (100.0 * patch_token[layer] @ text_feature)
             anomaly_maps.append(anomaly_map)
 
-        cur_image_feature = image_feature
+        cur_image_feature = self.image_mapping(image_feature + self.fuse(patch_token))
+        # cur_image_feature = image_feature * self.fuse(patch_token)
+        cur_image_feature = cur_image_feature / cur_image_feature.norm(dim=-1, keepdim=True)
 
         anomaly_score = (100.0 * cur_image_feature.unsqueeze(1) @ text_feature)
         anomaly_score = anomaly_score.squeeze(1)

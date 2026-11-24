@@ -72,12 +72,10 @@ class AdaCLIP_Trainer(nn.Module):
 
         # update parameters
         self.learnable_paramter_list = [
-            'text_prompter',
-            'visual_prompter',
             'patch_token_layer',
             'cls_token_layer',
-            'dynamic_visual_prompt_generator',
-            'dynamic_text_prompt_generator'
+            'fuse',
+            'image_mapping'
         ]
 
         self.params_to_update = []

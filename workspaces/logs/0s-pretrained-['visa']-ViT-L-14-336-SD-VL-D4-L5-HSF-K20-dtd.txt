@@ -1,0 +1,22 @@
+26-11-16 08:34:33.405 - INFO: batch_size = 48
+26-11-16 08:34:33.405 - INFO: ckt_path = 
+26-11-16 08:34:33.405 - INFO: epoch = 5
+26-11-16 08:34:33.405 - INFO: exp_indx = 0
+26-11-16 08:34:33.405 - INFO: image_size = 518
+26-11-16 08:34:33.405 - INFO: k_clusters = 20
+26-11-16 08:34:33.405 - INFO: learning_rate = 0.001
+26-11-16 08:34:33.405 - INFO: model = ViT-L-14-336
+26-11-16 08:34:33.405 - INFO: print_freq = 1
+26-11-16 08:34:33.405 - INFO: prompting_branch = VL
+26-11-16 08:34:33.405 - INFO: prompting_depth = 4
+26-11-16 08:34:33.405 - INFO: prompting_length = 5
+26-11-16 08:34:33.405 - INFO: prompting_type = SD
+26-11-16 08:34:33.405 - INFO: save_fig = False
+26-11-16 08:34:33.405 - INFO: save_path = ./workspaces
+26-11-16 08:34:33.405 - INFO: test_batch_size = 48
+26-11-16 08:34:33.405 - INFO: testing_data = dtd
+26-11-16 08:34:33.405 - INFO: training_data = ['visa']
+26-11-16 08:34:33.405 - INFO: use_hsf = True
+26-11-16 08:34:33.405 - INFO: valid_freq = 1
+26-11-16 08:34:33.405 - INFO: Model name: 0s-pretrained-['visa']-ViT-L-14-336-SD-VL-D4-L5-HSF-K20
+26-11-16 08:34:37.354 - INFO: Data Root: training, /home/tuannh/Documents/datasets/anomaly_datasets/VisA; testing, /home/tuannh/Documents/datasets/anomaly_datasets/DTD
