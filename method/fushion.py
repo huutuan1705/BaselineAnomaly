@@ -54,7 +54,7 @@ class ProjectLayer(nn.Module):
         return out_tokens
 
 class TextEncoder(nn.Module):
-    def __init__(self, fixed, use_prompt=True, early_pool=True):
+    def __init__(self, fixed, use_prompt=True):
         super(TextEncoder, self).__init__()
         self.tokenizer = _Tokenizer()
         self.ensemble_text_features = {}
@@ -70,7 +70,6 @@ class TextEncoder(nn.Module):
                                  ]
         self.fixed = fixed
         self.use_prompt = use_prompt
-        self.early_pool = early_pool
     def tokenize(self, texts: Union[str, List[str]], context_length: int = 77, truncate: bool = False) -> Union[
         torch.IntTensor, torch.LongTensor]:
         if isinstance(texts, str):
@@ -128,10 +127,7 @@ class TextEncoder(nn.Module):
                     prompted_sentence.append(template.format(s))
             prompted_sentence = self.tokenize(prompted_sentence, context_length=77).to(device)
 
-            class_embeddings = model.encode_text(
-                prompted_sentence, image_features=image_features,
-                use_prompt=self.use_prompt, early_pool=self.early_pool,
-            )
+            class_embeddings = model.encode_text(prompted_sentence, image_features=image_features, use_prompt=self.use_prompt)
 
             #class_embeddings /= class_embeddings.norm(dim=-1, keepdim=True)
             class_embeddings = class_embeddings / class_embeddings.norm(dim=-1, keepdim=True)
@@ -259,3 +255,84 @@ class PromptGenerator(nn.Module):
             prompt = generator(img_features).view(batch_size, self.length, self.channel)
             prompts.append(prompt)
         return prompts
+
+class SegPatchProjector(ProjectLayer):
+    def __init__(
+        self,
+        input_dim,
+        output_dim,
+        num_replicas,
+        hidden_dim=256,
+        conv_dim=128,
+        use_spatial=True,
+    ):
+        # Giữ tên weights cũ: head.0.weight, head.0.bias, ...
+        super().__init__(
+            input_dim,
+            output_dim,
+            num_replicas,
+            stack=False,
+            is_array=True,
+        )
+
+        self.use_spatial = use_spatial
+
+        # Học biến đổi phi tuyến trên từng patch.
+        self.mlp = nn.ModuleList([
+            nn.Sequential(
+                nn.LayerNorm(input_dim),
+                nn.Linear(input_dim, hidden_dim),
+                nn.GELU(),
+                nn.Linear(hidden_dim, output_dim),
+            )
+            for _ in range(num_replicas)
+        ])
+
+        # Trao đổi thông tin giữa các patch lân cận.
+        self.decoder = nn.ModuleList([
+            nn.Sequential(
+                nn.Conv2d(output_dim, conv_dim, kernel_size=1),
+                nn.GroupNorm(8, conv_dim),
+                nn.GELU(),
+                nn.Conv2d(
+                    conv_dim,
+                    conv_dim,
+                    kernel_size=3,
+                    padding=1,
+                    groups=conv_dim,
+                ),
+                nn.GELU(),
+                nn.Conv2d(conv_dim, output_dim, kernel_size=1),
+            )
+            for _ in range(num_replicas)
+        ]) if use_spatial else nn.ModuleList()
+
+        # Ban đầu, hai nhánh residual đóng góp bằng 0.
+        for block in list(self.mlp) + list(self.decoder):
+            nn.init.zeros_(block[-1].weight)
+            nn.init.zeros_(block[-1].bias)
+
+        self.ctx = nn.ModuleList([
+            nn.Linear(input_dim, hidden_dim) for _ in range(num_replicas)
+        ])
+
+    def forward(self, tokens):
+        outputs = []
+
+        for i in range(self.num_replicas):
+            x = tokens[i][:, 1:, :]  # Bỏ CLS.
+            z = F.normalize(self.head[i](x), dim=-1) * math.sqrt(self.head[i].out_features)
+            z = z + self.mlp[i](x)
+
+            if self.use_spatial:
+                B, L, C = z.shape
+                H = math.isqrt(L)
+                z = z.transpose(1, 2).reshape(B, C, H, H)
+                z = z + self.decoder[i](z)
+                z = z.flatten(2).transpose(1, 2).contiguous()
+
+            # z = z + self.mlp[i](x)
+
+            outputs.append(z)
+
+        return outputs

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="2290" viewBox="0 0 1400 2290" role="img" aria-labelledby="title desc">
+<title id="title">SegPatchProjector: kiến trúc chi tiết</title>
+<desc id="desc">Một projector riêng mỗi tầng. Nhánh Linear chuẩn hóa cộng với MLP, reshape về lưới rồi cộng residual CNN. Chuẩn hóa L2 cuối nằm ngoài lớp.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,4 L0,8 Z" fill="#475569"/></marker></defs>
+<style>text{font-family:DejaVu Sans,Arial,sans-serif;fill:#172b43} .edge{fill:none;stroke:#475569;stroke-width:2.5;marker-end:url(#arrow);stroke-linejoin:round;stroke-linecap:round}</style>
+<rect width="1400" height="2290" fill="#ffffff"/>
+<text x="700" y="48" text-anchor="middle" font-size="34" font-weight="bold" style="fill:#172b43"><tspan x="700" dy="0">SegPatchProjector</tspan></text>
+<text x="700" y="83" text-anchor="middle" font-size="21" font-weight="normal" style="fill:#172b43"><tspan x="700" dy="0">ViT-L/14 · 518 × 518 · input 1024 · output 768 · hidden 256 · conv 128</tspan></text>
+<rect x="65" y="110" width="295" height="70" rx="12" fill="#f3f6fa" stroke="#b9c8d7" stroke-width="2"/>
+<text x="212.5" y="138.5" text-anchor="middle" font-size="18" font-weight="normal" style="fill:#172b43"><tspan x="212.5" dy="0">Block 6 → bộ i=0</tspan><tspan x="212.5" dy="27">head[0], mlp[0], decoder[0]</tspan></text>
+<rect x="390" y="110" width="295" height="70" rx="12" fill="#f3f6fa" stroke="#b9c8d7" stroke-width="2"/>
+<text x="537.5" y="138.5" text-anchor="middle" font-size="18" font-weight="normal" style="fill:#172b43"><tspan x="537.5" dy="0">Block 12 → bộ i=1</tspan><tspan x="537.5" dy="27">head[1], mlp[1], decoder[1]</tspan></text>
+<rect x="715" y="110" width="295" height="70" rx="12" fill="#f3f6fa" stroke="#b9c8d7" stroke-width="2"/>
+<text x="862.5" y="138.5" text-anchor="middle" font-size="18" font-weight="normal" style="fill:#172b43"><tspan x="862.5" dy="0">Block 18 → bộ i=2</tspan><tspan x="862.5" dy="27">head[2], mlp[2], decoder[2]</tspan></text>
+<rect x="1040" y="110" width="295" height="70" rx="12" fill="#f3f6fa" stroke="#b9c8d7" stroke-width="2"/>
+<text x="1187.5" y="138.5" text-anchor="middle" font-size="18" font-weight="normal" style="fill:#172b43"><tspan x="1187.5" dy="0">Block 24 → bộ i=3</tspan><tspan x="1187.5" dy="27">head[3], mlp[3], decoder[3]</tspan></text>
+<text x="700" y="203" text-anchor="middle" font-size="20" font-weight="normal" style="fill:#172b43"><tspan x="700" dy="0">4 bộ cùng kiến trúc, tham số độc lập; vòng lặp xử lý từng bộ</tspan></text>
+<rect x="45" y="225" width="1310" height="1835" rx="20" fill="#fbfcff" stroke="#9aaec4" stroke-width="2" stroke-dasharray="9 6"/>
+<text x="700" y="259" text-anchor="middle" font-size="22" font-weight="bold" style="fill:#172b43"><tspan x="700" dy="0">BÊN TRONG SegPatchProjector.forward() — một tầng i</tspan></text>
+<rect x="475" y="285" width="450" height="75" rx="12" fill="#edf5ff" stroke="#5a87bd" stroke-width="2"/>
+<text x="700.0" y="316.0" text-anchor="middle" font-size="18" font-weight="normal" style="fill:#172b43"><tspan x="700.0" dy="0">tokens[i]: [B, 1370, 1024]</tspan><tspan x="700.0" dy="27">CLIP không prompt · đã chặn gradient · FP32</tspan></text>
+<path d="M700 360 V390" class="edge"/>
+<rect x="475" y="390" width="450" height="75" rx="12" fill="#edf5ff" stroke="#5a87bd" stroke-width="2"/>
+<text x="700.0" y="421.0" text-anchor="middle" font-size="21" font-weight="normal" style="fill:#172b43"><tspan x="700.0" dy="0">Bỏ CLS: tokens[i][:, 1:, :]</tspan><tspan x="700.0" dy="27">x: [B, 1369, 1024]</tspan></text>
+<path d="M700 465 V500 H300 V535" class="edge"/>
+<path d="M700 465 V500 H1100 V535" class="edge"/>
+<rect x="100" y="535" width="400" height="75" rx="12" fill="#edf5ff" stroke="#5a87bd" stroke-width="2"/>
+<text x="300.0" y="566.0" text-anchor="middle" font-size="21" font-weight="normal" style="fill:#172b43"><tspan x="300.0" dy="0">head[i]: Linear 1024 → 768</tspan><tspan x="300.0" dy="27">[B, 1369, 768]</tspan></text>
+<path d="M300 610 V650" class="edge"/>
+<rect x="100" y="650" width="400" height="75" rx="12" fill="#edf5ff" stroke="#5a87bd" stroke-width="2"/>
+<text x="300.0" y="681.0" text-anchor="middle" font-size="21" font-weight="normal" style="fill:#172b43"><tspan x="300.0" dy="0">L2 normalize</tspan><tspan x="300.0" dy="27">dim=-1, trên 768 chiều</tspan></text>
+<path d="M300 725 V765" class="edge"/>
+<rect x="100" y="765" width="400" height="75" rx="12" fill="#edf5ff" stroke="#5a87bd" stroke-width="2"/>
+<text x="300.0" y="796.0" text-anchor="middle" font-size="21" font-weight="normal" style="fill:#172b43"><tspan x="300.0" dy="0">× sqrt(768) ≈ 27.71</tspan><tspan x="300.0" dy="27">h: [B, 1369, 768]</tspan></text>
+<rect x="900" y="535" width="400" height="60" rx="12" fill="#f2efff" stroke="#8d7cbe" stroke-width="2"/>
+<text x="1100.0" y="572.0" text-anchor="middle" font-size="20" font-weight="normal" style="fill:#172b43"><tspan x="1100.0" dy="0">mlp[i][0]: LayerNorm 1024</tspan></text>
+<path d="M1100 595 V630" class="edge"/>
+<rect x="900" y="630" width="400" height="60" rx="12" fill="#f2efff" stroke="#8d7cbe" stroke-width="2"/>
+<text x="1100.0" y="667.0" text-anchor="middle" font-size="20" font-weight="normal" style="fill:#172b43"><tspan x="1100.0" dy="0">mlp[i][1]: Linear 1024 → 256</tspan></text>
+<path d="M1100 690 V725" class="edge"/>
+<rect x="900" y="725" width="400" height="60" rx="12" fill="#f2efff" stroke="#8d7cbe" stroke-width="2"/>
+<text x="1100.0" y="762.0" text-anchor="middle" font-size="21" font-weight="normal" style="fill:#172b43"><tspan x="1100.0" dy="0">mlp[i][2]: GELU</tspan></text>
+<path d="M1100 785 V820" class="edge"/>
+<rect x="900" y="820" width="400" height="85" rx="12" fill="#fff2e3" stroke="#d78b3b" stroke-width="2"/>
+<text x="1100.0" y="842.5" text-anchor="middle" font-size="18" font-weight="normal" style="fill:#172b43"><tspan x="1100.0" dy="0">mlp[i][3]: Linear 256 → 768</tspan><tspan x="1100.0" dy="27">weight = 0, bias = 0 lúc khởi tạo</tspan><tspan x="1100.0" dy="27">m: [B, 1369, 768]</tspan></text>
+<path d="M300 840 V970 H675" class="edge"/>
+<path d="M1100 905 V970 H725" class="edge"/>
+<circle cx="700" cy="970" r="25" fill="#fff9e8" stroke="#bd8c27" stroke-width="2.5"/>
+<text x="700" y="980" text-anchor="middle" font-size="32" font-weight="bold" style="fill:#172b43"><tspan x="700" dy="0">+</tspan></text>
+<text x="1000" y="1020" text-anchor="middle" font-size="22" font-weight="bold" style="fill:#172b43"><tspan x="1000" dy="0">z = h + m : [B, 1369, 768]</tspan></text>
+<path d="M700 995 V1045" class="edge"/>
+<rect x="475" y="1045" width="450" height="85" rx="12" fill="#edf5ff" stroke="#5a87bd" stroke-width="2"/>
+<text x="700.0" y="1081.0" text-anchor="middle" font-size="22" font-weight="normal" style="fill:#172b43"><tspan x="700.0" dy="0">transpose(1, 2) + reshape</tspan><tspan x="700.0" dy="27">s: [B, 768, 37, 37]</tspan></text>
+<rect x="75" y="1160" width="1250" height="620" rx="16" fill="#f4fbf9" stroke="#84b9ae" stroke-width="1.5"/>
+<text x="360" y="1198" text-anchor="middle" font-size="22" font-weight="bold" style="fill:#28685c"><tspan x="360" dy="0">use_spatial = True</tspan></text>
+<path d="M700 1130 V1175 H1010 V1215" class="edge"/>
+<path d="M700 1130 V1145 H190 V1820 H675" class="edge"/>
+<text x="342" y="1515" text-anchor="middle" font-size="21" font-weight="normal" style="fill:#28685c"><tspan x="342" dy="0">Đường residual</tspan><tspan x="342" dy="29">giữ nguyên s</tspan><tspan x="342" dy="29">[B, 768, 37, 37]</tspan></text>
+<rect x="780" y="1215" width="460" height="70" rx="12" fill="#eaf8f3" stroke="#5b9b8e" stroke-width="2"/>
+<text x="1010.0" y="1243.5" text-anchor="middle" font-size="20" font-weight="normal" style="fill:#172b43"><tspan x="1010.0" dy="0">decoder[i][0]: Conv 1×1, 768 → 128</tspan><tspan x="1010.0" dy="27">[B, 128, 37, 37]</tspan></text>
+<path d="M1010 1285 V1310" class="edge"/>
+<rect x="780" y="1310" width="460" height="60" rx="12" fill="#eaf8f3" stroke="#5b9b8e" stroke-width="2"/>
+<text x="1010.0" y="1333.5" text-anchor="middle" font-size="20" font-weight="normal" style="fill:#172b43"><tspan x="1010.0" dy="0">decoder[i][1]: GroupNorm(8, 128)</tspan><tspan x="1010.0" dy="27">8 nhóm × 16 channels</tspan></text>
+<path d="M1010 1370 V1395" class="edge"/>
+<rect x="780" y="1395" width="460" height="55" rx="12" fill="#eaf8f3" stroke="#5b9b8e" stroke-width="2"/>
+<text x="1010.0" y="1429.5" text-anchor="middle" font-size="21" font-weight="normal" style="fill:#172b43"><tspan x="1010.0" dy="0">decoder[i][2]: GELU</tspan></text>
+<path d="M1010 1450 V1475" class="edge"/>
+<rect x="780" y="1475" width="460" height="80" rx="12" fill="#eaf8f3" stroke="#5b9b8e" stroke-width="2"/>
+<text x="1010.0" y="1495.0" text-anchor="middle" font-size="19" font-weight="normal" style="fill:#172b43"><tspan x="1010.0" dy="0">decoder[i][3]: Depthwise Conv 3×3</tspan><tspan x="1010.0" dy="27">128 → 128, groups=128, padding=1</tspan><tspan x="1010.0" dy="27">[B, 128, 37, 37]</tspan></text>
+<path d="M1010 1555 V1580" class="edge"/>
+<rect x="780" y="1580" width="460" height="55" rx="12" fill="#eaf8f3" stroke="#5b9b8e" stroke-width="2"/>
+<text x="1010.0" y="1614.5" text-anchor="middle" font-size="21" font-weight="normal" style="fill:#172b43"><tspan x="1010.0" dy="0">decoder[i][4]: GELU</tspan></text>
+<path d="M1010 1635 V1660" class="edge"/>
+<rect x="780" y="1660" width="460" height="90" rx="12" fill="#fff2e3" stroke="#d78b3b" stroke-width="2"/>
+<text x="1010.0" y="1685.0" text-anchor="middle" font-size="19" font-weight="normal" style="fill:#172b43"><tspan x="1010.0" dy="0">decoder[i][5]: Conv 1×1, 128 → 768</tspan><tspan x="1010.0" dy="27">weight = 0, bias = 0 lúc khởi tạo</tspan><tspan x="1010.0" dy="27">d: [B, 768, 37, 37]</tspan></text>
+<path d="M1010 1750 V1820 H725" class="edge"/>
+<circle cx="700" cy="1820" r="25" fill="#fff9e8" stroke="#bd8c27" stroke-width="2.5"/>
+<text x="700" y="1830" text-anchor="middle" font-size="32" font-weight="bold" style="fill:#172b43"><tspan x="700" dy="0">+</tspan></text>
+<text x="1000" y="1867" text-anchor="middle" font-size="21" font-weight="bold" style="fill:#172b43"><tspan x="1000" dy="0">s + decoder[i](s)</tspan></text>
+<path d="M700 1845 V1888" class="edge"/>
+<rect x="475" y="1888" width="450" height="70" rx="12" fill="#edf5ff" stroke="#5a87bd" stroke-width="2"/>
+<text x="700.0" y="1916.5" text-anchor="middle" font-size="19" font-weight="normal" style="fill:#172b43"><tspan x="700.0" dy="0">flatten(2) → transpose(1, 2) → contiguous</tspan><tspan x="700.0" dy="27">[B, 1369, 768]</tspan></text>
+<path d="M700 1958 V1980" class="edge"/>
+<rect x="475" y="1980" width="450" height="60" rx="12" fill="#eaf7ed" stroke="#6b9e74" stroke-width="2"/>
+<text x="700.0" y="2017.0" text-anchor="middle" font-size="20" font-weight="normal" style="fill:#172b43"><tspan x="700.0" dy="0">outputs[i]: đầu ra thô của projector</tspan></text>
+<path d="M700 2040 V2115" class="edge"/>
+<rect x="410" y="2115" width="580" height="85" rx="12" fill="#eaf7ed" stroke="#6b9e74" stroke-width="2"/>
+<text x="700.0" y="2137.5" text-anchor="middle" font-size="21" font-weight="normal" style="fill:#172b43"><tspan x="700.0" dy="0">BÊN NGOÀI LỚP — extract_feat()</tspan><tspan x="700.0" dy="27">L2 normalize: p=2, dim=-1, eps=1e-6</tspan><tspan x="700.0" dy="27">seg_patch[i]: [B, 1369, 768]</tspan></text>
+<text x="700" y="2240" text-anchor="middle" font-size="18" font-weight="normal" style="fill:#172b43"><tspan x="700" dy="0">Bốn đầu ra được chuẩn hóa riêng; so khớp text và upsample thực hiện ở patch_text_maps().</tspan></text>
+<text x="700" y="2270" text-anchor="middle" font-size="18" font-weight="normal" style="fill:#172b43"><tspan x="700" dy="0">Ô cam: lớp cuối residual khởi tạo bằng 0. Hai đường residual không thay đổi kích thước tensor.</tspan></text>
+</svg>

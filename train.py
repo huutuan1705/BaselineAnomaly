@@ -33,6 +33,9 @@ def train(args):
     logger = Logger(log_path)
 
     # Print basic information
+    if args.description:
+        logger.info('Description: {:}'.format(args.description))
+
     for key, value in sorted(vars(args).items()):
         logger.info(f'{key} = {value}')
 
@@ -153,6 +156,8 @@ if __name__ == '__main__':
     parser.add_argument("--ckt_path", type=str, default='', help="Path to the pre-trained model (default: '')")
 
     # Hyper-parameters
+    parser.add_argument("--description", type=str, default="",
+                        help="Free-text description of this run, written to the log (default: '')")
     parser.add_argument("--exp_indx", type=int, default=0, help="Index of the experiment (default: 0)")
     parser.add_argument("--epoch", type=int, default=5, help="Number of epochs (default: 5)")
     parser.add_argument("--learning_rate", type=float, default=0.01, help="Learning rate (default: 0.01)")
@@ -165,7 +170,7 @@ if __name__ == '__main__':
 
     # Prompting parameters
     parser.add_argument("--prompting_depth", type=int, default=4, help="Depth of prompting (default: 4)")
-    parser.add_argument("--prompting_length", type=int, default=5, help="Length of prompting (default: 5)")
+    parser.add_argument("--prompting_length", type=int, default=2, help="Length of prompting (default: 5)")
     parser.add_argument("--prompting_type", type=str, default='SD', choices=['', 'S', 'D', 'SD'],
                         help="Type of prompting. 'S' for Static, 'D' for Dynamic, 'SD' for both (default: 'SD')")
     parser.add_argument("--prompting_branch", type=str, default='VL', choices=['', 'V', 'L', 'VL'],

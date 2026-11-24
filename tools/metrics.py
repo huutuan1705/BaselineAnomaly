@@ -5,9 +5,10 @@ from sklearn.metrics import auc, roc_auc_score, precision_recall_curve, average_
 def cal_pro_score(masks, amaps, max_step=200, expect_fpr=0.3):
     # Same thresholds and same PRO / FPR definition as the reference, but every pixel is visited once:
     # a value v is mapped to the number of thresholds strictly below it, so "v > ths[k]" <=> "below > k".
-    min_th, max_th = amaps.min(), amaps.max()
-    delta = (max_th - min_th) / max_step
-    ths = np.arange(min_th, max_th, delta)
+    min_th, max_th = float(amaps.min()), float(amaps.max())
+    if not np.isfinite([min_th, max_th]).all() or min_th == max_th:
+        return 0.0
+    ths = np.linspace(min_th, max_th, max_step, endpoint=False)
     n_th = len(ths)
 
     normal_hist = np.zeros(n_th + 1, dtype=np.int64)  # normal pixels, counted by `below`

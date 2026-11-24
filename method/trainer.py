@@ -46,7 +46,6 @@ class AdaCLIP_Trainer(nn.Module):
         freeze_clip  = freeze_clip.to(device)
         freeze_clip.eval()
 
-        anomaly_config = anomaly_config or {}
         self.clip_model = Baseline(freeze_clip=freeze_clip,
                                   text_channel=output_dim,
                                   visual_channel=input_dim,
@@ -58,9 +57,7 @@ class AdaCLIP_Trainer(nn.Module):
                                   k_clusters=k_clusters,
                                   output_layers=feat_list,
                                   device=device,
-                                  image_size=image_size,
-                                  seg_text_mode=anomaly_config.get("seg_text_mode", "prompted"),
-                                  early_pool=anomaly_config.get("early_pool", True)).to(device)
+                                  image_size=image_size).to(device)
 
         self.transform = transforms.Compose([
             transforms.Resize((image_size, image_size)),
@@ -79,6 +76,7 @@ class AdaCLIP_Trainer(nn.Module):
             'text_prompter',
             'visual_prompter',
             'patch_token_layer',
+            'seg_patch_token_layer',
             'cls_token_layer',
             'image_mapping',
             'fuse',
@@ -92,11 +90,13 @@ class AdaCLIP_Trainer(nn.Module):
                 self.params_to_update.append(param)
 
         # build the optimizer
-        seg_ids = {id(p) for n, p in self.clip_model.named_parameters() if 'seg_patch_token_layer' in n}
+        # seg_ids = {id(p) for n, p in self.clip_model.named_parameters() if 'seg_patch_token_layer' in n}
         self.optimizer = torch.optim.AdamW(
-            [{'params': [p for p in self.params_to_update if id(p) not in seg_ids]},
-            {'params': [p for p in self.params_to_update if id(p) in seg_ids], 'lr': 0.001}],
-            lr=learning_rate, betas=(0.5, 0.999), weight_decay=0.01)
+            self.params_to_update,
+            lr=learning_rate,
+            betas=(0.5, 0.999),
+            weight_decay=0.01,
+        )
 
     def save(self, path):
         self.save_dict = {}
@@ -164,80 +164,73 @@ class AdaCLIP_Trainer(nn.Module):
         self.clip_model.eval()
         # self.clip_model.dropout.train()  # enable dropout for evaluation
 
-        # Only ONE class is kept in RAM at a time: its metrics are computed as soon as the class
-        # ends, then the buffers are released. Requires samples grouped by class (shuffle=False),
-        # which is how BaseDataset builds data_all.
-        buffer_keys = ['cls_names', 'imgs_gts', 'anomaly_scores', 'imgs_masks', 'anomaly_maps', 'imgs', 'names']
-        results = {k: [] for k in buffer_keys}
-        class_metrics = {}
-        finished_classes = set()
-        current_cls = None
+        results = {}
+        results['cls_names'] = []
+        results['imgs_gts'] = []
+        results['anomaly_scores'] = []
+        results['imgs_masks'] = []
+        results['anomaly_maps'] = []
+        results['imgs'] = []
+        results['names'] = []
         score_rows = []
         run_id = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
-
-        def finish_class(cls):
-            if save_fig:
-                print(f'saving fig of {cls}.....')
-                visualization.plot_sample_cv2(
-                    results['names'],
-                    results['imgs'],
-                    {'AdaCLIP': results['anomaly_maps']},
-                    results['imgs_masks'],
-                    save_fig_dir
-                )
-            if cls in obj_list:
-                class_metrics[cls] = calculate_metric(results, cls)
-            finished_classes.add(cls)
-            for k in buffer_keys:
-                results[k].clear()
 
         with torch.no_grad(), torch.cuda.amp.autocast():
             image_indx = 0
             for indx, items in enumerate(tqdm(dataloader)):
+                if save_fig:
+                    path = items['img_path']
+                    for _path in path:
+                        vis_image = cv2.resize(cv2.imread(_path), (self.image_size, self.image_size))
+                        results['imgs'].append(vis_image)
+                    cls_name = items['cls_name']
+                    for _cls_name in cls_name:
+                        image_indx += 1
+                        results['names'].append('{:}-{:03d}'.format(_cls_name, image_indx))
+
                 image = items['img'].to(self.device)
                 cls_name = items['cls_name']
+                results['cls_names'].extend(cls_name)
                 gt_mask = items['img_mask']
                 gt_mask[gt_mask > 0.5], gt_mask[gt_mask <= 0.5] = 1, 0
+
+                for _gt_mask in gt_mask:
+                    results['imgs_masks'].append(_gt_mask.squeeze(0).numpy().astype(np.uint8))  # px
 
                 # pixel level
                 anomaly_map, anomaly_score = self.clip_model(image, cls_name, aggregation=True)
 
                 anomaly_map = anomaly_map.cpu().numpy()
                 anomaly_score = anomaly_score.cpu().numpy()
+
+                for _anomaly_map, _anomaly_score in zip(anomaly_map, anomaly_score):
+                    _anomaly_map = gaussian_filter(_anomaly_map, sigma=4)
+                    results['anomaly_maps'].append(_anomaly_map)
+                    results['anomaly_scores'].append(_anomaly_score)
+
                 is_anomaly = np.array(items['anomaly'])
+                for _is_anomaly in is_anomaly:
+                    results['imgs_gts'].append(_is_anomaly)
 
-                # handled per sample so that a batch containing two classes is split correctly
-                for i, _cls_name in enumerate(cls_name):
-                    if _cls_name != current_cls:
-                        if current_cls is not None:
-                            finish_class(current_cls)
-                        if _cls_name in finished_classes:
-                            raise RuntimeError(
-                                f"Class '{_cls_name}' appears again after it was already evaluated. "
-                                f"evaluation() needs samples grouped by class (use shuffle=False).")
-                        current_cls = _cls_name
+        # visualization
+        if save_fig:
+            print('saving fig.....')
+            visualization.plot_sample_cv2(
+                results['names'],
+                results['imgs'],
+                {'AdaCLIP': results['anomaly_maps']},
+                results['imgs_masks'],
+                save_fig_dir
+            )
 
-                    if save_fig:
-                        image_indx += 1
-                        vis_image = cv2.resize(cv2.imread(items['img_path'][i]), (self.image_size, self.image_size))
-                        results['imgs'].append(vis_image)
-                        results['names'].append('{:}-{:03d}'.format(_cls_name, image_indx))
-
-                    results['cls_names'].append(_cls_name)
-                    # 0/1 mask stored as uint8 (4x smaller than float32); the copy also drops the batch tensor
-                    results['imgs_masks'].append(gt_mask[i].squeeze(0).numpy().astype(np.uint8))  # px
-                    results['anomaly_maps'].append(gaussian_filter(anomaly_map[i], sigma=4))
-                    results['anomaly_scores'].append(anomaly_score[i])
-                    results['imgs_gts'].append(is_anomaly[i])
-
-        if current_cls is not None:
-            finish_class(current_cls)
-
-        # same key order as before: obj_list, then 'Average'; a class without samples gets zero metrics
-        empty_results = {k: [] for k in buffer_keys}
         metric_dict = dict()
         for obj in obj_list:
-            metric_dict[obj] = class_metrics[obj] if obj in class_metrics else calculate_metric(empty_results, obj)
+            metric_dict[obj] = dict()
+
+        for obj in obj_list:
+            metric = calculate_metric(results, obj)
+            obj_full_name = f'{obj}'
+            metric_dict[obj_full_name] = metric
 
         metric_dict['Average'] = calculate_average_metric(metric_dict)
 

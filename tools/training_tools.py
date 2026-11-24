@@ -2,6 +2,7 @@ import torch.backends.cudnn as cudnn
 from torch.utils.tensorboard import SummaryWriter
 import os
 import random
+from datetime import datetime
 import torch
 import numpy as np
 
@@ -57,8 +58,9 @@ def setup_paths(args):
     image_dir = os.path.join(image_root, f'{model_name}-{args.testing_data}')
     os.makedirs(image_dir, exist_ok=True)
 
-    # prepare log path
-    log_path = os.path.join(log_root, f'{model_name}-{args.testing_data}.txt')
+    # prepare log path (named by training start time)
+    start_time = datetime.now().strftime('%Y%m%d-%H%M%S')
+    log_path = os.path.join(log_root, f'{start_time}.txt')
 
     return model_name, image_dir, csv_path, log_path, ckp_path, tensorboard_logger
 
