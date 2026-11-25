@@ -308,13 +308,9 @@ class SegPatchProjector(ProjectLayer):
         ]) if use_spatial else nn.ModuleList()
 
         # Ban đầu, hai nhánh residual đóng góp bằng 0.
-        for block in list(self.mlp) + list(self.decoder):
-            nn.init.zeros_(block[-1].weight)
-            nn.init.zeros_(block[-1].bias)
-
-        self.ctx = nn.ModuleList([
-            nn.Linear(input_dim, hidden_dim) for _ in range(num_replicas)
-        ])
+        # for block in list(self.mlp) + list(self.decoder):
+        #     nn.init.zeros_(block[-1].weight)
+        #     nn.init.zeros_(block[-1].bias)
 
     def forward(self, tokens):
         outputs = []
